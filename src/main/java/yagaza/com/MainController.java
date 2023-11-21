@@ -9,10 +9,11 @@ public class MainController {
 
     @GetMapping("/")
     public String root() {
-        return "redirect: /main";
+        return "redirect:/main";
     }
 
-    public String main(Model model){
+    @GetMapping("/main")
+    public String main(){
         return "main";
     }
 }

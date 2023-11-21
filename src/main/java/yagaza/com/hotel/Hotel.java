@@ -1,15 +1,12 @@
 package yagaza.com.hotel;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import yagaza.com.review.HotelReview;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 
 @Getter
@@ -24,9 +21,8 @@ public class Hotel {
 
     private String region;
 
-    private ArrayList reviewId;
-
-
+    @ManyToOne
+    private HotelReview hotelReviewId;
 
     //TODO 이미지 자료형 구현
 }

@@ -1,11 +1,16 @@
 package yagaza.com.review;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import yagaza.com.user.SiteUser;
 
 import java.time.LocalDateTime;
 
-public class hotelReview {
+@Getter
+@Setter
+@Entity
+public class RentalReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,5 +27,4 @@ public class hotelReview {
     private SiteUser author;
 
     private double score;
-
 }

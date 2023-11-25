@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-
+  
     //회원가입 html파일 return해줘야함
     @GetMapping(value = "/signup")
     public String create(UserCreateForm userCreateForm){
@@ -46,6 +46,7 @@ public class UserController {
         return "redirect:/";
     }
 
+    //로그인 html파일 return해줘야함
     @GetMapping(value = "/login")
     public String login(){
         return "login_form";

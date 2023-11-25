@@ -14,8 +14,7 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    @ResponseBody
     public String main(){
-        return "메인화면입니다.";
+        return "main";
     }
 }

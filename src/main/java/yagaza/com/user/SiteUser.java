@@ -10,6 +10,8 @@ import lombok.Setter;
 public class SiteUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long realId;
+    @Column(unique = true)
     private String id;
 
     private String name;

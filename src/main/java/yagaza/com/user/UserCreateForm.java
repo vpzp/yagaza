@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ public class UserCreateForm {
     @NotEmpty(message = "이름은 필수항목입니다.")
     private String name;
 
-    @Size(min = 4, max = 15)
+    @Size(min = 3, max = 10)
     @NotEmpty(message = "별명은 필수항목입니다.")
     private String username;
 

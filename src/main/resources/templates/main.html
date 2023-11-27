@@ -1,9 +1,14 @@
 <!--메인페이지 html파일 -->
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 
-<!--테스트용으로 만들었음 자유롭게 수정해도됨 -->
+
 <button type="submit" th:onclick="|location.href='@{/main}'|">메인화면</button>
-<button type="submit" th:onclick="|location.href='@{/user/login}'|">로그인</button>
-<button type="submit" th:onclick="|location.href='@{/user/signup}'|">회원가입</button>
+<button type="submit" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/login}'|">로그인</button>
+<button type="submit" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/signup}'|">회원가입</button>
+<button type="submit" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/user/logout}'|">로그아웃</button>
 <h1>메인화면</h1>
+<p sec:authorize="isAuthenticated()">로그인 중 입니다.</p>
+<p sec:authorize="isAuthenticated()" th:text="${username}">username</p>
+
 </html>

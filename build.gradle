@@ -49,3 +49,6 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+bootJar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

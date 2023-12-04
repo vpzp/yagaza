@@ -15,10 +15,10 @@
             </form>
           </div>
           <ul class="nav">
-            <li><a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></li>
-            <li><a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></li>
-            <li><a href="#">마이페이지</a></li>
-            <li><a href="#">예약확인</a></li>
+            <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></li>
+            <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></li>
+            <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a></li>
+            <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
           </ul>
         </div>
         <div class="intro_text">

@@ -52,11 +52,15 @@ public class UserController {
 
         return "redirect:/";
     }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(value = "/passwordChange")
+    public String modify(UserCreateForm userCreateForm){
+        return "signup_form";
+    }
     //TODO 비밀번호 변경 로직 구상하기
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/passwordChange")
     public String modify(@Valid UserModifyForm userModifyForm, BindingResult bindingResult, Principal principal)  {
-    public String modify(BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "password_change";
         }

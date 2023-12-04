@@ -27,6 +27,11 @@ public class MainController {
         return "main";
     }
 
+    @GetMapping("/main_form")
+    public String test(){
+        return "main_form";
+    }
+
 //TODO PostMapping으로 메인화면에 사용자 정보 값 추가하기
 
 //    @PreAuthorize("isAuthenticated()")

@@ -49,11 +49,12 @@ public class UserController {
         return "redirect:/";
     }
 
+    //TODO 비밀번호 변경 로직 구상하기
     public String modify(BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return "password_change";
         }
-        if(){
+        if(true){
 
         }
         try{

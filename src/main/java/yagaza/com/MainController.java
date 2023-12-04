@@ -34,10 +34,11 @@ public class MainController {
 
 //TODO PostMapping으로 메인화면에 사용자 정보 값 추가하기
 
-//    @PreAuthorize("isAuthenticated()")
-//    @PostMapping("/main")
-//    public String main(Principal principal) throws Exception {
-//        SiteUser siteUser = this.userService.getUser(principal.getName());
-//        return String.format("main",siteUser.getUsername());
-//    }
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/main")
+    public String main(Principal principal, Model model) {
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        model.addAttribute("username", siteUser.getUsername());
+        return "main";
+    }
 }

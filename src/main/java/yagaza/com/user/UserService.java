@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.DataException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import yagaza.com.DataNotFoundException;
 
 import java.util.Optional;
 
@@ -33,12 +34,12 @@ public class UserService {
         return user;
     }
 
-    public SiteUser getUser(String id) throws Exception {
+    public SiteUser getUser(String id) {
         Optional<SiteUser> siteUser = this.userRepository.findById(id);
         if (siteUser.isPresent()) {
             return siteUser.get();
         } else {
-            throw new Exception("siteUser객체가 없습니다");
+            throw new DataNotFoundException("siteUser객체가 없습니다");
         }
     }
 }

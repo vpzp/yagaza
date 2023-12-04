@@ -3,6 +3,8 @@ package yagaza.com.user;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +47,29 @@ public class UserController {
         }
 
         return "redirect:/";
+    }
+
+    public String modify(BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "password_change";
+        }
+        if(){
+
+        }
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+            bindingResult.reject("modifyFailed", e.getMessage());
+            return "password_change";
+        }
+        return "redirect:/";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/mypage")
+    public String myPage(){
+        return "mypage";
     }
 
     @GetMapping(value = "/login")

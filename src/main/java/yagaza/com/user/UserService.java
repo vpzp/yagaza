@@ -28,6 +28,11 @@ public class UserService {
         return user;
     }
 
+    public SiteUser modify(){
+        SiteUser user = new SiteUser();
+        return user;
+    }
+
     public SiteUser getUser(String id) throws Exception {
         Optional<SiteUser> siteUser = this.userRepository.findById(id);
         if (siteUser.isPresent()) {

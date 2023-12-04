@@ -5,17 +5,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping(value = "/signup")
     public String create(UserCreateForm userCreateForm){
@@ -49,12 +53,21 @@ public class UserController {
         return "redirect:/";
     }
 
-    public String modify(BindingResult bindingResult){
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/passwordChange")
+    public String modify(@Valid UserModifyForm userModifyForm, BindingResult bindingResult, Principal principal)  {
         if(bindingResult.hasErrors()){
             return "password_change";
         }
-        if(){
-
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        if(passwordEncoder.matches(userModifyForm.getPassword(), siteUser.getPassword())){
+            bindingResult.rejectValue("password", "passwordSame",
+                    "기존의 비밀번호를 입력했습니다.");
+            return "password_change";
+        } else if (!userModifyForm.getNewPassword1().equals(userModifyForm.getNewPassword2())) {
+            bindingResult.rejectValue("NewPassword2", "passwordIncorrect",
+                    "2개의 패스워드가 일치하지 않습니다.");
+            return "password_change";
         }
         try{
 

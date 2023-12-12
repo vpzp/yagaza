@@ -17,9 +17,14 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String hotelName;
+
     private LocalDateTime reservationDate;
 
     private String region;
+
+    @ManyToOne
+    private HotelRoom hotelRoom;
 
     @ManyToOne
     private HotelReview hotelReviewId;

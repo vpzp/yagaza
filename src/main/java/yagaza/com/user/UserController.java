@@ -57,7 +57,7 @@ public class UserController {
     public String modify(UserCreateForm userCreateForm){
         return "signup_form";
     }
-    //TODO 비밀번호 변경 로직 구상하기
+    //TODO 비밀번호 변경 로직 구상하기 html파일 받으면 시작
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/passwordChange")
     public String modify(@Valid UserModifyForm userModifyForm, BindingResult bindingResult, Principal principal)  {

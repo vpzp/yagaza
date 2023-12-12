@@ -19,7 +19,7 @@ public class HotelRoom {
     @Column(unique = true)
     private String type;
 
-    private Integer roomNumber;
+    private String checkInTime;
 
     private String name;
 

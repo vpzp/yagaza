@@ -41,6 +41,7 @@ dependencies {
 	implementation files('libs/json-20231013.jar')
 	implementation files('libs/jsoup-1.17.1.jar')
 	runtimeOnly 'com.h2database:h2'
+	implementation 'org.seleniumhq.selenium:selenium-java:4.16.1'
 }
 
 tasks.named('bootBuildImage') {

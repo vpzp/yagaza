@@ -7,6 +7,7 @@ import lombok.Setter;
 import yagaza.com.review.HotelReview;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -14,20 +15,19 @@ import java.time.LocalDateTime;
 @Entity
 public class Hotel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String hotelHref;
 
     private String hotelName;
 
-    private LocalDateTime reservationDate;
-
     private String region;
 
-    @ManyToOne
-    private HotelRoom hotelRoom;
+    @OneToMany
+    private List<HotelRoom> hotelRoom;
 
-    @ManyToOne
-    private HotelReview hotelReviewId;
+//    @ManyToOne
+//    private HotelReview hotelReviewId;
 
-    //TODO 이미지 자료형 구현
+    private String img;
 }

@@ -1,10 +1,22 @@
 package yagaza.com.crawling;
 
-import org.jsoup.Connection;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import yagaza.com.hotel.HotelService;
+
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 
 public class Crawling {
 
@@ -13,27 +25,35 @@ public class Crawling {
     // - 리뷰 따와야함, hotel에 저장하기
     // - 호텔 예약 날짜, 인원수 입력받고 가변변수(가격, 예약 가능 유무)들 갱신하기
     public void hotelNumberCrawling(){
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
         String url = "https://www.yanolja.com/search/%EB%B6%80%EC%82%B0?keyword=%EB%B6%80%EC%82%B0";
-        Connection conn = Jsoup.connect(url);
-        try{
-            Document document = conn.get();
-            Elements hotelTitleElements = document.getElementsByClass("common_clearfix__M6urU");
-            System.out.println("hotelTitleElements = " + hotelTitleElements.text());
+        driver.get(url);
+        System.out.println("성공");
 
-//            System.out.println("사이즈는 " + hotelTitleElements.size());
-//            for(int i = 0 ; i < hotelTitleElements.size() ; i++){
-//                String title = hotelTitleElements.get(i).text();
-//                System.out.println("출력은 : "+ title);
-//            }
-//            System.out.println("출력");
+        try {
+            WebElement hotels = driver.findElement(By.className("common_clearfix__M6urU"));
+            var stTime = new Date().getTime();
+            while (new Date().getTime() < stTime + 60000) { //30초 동안 무한스크롤 지속
+                Thread.sleep(500); //리소스 초과 방지
+                ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, document.body.scrollHeight)", hotels);
+            }
+            System.out.println(hotels.getAttribute("href"));
+            List<WebElement> hotelElements = driver.findElements(By.className("common_clearfix__M6urU"));
+            System.out.println(hotelElements.size());
+            for (WebElement hotelElement : hotelElements){
+                System.out.println(hotelElement.getAttribute("href"));
+                System.out.println(hotelElement.getAttribute("title"));
+            }
         }catch (Exception e){
+            System.out.println("오류발생");
             e.printStackTrace();
         }
     }
-    public void hotelCrawling(String placeId){
-//        placeId = "1000109332";
+    public void hotelCrawling(long placeId){
+//        placeId = "23298";
         String url = "https://place-site.yanolja.com/places/" + placeId;
-        System.out.println("호텔Id는 : " + placeId);
+        Base64.Decoder decode = Base64.getDecoder();
         try{
             Document document = Jsoup.connect(url).get();
             String hotelName = document.getElementsByClass("css-1g3ik0v").text();
@@ -41,7 +61,7 @@ public class Crawling {
             String adress = document.getElementsByClass("address css-18ufud2").text();
             System.out.println("주소는 : " + adress);
             Elements imgElement = document.getElementsByClass("css-sr2c7j");
-            System.out.println("이미지주소는 : " + imgElement.attr("src"));
+            System.out.println("이미지 주소는 : " + imgElement.attr("src"));
             System.out.println();
 
             Elements hotelRoomElements = document.getElementsByClass("css-1nnj57j");
@@ -53,6 +73,7 @@ public class Crawling {
                     System.out.println("href 주소는 : " + element.getElementsByClass("css-1w7jlh2").attr("href"));
                     System.out.println("체크인 시간은 : " + element.getElementsByClass("css-1qxtkjb").text());
                     System.out.println("가격은 : "+ element.getElementsByClass("price").text());
+                    System.out.println("content는 : "+ element.getElementsByClass("css-1w8cj78").text());
                     System.out.println();
                 }
             }
@@ -66,9 +87,13 @@ public class Crawling {
         }
         return false;
     }
+    public long hrefToId(String href){
+        long id = Long.parseLong(href.replaceAll("[^0-9]", ""));
+        return id;
+    }
     public static void main(String[] args){
         Crawling crawling = new Crawling();
-        crawling.hotelNumberCrawling();
-//        crawling.hotelCrawling("1000109332");
+//        crawling.hotelNumberCrawling();
+        crawling.hotelCrawling(23298);
     }
 }

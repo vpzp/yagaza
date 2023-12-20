@@ -1,23 +1,32 @@
-<body>
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="unregister">
+    <title>회원 탈퇴</title>
+   </head>
+   </html>
+   <body>
     <div id="con">
     <div id="login">
     <div id="login_form">
     <form>
-        <h3 class="login" style="letter-spacing:-1px;">마이페이지</h3>
+        <h3 class="login" style="letter-spacing:-1px;">회원 탈퇴</h3>
 
         <hr>
-          <p>
-            <input type="submit" value="비밀번호 변경" class="btn">
-        </p>
-          <p>
-            <input type="submit" value="예약 내역" class="btn">
-        </p>
-
+        <label>
+        <p style="text-align: left; font-size:12px; color:#666">이유가 무었인가요?</p>
+        <input type="text" placeholder="탈퇴 사유 입력" class="size">
+        <p></p>
+        </label>
         <p>
-            <input type="submit" value="회원 탈퇴" class="btn">
+            <input type="submit" value="제출" class="btn">
         </p>
     </form>
     <hr>
+    </p>
     </div>
     <div>
     </div>
@@ -30,7 +39,7 @@
     body{
        margin:0 auto;
     }
-    body, table, div, p ,span{font-family:'Noto Sans KR';}
+    body, table, div, p{font-family:'Noto Sans KR';}
     
     a{
         text-decoration: none;
@@ -74,6 +83,7 @@
         background-color: #f4f4f4;
         border:none;
         border-radius: 5px;
+        
     }
 
     .btn{
@@ -94,16 +104,3 @@
         background:#eee;
     }
 </style>
-
-
-@Controller 
-public class SecurityController 
-{ 
-	@GetMapping("/username") 
-    @ResponseBody 
-    public String currentUserName(Principal principal) 
-    { 
-    	return principal.getName(); 
-    } 
-    
-}

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/mainstrap.css}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.104.2">
+    <title>야가자</title>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+
+    
+  </head>
+  <body>
+
+<main>
+  <!--  상단부분-->
+  <div class="p-3 mb-2 bg-primary text-white">
+    <div class="d-flex justify-content-center">
+      <b>
+        <h1 class="text-dark">야가자</h1>
+      </b>
+    </div>
+    <div class="d-flex justify-content-end">
+      <ul class="nav">
+        <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></li>
+        <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></li>
+        <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a></li>
+        <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
+      </ul>
+    </div>
+  </div>
+
+<!--  진행 상황 내역표시해주는 부분-->
+  <div class="p-3 mb-2 bg-primary-subtle text-emphasis-primary">
+    <div class="p-3 mb-2 bg-dark-subtle text-emphasis-dark">
+      <div class="d-flex justify-content-evenly">
+        <b class="text-danger">호텔</b>
+        <span class="text-black-50">객실</span>
+        <span class="text-black-50">관광지</span>
+        <span class="text-black-50">음식점</span>
+        <span class="text-black-50">차량</span>
+      </div>
+      <br>
+      <br>
+      <br>
+    </div>
+    <ul class="amount">
+      <li>
+        <td>  금액<p th:text ="${siteOrder.cash}">금액값</p></td>
+      </li>
+      <li>
+        <td>인원수 <p th:text = "${siteOrder.prod}">인원 수</p></td>
+      </li>
+      <li>
+        <td>날짜 <input type="date" th:value = ${siteOrder.date}></td>
+      </li>
+      <li>
+
+        <td>차량유무<p th:text = "${siteOrder.car}">예 아니오</p>
+        </td>
+      </li>
+      <li>
+        <td>지역
+        <p th:text = "${siteOrder.travel}">지역명</p>
+      </li>
+    </ul>
+
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-3">
+        <div class="col" th:each="hotel : ${hotel}">
+          <div class="card shadow-sm">
+            <!--            이미지 변수 넣기-->
+            <img th:src = "${hotel.img}" width="100%" height="325">
+            <div class="card-body">
+<!--              호텔name-->
+              <p class="card-text" th:text = "${hotel.hotelName}">호텔이름</p>
+<!--              호텔region-->
+              <div class="d-flex justify-content-end">
+                <p class="card-text" th:text = "${hotel.region}">호텔주소</p>
+              </div>
+              <br>
+              <!--              호텔content-->
+              <div class="commentContentsClosed">
+                <p class="card-text" th:text="${hotel.content}" >호텔소개글</p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+<!--                호텔변수 넘겨주기-->
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">상세보기</button>
+                </div>
+                <small class="text-muted" th:text="${hotel.price}">가격</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+    <script type="text/js" th:src="@{/bootstrap.bundle.min.js}"></script>
+  </body>
+</html>
+<style>
+  .commentContentsClosed{
+	margin-top: 10px;
+	text-overflow: ellipsis;
+	overflow : hidden;
+	display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+}
+</style>

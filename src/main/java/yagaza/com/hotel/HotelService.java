@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import yagaza.com.DataNotFoundException;
 import yagaza.com.user.SiteUser;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,10 +24,11 @@ public class HotelService {
         return hotel;
     }
 
-    public void createRegionImg(long id, String region, String img){
+    public void createRegionImgContent(long id, String region, String img, String content){
         Hotel hotel = getHotel(id);
         hotel.setRegion(region);
         hotel.setImg(img);
+        hotel.setContent(content);
 
         this.hotelRepository.save(hotel);
     }
@@ -37,5 +39,9 @@ public class HotelService {
         } else {
             throw new DataNotFoundException("hotel객체가 없습니다");
         }
+    }
+
+    public List<Hotel> getHotelList(){
+        return hotelRepository.findAll();
     }
 }

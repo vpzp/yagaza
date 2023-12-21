@@ -33,7 +33,7 @@ public class MainController {
     }
 
 
-//TODO PostMapping으로 메인화면에 사용자 정보 값 추가하기
+//TODO 메인화면에 사용자 정보 값 추가하기
 
 
     //메인페이지에서 입력한값 저장하고 다음페이지로 넘기기

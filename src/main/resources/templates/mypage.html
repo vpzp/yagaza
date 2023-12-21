@@ -10,11 +10,11 @@
             <input type="button" th:onclick="|location.href='@{/user/passwordChange}'|" value="비밀번호 변경" class="btn">
         </p>
           <p>
-            <input type="submit" value="예약 내역" class="btn">
+            <input type="button" value="예약 내역" class="btn">
         </p>
 
         <p>
-            <input type="submit" value="회원 탈퇴" class="btn">
+            <input type="button" th:onclick="|location.href='@{/user/delete}'|" value="회원 탈퇴" class="btn">
         </p>
     </form>
     <hr>

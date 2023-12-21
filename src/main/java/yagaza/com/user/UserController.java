@@ -86,6 +86,12 @@ public class UserController {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete")
+    public String delete(){
+        return "unregister";
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage")
     public String myPage(){
         return "mypage";

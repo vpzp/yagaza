@@ -23,6 +23,7 @@ public class HotelRoom {
 
     private String price;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne

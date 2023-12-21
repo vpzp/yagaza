@@ -4,6 +4,7 @@ package yagaza.com.hotel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 import yagaza.com.review.HotelReview;
 
 import java.time.LocalDateTime;
@@ -23,11 +24,13 @@ public class Hotel {
 
     private String region;
 
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
     @OneToMany
     private List<HotelRoom> hotelRoom;
 
-//    @ManyToOne
-//    private HotelReview hotelReviewId;
+    private String price;
 
     private String img;
 }

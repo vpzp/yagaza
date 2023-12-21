@@ -10,4 +10,5 @@ public interface UserRepository extends JpaRepository<SiteUser, Long> {
     //사용자ID로 SiteUser 엔티티 반환
     Optional<SiteUser> findById(String Id);
 
+    Optional<SiteUser> findByusername(String username);
 }

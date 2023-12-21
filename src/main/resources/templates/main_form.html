@@ -5,83 +5,81 @@
 	<title>야가자 프로젝트</title>
   </head>
   <body>
-    <div class="wrap">
-      <div class="intro_bg">
-        <div class="header">
-          <div class="searchArea">
-            <form>
-              <input type="search" placeholder="search">
-              <span>검색</span>
-            </form>
-          </div>
-          <ul class="nav">
-            <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></li>
-            <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></li>
-            <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a></li>
-            <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
-          </ul>
-        </div>
-        <div class="intro_text">
-          <h1>이번 겨울 어디로가지</h1>
-          <h4 class="contents1">금액에 맞춰진 여행 계획을 만들어 드리겠습니다.</h4>
-        </div>
-      </div>
-      </div>
-      <!-- intro end-->
-      <ul class="amount">
-        <li>
-          <div>
-             <table>
-                    <tr>
-                        <td>  금액<input type="text" list="cash">
-                        <datalist id="cash">
-                            <option value="10~20만원"></option>
-                            <option value="30~50만원"></option>
-                            <option value="50~100만원"></option>
-                            </datalist> </td>
-                    </tr>
-             </table>
-
-          </div>
-        </li>
-        <li>
-          <div>
-            <table>
-                <td>인원수 <select id="prod"> 
-                            <option value="인원수 1"> 1명 </option>
-                            <option value="인원수 2"> 2명 </option>
-                            <option value="인원수 3"> 3명 </option>
-                            <option value="인원수 4"> 4명 </option>
-                            <option value="인원수 5"> 5명 </option>
-                            <option value="인원수 6"> 6명 </option> </select> |</td>
-                        <td>날짜 <input type="date"></td>
-            </table>
-          </div>
-        </li>
-        <li>
-          <div>
-            <table>
-                <td>차량유무 
-                        <select id="car" > 
-                        <option value="차 1"> 예 </option>
-                        <option value="차 2"> 아니요 </option>
-                        </select>
-                    </td>
-            </table>
-          </div>
-        </li>
-        <li>
-            <div>
-                <table>
-                    <td>지역
-                        <select id="travel" > 
-                        <option value="차 1"> 부산 </option>
-                        </select> 
-                    </td>
-                </table>
+        <div class="wrap">
+          <div class="intro_bg">
+            <div class="header">
+              <div class="searchArea">
+                <form>
+                  <input type="search" placeholder="search">
+                  <span>검색</span>
+                </form>
+              </div>
+              <ul class="nav">
+                <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></li>
+                <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></li>
+                <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a></li>
+                <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
+              </ul>
             </div>
-        </li>
-      </ul>
+            <div class="intro_text">
+              <h1>이번 겨울 어디로가지</h1>
+              <h4 class="contents1">금액에 맞춰진 여행 계획을 만들어 드리겠습니다.</h4>
+            </div>
+          </div>
+          </div>
+          <!-- intro end-->
+        <form th:action = "@{/main}" method="post">
+          <ul class="amount">
+            <li>
+              <div>
+                 <table>
+                    <td>  금액<select id="cash" th:name = "cash">
+                        <option value="10~20만원"> 10~20만원 </option>
+                        <option value="30~50만원"> 30~50만원 </option>
+                        <option value="50~100만원"> 50~100만원 </option></select></td>
+                 </table>
+              </div>
+            </li>
+            <li>
+              <div>
+                <table>
+                    <td>인원수 <select id="prod" th:name = "prod">
+                                <option value="1"> 1명 </option>
+                                <option value="2"> 2명 </option>
+                                <option value="3"> 3명 </option>
+                                <option value="4"> 4명 </option>
+                                <option value="5"> 5명 </option>
+                                <option value="6"> 6명 </option> </select> |</td>
+                            <td>날짜 <input type="date" th:name = "date"></td>
+                </table>
+              </div>
+            </li>
+            <li>
+              <div>
+                <table>
+                    <td>차량유무
+                            <select id="car" th:name = "car">
+                            <option value="차량 있음"> 예 </option>
+                            <option value="차량 없음"> 아니요 </option>
+                            </select>
+                        </td>
+                </table>
+              </div>
+            </li>
+            <li>
+                <div>
+                    <table>
+                        <td>지역
+                            <select id="travel" th:name = "부산">
+                                <option value="부산"> 부산 </option>
+                            </select>
+                        </td>
+                    </table>
+                </div>
+            </li>
+              <button>선택 완료</button>
+          </ul>
+        </form>
       <!-- amount end -->
 
       <div class="main_text0">

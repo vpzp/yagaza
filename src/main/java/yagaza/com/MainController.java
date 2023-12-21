@@ -24,15 +24,16 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(){
-        return "main";
+        return "main_form";
     }
+
 
 //TODO PostMapping으로 메인화면에 사용자 정보 값 추가하기
 
-//    @PreAuthorize("isAuthenticated()")
-//    @PostMapping("/main")
-//    public String main(Principal principal) throws Exception {
-//        SiteUser siteUser = this.userService.getUser(principal.getName());
-//        return String.format("main",siteUser.getUsername());
-//    }
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/main")
+    public String main(Principal principal) throws Exception {
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        return String.format("main_form",siteUser.getUsername());
+    }
 }

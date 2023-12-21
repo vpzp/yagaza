@@ -1,4 +1,4 @@
-<body>
+<body xmlns:th="http://www.w3.org/1999/xhtml">
     <div id="con">
     <div id="login">
     <div id="login_form">
@@ -6,8 +6,8 @@
         <h3 class="login" style="letter-spacing:-1px;">마이페이지</h3>
 
         <hr>
-          <p>
-            <input type="submit" value="비밀번호 변경" class="btn">
+          <p><!-- 링크 연결 제대로 안됨 다시 해야함 -->
+            <input type="submit" th:onclick="|location.href='@{/user/passwordChange}'|" value="비밀번호 변경" class="btn">
         </p>
           <p>
             <input type="submit" value="예약 내역" class="btn">
@@ -19,7 +19,7 @@
     </form>
     <hr>
     </div>
-    <div>
+    </div>
     </div>
 
 </body>

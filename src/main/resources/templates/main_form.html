@@ -1,0 +1,132 @@
+<!doctype html>
+<link rel="stylesheet" type="text/css" th:href="@{/mainstrap.css}" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>야가자 프로젝트</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="intro_bg">
+        <div class="header">
+          <div class="searchArea">
+            <form>
+              <input type="search" placeholder="search">
+              <span>검색</span>
+            </form>
+          </div>
+          <ul class="nav">
+            <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></li>
+            <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></li>
+            <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a></li>
+            <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
+          </ul>
+        </div>
+        <div class="intro_text">
+          <h1>이번 겨울 어디로가지</h1>
+          <h4 class="contents1">금액에 맞춰진 여행 계획을 만들어 드리겠습니다.</h4>
+        </div>
+      </div>
+      </div>
+      <!-- intro end-->
+      <ul class="amount">
+        <li>
+          <div>
+             <table>
+                    <tr>
+                        <td>  금액<input type="text" list="cash">
+                        <datalist id="cash">
+                            <option value="10~20만원"></option>
+                            <option value="30~50만원"></option>
+                            <option value="50~100만원"></option>
+                            </datalist> </td>
+                    </tr>
+             </table>
+
+          </div>
+        </li>
+        <li>
+          <div>
+            <table>
+                <td>인원수 <select id="prod"> 
+                            <option value="인원수 1"> 1명 </option>
+                            <option value="인원수 2"> 2명 </option>
+                            <option value="인원수 3"> 3명 </option>
+                            <option value="인원수 4"> 4명 </option>
+                            <option value="인원수 5"> 5명 </option>
+                            <option value="인원수 6"> 6명 </option> </select> |</td>
+                        <td>날짜 <input type="date"></td>
+            </table>
+          </div>
+        </li>
+        <li>
+          <div>
+            <table>
+                <td>차량유무 
+                        <select id="car" > 
+                        <option value="차 1"> 예 </option>
+                        <option value="차 2"> 아니요 </option>
+                        </select>
+                    </td>
+            </table>
+          </div>
+        </li>
+        <li>
+            <div>
+                <table>
+                    <td>지역
+                        <select id="travel" > 
+                        <option value="차 1"> 부산 </option>
+                        </select> 
+                    </td>
+                </table>
+            </div>
+        </li>
+      </ul>
+      <!-- amount end -->
+
+      <div class="main_text0">
+        <h1>어디로 가나요</h1>
+        <div class="contents1">서울, 부산, 강릉</div>
+
+        <ul class="icons">
+          <li>
+            <div class="icon_img">
+              <img src="https://assets.codefriends.net/users/e67b5557-04b3-48ba-ac7c-af4c62c73909/projects/media/b3441a82d97fec12521b212e2543627c.png">
+            </div>
+            <div class="contents1_bold">서울</div>
+            <div class="more">
+              MORE
+            </div>
+          </li>
+
+          <li>
+            <div class="icon_img">
+              <img src="https://assets.codefriends.net/users/e67b5557-04b3-48ba-ac7c-af4c62c73909/projects/media/890861e48991d649e47c487e77d19a3a.png">
+            </div>
+            <div class="contents1_bold">부산</div>
+            <div class="more">
+              MORE
+            </div>
+          </li>
+
+          <li>
+            <div class="icon_img">
+              <img src="https://assets.codefriends.net/users/e67b5557-04b3-48ba-ac7c-af4c62c73909/projects/media/3e38bc4b32b59c300fc7a1f9a14a31e0.png">
+            </div>
+            <div class="contents1_bold">강릉</div>
+            <div class="more">
+              MORE
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer">
+        <div>LOGO</div>
+        <div>
+          CEO. 캡스톤디자인<br>
+          Addr. 대전광역시 목원대학교 Fax/Tel. <br>
+        </div>
+      </div>
+  </body>
+</html>

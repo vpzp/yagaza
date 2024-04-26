@@ -55,8 +55,9 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/passwordChange")
     public String modify(UserCreateForm userCreateForm){
-        return "signup_form";
+        return "password_change";
     }
+
     //TODO 비밀번호 변경 로직 구상하기 html파일 받으면 시작
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/passwordChange")
@@ -82,6 +83,12 @@ public class UserController {
             return "password_change";
         }
         return "redirect:/";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete")
+    public String delete(){
+        return "unregister";
     }
 
     @PreAuthorize("isAuthenticated()")

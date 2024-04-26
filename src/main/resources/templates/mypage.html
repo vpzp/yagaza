@@ -6,15 +6,15 @@
         <h3 class="login" style="letter-spacing:-1px;">마이페이지</h3>
 
         <hr>
-          <p><!-- 링크 연결 제대로 안됨 다시 해야함 -->
-            <input type="submit" th:onclick="|location.href='@{/user/passwordChange}'|" value="비밀번호 변경" class="btn">
+          <p>
+            <input type="button" th:onclick="|location.href='@{/user/passwordChange}'|" value="비밀번호 변경" class="btn">
         </p>
           <p>
-            <input type="submit" value="예약 내역" class="btn">
+            <input type="button" value="예약 내역" class="btn">
         </p>
 
         <p>
-            <input type="submit" value="회원 탈퇴" class="btn">
+            <input type="button" th:onclick="|location.href='@{/user/delete}'|" value="회원 탈퇴" class="btn">
         </p>
     </form>
     <hr>

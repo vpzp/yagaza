@@ -35,4 +35,8 @@ public class HotelRoomService {
             throw new DataNotFoundException("hotelRoom객체가 없습니다");
         }
     }
+    public List<HotelRoom> getHotelRoomListByHotelId(Long hotelId){
+        List<HotelRoom> hotelRoomList = this.hotelRoomRepository.findByHotelId(hotelId);
+        return hotelRoomList;
+    }
 }

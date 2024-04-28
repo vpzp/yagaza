@@ -5,21 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import yagaza.com.post.Post;
 import yagaza.com.post.PostRepository;
+import yagaza.com.post.PostService;
 
 import java.time.LocalDateTime;
 
 @SpringBootTest
 public class PostTests {
     @Autowired
-    private PostRepository postRepository;
+    private PostService postService;
 
     @Test
-    public void create(){
-        Post p1 = new Post();
-        p1.setSubject("제목");
-        p1.setContent("내용");
-        p1.setCreateDateTime(LocalDateTime.now());
-        this.postRepository.save(p1);
-
+    public void createPost(){
+        for(int i = 1 ; i <= 200 ; i++){
+            String subject = String.format("테스트 데이터 : [%03d]", i);
+            String content = String.format("%d번째 게시물 입니다.", i);
+            this.postService.create(subject, content, null);
+        }
     }
 }

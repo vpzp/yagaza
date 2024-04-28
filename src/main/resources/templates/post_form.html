@@ -1,14 +1,26 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
   <h5 class="my-3 border-bottom pb-2">질문등록</h5>
-  <form th:action="@{/post/create}" method="post">
+  <form th:action="@{/post/create}" th:object="${postForm}" method="post">
+    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+<!--    <div class="dropdown">-->
+<!--      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--        여행 후기-->
+<!--      </button>-->
+<!--      <ul class="dropdown-menu">-->
+<!--        <li><a class="dropdown-item" th:field = "*{headLine}" value = "부산">부산</a></li>-->
+<!--        <li><a class="dropdown-item" th:field = "*{headLine}" value = "서울">서울</a></li>-->
+<!--        <li><a class="dropdown-item" th:field = "*{headLine}" value = "제주">제주</a></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
     <div class="mb-3">
       <label for="subject" class="form-label">제목</label>
-      <input type="text" name="subject" id="subject" class="form-control">
+      <input type="text" th:field="*{subject}" class="form-control">
     </div>
     <div class="mb-3">
       <label for="content" class="form-label">내용</label>
-      <textarea name="content" id="content" class="form-control" rows="10"></textarea>
+      <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
     </div>
     <input type="submit" value="저장하기" class="btn btn-primary my-2">
   </form>

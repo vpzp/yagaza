@@ -32,6 +32,11 @@ public class MainController {
         return "main_form";
     }
 
+    @GetMapping("/order")
+    public String survey(){
+        return"choice_hotel_form";
+    }
+
 
 //TODO 메인화면에 사용자 정보 값 추가하기
 
@@ -44,6 +49,6 @@ public class MainController {
         this.orderService.create(orderCreateForm.getCash(), orderCreateForm.getProd(), orderCreateForm.getDate(),
                 orderCreateForm.getCar(), "부산", siteUser);
 
-        return "redirect:/order/hotel";
+        return "survey";
     }
 }

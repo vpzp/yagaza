@@ -41,12 +41,12 @@ class HotelServiceTest {
     public void hotelNumberCrawling(){
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
-        String url = "https://www.yanolja.com/search/%EB%B6%80%EC%82%B0?keyword=%EB%B6%80%EC%82%B0";
+        String url = "https://www.yanolja.com/search/" + "부산";
         driver.get(url);
         System.out.println("성공");
         try {
-            WebElement hotels = driver.findElement(By.className("common_clearfix__M6urU"));
             Thread.sleep(1500);
+            WebElement hotels = driver.findElement(By.className("common_clearfix__M6urU"));
             var stTime = new Date().getTime();
             while (new Date().getTime() < stTime + 60000) { //30초 동안 무한스크롤 지속
                 Thread.sleep(500); //리소스 초과 방지

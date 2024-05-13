@@ -8,6 +8,7 @@ import yagaza.com.user.SiteUser;
 import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,6 +84,35 @@ public class HotelService {
         return keyword;
     }
 
+    public List<Hotel> getHotelTypeAndKeyword(String type, List<String> keyword){
+        List<Hotel> hotelList = getHotelList();
+        List<Hotel> hotels = new ArrayList<>();
+        for (int i = 0 ; i < hotelList.size() ; i++){
+            switch (keyword.size()){
+                case 1: if(hotelList.get(i).getType().equals(type) && hotelList.get(i).getKeyword().contains(keyword.get(0))){
+                    hotels.add(hotelList.get(i));
+                }
+                break;
+                case 2: if(hotelList.get(i).getType().equals(type) && hotelList.get(i).getKeyword().contains(keyword.get(0))
+                    && hotelList.get(i).getKeyword().contains(keyword.get(1))){
+                    hotels.add(hotelList.get(i));
+                }
+                break;
+            }
+        }
+        return hotels;
+    }
+
+    public Integer getHotelPrice(int prod, Hotel hotel){
+        switch (prod){
+            case 1: return hotel.getPriceOnePerson();
+            case 2: return hotel.getPriceTwoPerson();
+            case 3: return hotel.getPriceThreePerson();
+            case 4: return hotel.getPriceFourPerson();
+            case 5: return hotel.getPriceFivePerson();
+        }
+        return 0;
+    }
 
     public List<Hotel> getHotelList(){
         return hotelRepository.findAll();

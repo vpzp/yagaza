@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.restaurant.Restaurant;
+import yagaza.com.survey.Survey;
 import yagaza.com.user.SiteUser;
 
 import java.util.List;
@@ -35,5 +36,8 @@ public class SiteOrder {
 
     @ManyToOne
     private SiteUser siteUser;
+
+    @OneToOne
+    private Survey survey;
 
 }

@@ -30,7 +30,7 @@ public class SiteUser {
 
     private String phoneNumber;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<SiteOrder> siteOrder;
 
 }

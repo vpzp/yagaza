@@ -11,6 +11,8 @@ import yagaza.com.comment.Comment;
 import yagaza.com.user.SiteUser;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,13 +34,13 @@ public class PostService {
         return post.get();
     }
 
-    public void create(String subject, String content, String headLine, SiteUser author){
+    public void create(String subject, String content, SiteUser author){
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         Post post = new Post();
         post.setContent(content);
         post.setSubject(subject);
-        post.setCreateDateTime(LocalDateTime.now());
+        post.setCreateDateTime(zonedDateTime.toLocalDateTime());
         post.setAuthor(author);
-        post.setHeadLine(headLine);
         this.postRepository.save(post);
     }
 }

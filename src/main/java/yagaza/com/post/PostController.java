@@ -51,7 +51,7 @@ public class PostController {
             return "Post_Form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        this.postService.create(postForm.getSubject(), postForm.getContent(),postForm.getHeadLine(), siteUser);
+        this.postService.create(postForm.getSubject(), postForm.getContent(), siteUser);
         return "redirect:/post/list";
     }
 }

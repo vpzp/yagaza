@@ -12,8 +12,17 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+//    private int money;
+//    private int day;
+//    private int prod;
+//
+//    public void setOrderService(int money, int day, int prod){
+//        this.money = money;
+//        this.day = day;
+//        this.prod = prod;
+//    }
 
-    public void create(String cash, String prod, String date, String car, String travel, SiteUser user){
+    public void create(int cash, int prod, String date, String car, String travel, SiteUser user){
         SiteOrder siteOrder = new SiteOrder();
         siteOrder.setCash(cash);
         siteOrder.setCar(car);
@@ -23,6 +32,7 @@ public class OrderService {
         siteOrder.setSiteUser(user);
 
         this.orderRepository.save(siteOrder);
+
         user.setSiteOrder(siteOrder.getSiteUser().getSiteOrder());
         this.userRepository.save(user);
     }
@@ -31,4 +41,5 @@ public class OrderService {
         SiteOrder siteOrder = orderRepository.findTopBySiteUserIdOrderByIdDesc(siteUser.getId());
         return siteOrder;
     }
+
 }

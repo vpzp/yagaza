@@ -3,7 +3,13 @@ package yagaza.com.order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import yagaza.com.Tourism.Tourism;
+import yagaza.com.hotel.Hotel;
+import yagaza.com.restaurant.Restaurant;
+import yagaza.com.survey.Survey;
 import yagaza.com.user.SiteUser;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,9 +19,9 @@ public class SiteOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cash;
+    private int cash;
 
-    private String prod;
+    private int prod;
 
     private String date;
 
@@ -23,7 +29,19 @@ public class SiteOrder {
 
     private String travel;
 
+    @ManyToMany
+    private List<Restaurant> restaurant;
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private List<Tourism> tourism;
+
+    @ManyToMany
+    private List<Hotel> hotel;
+
     @ManyToOne
     private SiteUser siteUser;
+
+    @OneToOne
+    private Survey survey;
 
 }

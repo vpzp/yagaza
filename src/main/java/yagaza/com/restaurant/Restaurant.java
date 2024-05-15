@@ -2,22 +2,39 @@ package yagaza.com.restaurant;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import yagaza.com.review.RestaurantReview;
+import lombok.Setter;
+import yagaza.com.order.SiteOrder;
+
+import java.util.List;
 
 @Entity
 @Getter
+@Setter
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String region;
 
     private String name;
 
+    private String content;
+
+    //인덱스 0은 점심 가격 1은 저녁 가격
+    private int[] price;
+
+    private List<String> openTime;
+
+    //음식 종류(한식, 일식, 기타 세계 음식)
+    private String type;
+
+    private String img;
+
     @ManyToOne
     private RestaurantReview restaurantReview;
 
-    //TODO 위치 정보 설정 해야함
-    //TODO 이미지사진 자료형 설정
+    @ManyToMany
+    private List<SiteOrder> siteOrder;
+
 }

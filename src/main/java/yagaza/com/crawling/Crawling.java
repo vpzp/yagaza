@@ -93,7 +93,7 @@ public class Crawling {
     }
     public static void main(String[] args){
         Crawling crawling = new Crawling();
-//        crawling.hotelNumberCrawling();
-        crawling.hotelCrawling(23298);
+        crawling.hotelNumberCrawling();
+       // crawling.hotelCrawling(23298);
     }
 }

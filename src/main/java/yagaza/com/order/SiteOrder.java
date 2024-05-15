@@ -3,6 +3,7 @@ package yagaza.com.order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import yagaza.com.Tourism.Tourism;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.restaurant.Restaurant;
 import yagaza.com.survey.Survey;
@@ -30,6 +31,9 @@ public class SiteOrder {
 
     @ManyToMany
     private List<Restaurant> restaurant;
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private List<Tourism> tourism;
 
     @ManyToMany
     private List<Hotel> hotel;

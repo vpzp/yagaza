@@ -15,6 +15,12 @@ public class Survey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //질문 1: 어떤 종류의 관광지를 선호하시나요?
+    private String tourismType;
+
+    //질문 2: 여행 갔을때 내 모습은?
+    private int tourismDayCount;
+
     //질문 4: 어떤 종류의 음식을 선호하시나요?
     private String restaurantType;
 

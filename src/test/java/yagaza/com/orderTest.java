@@ -3,11 +3,16 @@ package yagaza.com;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import yagaza.com.Tourism.Tourism;
+import yagaza.com.Tourism.TourismService;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.hotel.HotelService;
 import yagaza.com.order.OrderRepository;
 import yagaza.com.order.OrderService;
 import yagaza.com.order.SiteOrder;
+import yagaza.com.restaurant.Restaurant;
+import yagaza.com.restaurant.RestaurantService;
 import yagaza.com.survey.Survey;
 import yagaza.com.survey.SurveyRepository;
 import yagaza.com.survey.SurveyService;
@@ -30,6 +35,10 @@ public class orderTest {
     private SurveyService surveyService;
     @Autowired
     private SurveyRepository surveyRepository;
+    @Autowired
+    private RestaurantService restaurantService;
+    @Autowired
+    private TourismService tourismService;
 
     @Test
     public void createOrderTest(){
@@ -52,6 +61,8 @@ public class orderTest {
 
     @Test
     public void createSurveyTest(){
+//        String tourismType = "활동";
+//        int tourismDayCount = 2;
 //        String restaurantType = "한식";
 //        List<String> openTime = new ArrayList<>(Arrays.asList("점심, 저녁"));
 //        String hotelType = "모텔";
@@ -61,6 +72,8 @@ public class orderTest {
 //        boolean isHotelChange = false;
 //        Optional<SiteOrder> siteOrder = orderRepository.findById(62L);
 
+        String tourismType = "문화";
+        int tourismDayCount = 1;
         String restaurantType = "일식";
         List<String> openTime = new ArrayList<>(Arrays.asList("점심, 저녁"));
         String hotelType = "호텔/리조트";
@@ -70,10 +83,34 @@ public class orderTest {
         boolean isHotelChange = true;
         Optional<SiteOrder> siteOrder = orderRepository.findById(63L);
 
-        surveyService.create(restaurantType, openTime, hotelType, hotelKeyword, hotelImportance,
-                restaurantImportance, isHotelChange, siteOrder.get());
+        surveyService.create(tourismType, tourismDayCount, restaurantType, openTime, hotelType, hotelKeyword,
+                hotelImportance, restaurantImportance, isHotelChange, siteOrder.get());
     }
 
+    @Test
+    public void getRestaurantTest(){
+        Survey survey = surveyRepository.findAll().get(0);
+        Survey survey2 = surveyRepository.findAll().get(1);
+
+        List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
+        List<Restaurant>[] restaurantList2 = surveyService.getRestaurant(survey2);
+        for (int i = 0 ; i < restaurantList[0].size(); i++){
+            System.out.println("점심");
+            System.out.println("레스토랑 이름은 : " + restaurantList[0].get(i).getName());
+            System.out.println("레스토랑 소개는 : " + restaurantList[0].get(i).getContent());
+            System.out.println("레스토랑 가격은 : " + restaurantList[0].get(i).getPrice()[0]);
+            System.out.println("레스토랑 오픈 시간은 : " + restaurantList[0].get(i).getOpenTime().toString());
+
+            System.out.println("저녁");
+            System.out.println("레스토랑 이름은 : " + restaurantList[1].get(i).getName());
+            System.out.println("레스토랑 소개는 : " + restaurantList[1].get(i).getContent());
+            System.out.println("레스토랑 가격은 : " + restaurantList[1].get(i).getPrice()[1]);
+            System.out.println("레스토랑 오픈 시간은 : " + restaurantList[1].get(i).getOpenTime().toString());
+            System.out.println("하루식사 가격은 : " + (restaurantList[0].get(i).getPrice()[0] + restaurantList[1].get(i).getPrice()[1]));
+
+            System.out.println();
+        }
+    }
     @Test
     public void getHotelTest(){
         Survey survey = surveyRepository.findAll().get(0);
@@ -100,7 +137,25 @@ public class orderTest {
             System.out.println("호텔 키워드는 = "+ Arrays.toString(hotel.getKeyword().toArray()));
             System.out.println();
         }
+    }
+    @Test
+    public void getTourismTest(){
+        Survey survey = surveyRepository.findAll().get(0);
+        Survey survey2 = surveyRepository.findAll().get(1);
 
+        List<Tourism> tourismList = surveyService.getTourism(survey);
+        List<Tourism> tourismList2 = surveyService.getTourism(survey2);
+
+        int sum = 0;
+        int date = 1;
+        for (Tourism tourism : tourismList){
+            System.out.println("관광지 이름은 : " + tourism.getName());
+            System.out.println("관광지 종류는 : " + tourism.getType());
+            System.out.println("관광지 가격은 : " + tourism.getPrice());
+            System.out.println();
+            sum += tourism.getPrice();
+        }
+        System.out.println("관광지 총 가격은 : " + sum);
 
     }
 }

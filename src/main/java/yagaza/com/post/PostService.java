@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import yagaza.com.DataNotFoundException;
 import yagaza.com.comment.Comment;
 import yagaza.com.user.SiteUser;
 
@@ -26,12 +27,17 @@ public class PostService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDateTime"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
         return this.postRepository.findAll(pageable);
     }
 
     public Post getPost(Long id){
         Optional<Post> post = this.postRepository.findById(id);
-        return post.get();
+        if (post.isPresent()){
+            return post.get();
+        }else{
+            throw new DataNotFoundException("postFindById의 값이 존재하지 않습니다.");
+        }
     }
 
     public void create(String subject, String content, SiteUser author){

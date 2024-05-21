@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
+import yagaza.com.order.SiteOrder;
 import yagaza.com.review.HotelReview;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,22 @@ public class Hotel {
     @OneToMany
     private List<HotelRoom> hotelRoom;
 
-    private String price;
+    private Integer priceOnePerson;
+
+    private Integer priceTwoPerson;
+
+    private Integer priceThreePerson;
+
+    private Integer priceFourPerson;
+
+    private Integer priceFivePerson;
 
     private String img;
+
+    private String type;
+
+    private List<String> keyword;
+
+    @ManyToMany
+    private List<SiteOrder> siteOrder;
 }

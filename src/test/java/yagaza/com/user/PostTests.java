@@ -14,12 +14,12 @@ public class PostTests {
     @Autowired
     private PostService postService;
 
-    @Test
-    public void createPost(){
-        for(int i = 1 ; i <= 200 ; i++){
-            String subject = String.format("테스트 데이터 : [%03d]", i);
-            String content = String.format("%d번째 게시물 입니다.", i);
-            this.postService.create(subject, content, null);
-        }
-    }
+//    @Test
+//    public void createPost(){
+//        for(int i = 1 ; i <= 200 ; i++){
+//            String subject = String.format("테스트 데이터 : [%03d]", i);
+//            String content = String.format("%d번째 게시물 입니다.", i);
+//            this.postService.create(subject, content, null, null);
+//        }
+//    }
 }

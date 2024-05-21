@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'yagaza.com'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
@@ -27,6 +27,8 @@ dependencies {
 
 	testImplementation 'org.projectlombok:lombok:1.18.26'
 	testImplementation 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'org.jetbrains:annotations:24.0.0'
+	testImplementation 'org.jetbrains:annotations:24.0.0'
 	compileOnly 'org.projectlombok:lombok'
 
 	annotationProcessor 'org.projectlombok:lombok'

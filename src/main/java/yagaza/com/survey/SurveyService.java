@@ -2,6 +2,7 @@ package yagaza.com.survey;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import yagaza.com.DataNotFoundException;
 import yagaza.com.Tourism.Tourism;
 import yagaza.com.Tourism.TourismService;
 import yagaza.com.hotel.Hotel;
@@ -55,7 +56,7 @@ public class SurveyService {
         //tourismType이 포함된 관광지를 관광지 필요 숫자의 과반수 만큼 뽑음
         for (Tourism tourism : tourismList){
             if (tourism.getType().equals(survey.getTourismType()) &&
-                    tourisms.size() < ((survey.getTourismDayCount() * (Integer.parseInt(survey.getSiteOrder().getDate())) - 1) / 2 )){
+                    tourisms.size() < ((survey.getTourismDayCount() * (survey.getSiteOrder().getDate()) - 1) / 2 )){
                 tourisms.add(tourism);
                 removed.add(tourism);
             }
@@ -63,7 +64,7 @@ public class SurveyService {
         tourismList.removeAll(removed);
         //관광지 필요 숫자만큼 뽑음
         for (Tourism tourism : tourismList){
-            if(tourisms.size() <(survey.getTourismDayCount() * (Integer.parseInt(survey.getSiteOrder().getDate()) - 1))){
+            if(tourisms.size() <(survey.getTourismDayCount() * (survey.getSiteOrder().getDate() - 1))){
                 tourisms.add(tourism);
             }
         }
@@ -76,14 +77,14 @@ public class SurveyService {
         List<Restaurant>[] restaurantList = new ArrayList[3];
         int cash = getRestaurantCash(survey.getSiteOrder().getCash(), survey);
         List<Restaurant> list = restaurantService.getRestaurantList();
-        int date = Integer.parseInt(survey.getSiteOrder().getDate());
+        int date = survey.getSiteOrder().getDate();
         //하루에 쓸수 있는 돈
         int oneDayCash = cash / (date - 1) / survey.getSiteOrder().getProd();
 
         //금액에 맞는 식당 {점심, 저녁}리스트로 10개 반환
         restaurantList = getRestaurantTop15ByPrice(oneDayCash , false);
 
-        //반환 된 10개의 데이터 순서 섞기
+        //반환 된 15개의 데이터 순서 섞기
         List<Pair<Restaurant, Restaurant>> pairs = new ArrayList<>();
         for (int i = 0; i < restaurantList[0].size(); i++) {
             pairs.add(new Pair<>(restaurantList[0].get(i), restaurantList[1].get(i)));
@@ -107,7 +108,7 @@ public class SurveyService {
         List<Hotel> hotelList = new ArrayList<>();
         int cash = getHotelCash(survey.getSiteOrder().getCash(), survey);
         hotelList = hotelService.getHotelTypeAndKeyword(survey.getHotelType(), survey.getHotelKeyword());
-        cash = cash / (Integer.parseInt(survey.getSiteOrder().getDate()) - 1);
+        cash = cash / (survey.getSiteOrder().getDate() - 1);
 
         //cash == null인 호텔 제거
         hotelList.removeIf(hotel -> hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel) == null);
@@ -116,7 +117,7 @@ public class SurveyService {
         hotelList = getHotelTop10ByPrice(hotelList, cash, survey.getSiteOrder().getProd());
 
         //10개의 호텔중에서 date에따라 선택
-        hotelList =  getHotelByDate(hotelList, Integer.parseInt(survey.getSiteOrder().getDate()), survey.isHotelChange());
+        hotelList =  getHotelByDate(hotelList, survey.getSiteOrder().getDate(), survey.isHotelChange());
 
         return hotelList;
     }
@@ -208,6 +209,15 @@ public class SurveyService {
             }
         }
         return list;
+    }
+
+    public Survey getById(Long id){
+        Optional<Survey> survey = this.surveyRepository.findById(id);
+        if (survey.isPresent()){
+            return survey.get();
+        }else {
+            throw new DataNotFoundException("survey값이 존재하지 않습니다.");
+        }
     }
 
     static class Pair<T, U> {

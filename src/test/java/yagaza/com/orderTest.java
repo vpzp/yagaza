@@ -49,9 +49,16 @@ public class orderTest {
 //        String travel = "부산";
 //        SiteUser siteUser = userService.getUser("관리자");
 
-        int cash = 1100000;
-        int prod = 3;
-        String date = "3";
+//        int cash = 1100000;
+//        int prod = 3;
+//        String date = "3";
+//        String car = "없음";
+//        String travel = "부산";
+//        SiteUser siteUser = userService.getUser("관리자");
+
+        int cash = 300000;
+        int prod = 2;
+        String date = "2";
         String car = "없음";
         String travel = "부산";
         SiteUser siteUser = userService.getUser("관리자");
@@ -72,16 +79,27 @@ public class orderTest {
 //        boolean isHotelChange = false;
 //        Optional<SiteOrder> siteOrder = orderRepository.findById(62L);
 
-        String tourismType = "문화";
+//        String tourismType = "문화";
+//        int tourismDayCount = 1;
+//        String restaurantType = "일식";
+//        List<String> openTime = new ArrayList<>(Arrays.asList("점심, 저녁"));
+//        String hotelType = "호텔/리조트";
+//        List<String> hotelKeyword = new ArrayList<>(Arrays.asList("친절한"));
+//        int hotelImportance = 2;
+//        int restaurantImportance = 2;
+//        boolean isHotelChange = true;
+//        Optional<SiteOrder> siteOrder = orderRepository.findById(63L);
+
+        String tourismType = "활동";
         int tourismDayCount = 1;
-        String restaurantType = "일식";
+        String restaurantType = "기타 세계 음식";
         List<String> openTime = new ArrayList<>(Arrays.asList("점심, 저녁"));
-        String hotelType = "호텔/리조트";
-        List<String> hotelKeyword = new ArrayList<>(Arrays.asList("친절한"));
+        String hotelType = "모텔";
+        List<String> hotelKeyword = new ArrayList<>(Arrays.asList("깔끔한"));
         int hotelImportance = 2;
         int restaurantImportance = 2;
         boolean isHotelChange = true;
-        Optional<SiteOrder> siteOrder = orderRepository.findById(63L);
+        Optional<SiteOrder> siteOrder = orderRepository.findById(64L);
 
         surveyService.create(tourismType, tourismDayCount, restaurantType, openTime, hotelType, hotelKeyword,
                 hotelImportance, restaurantImportance, isHotelChange, siteOrder.get());

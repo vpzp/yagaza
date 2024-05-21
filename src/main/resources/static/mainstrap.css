@@ -49,17 +49,17 @@ h1 {
   width:50px;
   color:#fff;
 }
-.nav{
+.nav2{
   display: flex;
   justify-content: flex-end;
   width:calc(1280px - 300px);
   line-height: 86px;
 }
-.nav > li {
+.nav2 > li {
   margin-left:84px;
 }
 
-.nav > li > a {
+.nav2 > li > a {
   color: #fff;
 }
 

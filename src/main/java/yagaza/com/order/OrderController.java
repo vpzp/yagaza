@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.hotel.HotelRoomService;
 import yagaza.com.hotel.HotelService;
+import yagaza.com.survey.Survey;
+import yagaza.com.survey.SurveyService;
 import yagaza.com.user.UserService;
 
 import java.security.Principal;
@@ -24,6 +26,7 @@ public class OrderController {
     private final OrderService orderService;
     private final HotelRoomService hotelRoomService;
     private final UserService userService;
+    private final SurveyService surveyService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/hotel")
@@ -43,5 +46,17 @@ public class OrderController {
         model.addAttribute("hotelRoom",hotelRoomService.getHotelRoomListByHotelId(hotel.getId()));
 
         return "choice_hotel_room_form";
+    }
+    @PreAuthorize("isAuthenticated()")
+    //TODO 주소값은 main/{survey.id} 로 설정하기
+    @GetMapping("/main")
+    public String order(Model model, Principal principal, Survey survey){
+        //TODO surveyId값을 넘겨줘야함
+        Long id = 4L;
+        survey = surveyService.getById(id);
+        SiteOrder siteOrder = survey.getSiteOrder();
+
+        model.addAttribute("siteOrder", siteOrder);
+        return "order_form";
     }
 }

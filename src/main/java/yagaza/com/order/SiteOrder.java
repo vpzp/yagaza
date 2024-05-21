@@ -23,7 +23,7 @@ public class SiteOrder {
 
     private int prod;
 
-    private String date;
+    private int date;
 
     private String car;
 

@@ -76,7 +76,7 @@
       </b>
     </div>
     <div class="d-flex justify-content-end">
-      <ul class="nav">
+      <ul class="nav2">
         <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></li>
         <li sec:authorize="isAnonymous()"><a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></li>
         <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a></li>
@@ -143,7 +143,6 @@
                 <div class="btn-group">
                   <button type="button" th:onclick="|location.href='@{|/order/hotelRoom/${hotel.id}|}'|"  class="btn btn-sm btn-outline-secondary">상세보기</button>
                 </div>
-                <small class="text-muted" th:text="${hotel.price}">가격</small>
               </div>
             </div>
           </div>

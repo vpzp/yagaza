@@ -7,11 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderCreateForm {
-    String cash;
+    //TODO 예외값 처리 해줘야함
+    int cash;
 
-    String prod;
+    int prod;
 
-    String date;
+    int date;
 
     String car;
 

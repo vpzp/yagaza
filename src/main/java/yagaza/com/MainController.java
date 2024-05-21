@@ -46,9 +46,8 @@ public class MainController {
     @PostMapping("/main")
     public String main(OrderCreateForm orderCreateForm, Principal principal)  {
         SiteUser siteUser =this.userService.getUser(principal.getName());
-        /// TODO: 2024-05-13 메인화면 cash랑 인원수 int형으로 받아와야함 주석 오류있음
-//        this.orderService.create(orderCreateForm.getCash(), orderCreateForm.getProd(), orderCreateForm.getDate(),
-//                orderCreateForm.getCar(), "부산", siteUser);
+        this.orderService.create(orderCreateForm.getCash(), orderCreateForm.getProd(), orderCreateForm.getDate(),
+                orderCreateForm.getCar(), "부산", siteUser);
 
         return "survey";
     }

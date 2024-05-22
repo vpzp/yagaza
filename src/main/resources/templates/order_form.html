@@ -130,7 +130,7 @@
                                                     <p class="text-center" th:text="숙소">종류(관광, 점심, 저녁)</p><br>
                                                     <p class="border-bottom" th:text="${hotelList.get(i-1).getHotelName()}">이름</p>
                                                     <p class="border-bottom" th:text="'종류 : '+${hotelList.get(i-1).getType()}">종류</p>
-                                                    <span class="border-bottom" th:each ="keyword :${hotelList.get(i-1).getKeyword()}" th:utext="{keyword} + '&nbsp;'">키워드</span>
+                                                    <span class="border-bottom" th:each ="keyword :${hotelList.get(i-1).getKeyword()}" th:utext="${keyword} + '&nbsp;'">키워드</span>
                                                     <br>
                                                     <p class="border-bottom">가격</p>
                                                 </div>

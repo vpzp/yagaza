@@ -50,12 +50,12 @@ public class presentTest {
         List<Tourism> tourismList = surveyService.getTourism(survey);
 
         int index = 0;
-        for (int date = 1 ; date <= Integer.parseInt(survey.getSiteOrder().getDate()) ; date++){
+        for (int date = 1 ; date <= survey.getSiteOrder().getDate() ; date++){
             System.out.println(date + "일차 ------------------------------------------");
 
             //관광지 출력
             for (int j = index * survey.getTourismDayCount() ; j < date * survey.getTourismDayCount() &&
-                    date != Integer.parseInt(survey.getSiteOrder().getDate()) ; j++){
+                    date != (survey.getSiteOrder().getDate()) ; j++){
                 System.out.println("관광지");
                 System.out.println("관광지 이름은 : " + tourismList.get(j).getName());
                 System.out.println("관광지 종류는 : " + tourismList.get(j).getType());
@@ -74,7 +74,7 @@ public class presentTest {
             }
 
             //저녁 출력
-            if (date != Integer.parseInt(survey.getSiteOrder().getDate())){
+            if (date != survey.getSiteOrder().getDate()){
                 System.out.println("저녁");
                 System.out.println("레스토랑 이름은 : " + restaurantList[1].get(index).getName());
                 System.out.println("레스토랑 소개는 : " + restaurantList[1].get(index).getContent());
@@ -86,7 +86,7 @@ public class presentTest {
             //TODO 야식 출력
 
             //호텔 출력
-            if (date != Integer.parseInt(survey.getSiteOrder().getDate())){
+            if (date != survey.getSiteOrder().getDate()){
                 System.out.println("호텔");
                 System.out.println("호텔 이름은 = " + hotelList.get(index).getHotelName());
                 System.out.println("호텔 가격은 = " + hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotelList.get(index)));

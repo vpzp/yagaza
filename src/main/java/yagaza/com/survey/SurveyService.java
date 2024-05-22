@@ -21,11 +21,13 @@ public class SurveyService {
     private final RestaurantService restaurantService;
     private final TourismService tourismService;
 
-    public void create(String tourismType, int tourismDayCountString, String restaurantType, List<String> openTime, String hotelType,
+    public Survey create(String tourismType, int tourismCount, String restaurantType, List<String> openTime, String hotelType,
                        List<String> hotelKeyword, int hotelImportance, int restaurantImportance, boolean isHotelChange, SiteOrder siteOrder){
         Survey survey = new Survey();
+        openTime.add("점심");
+        openTime.add("저녁");
         survey.setTourismType(tourismType);
-        survey.setTourismDayCount(tourismDayCountString);
+        survey.setTourismDayCount(tourismCount);
         survey.setRestaurantType(restaurantType);
         survey.setOpenTime(openTime);
         survey.setHotelType(hotelType);
@@ -37,6 +39,7 @@ public class SurveyService {
 
         this.surveyRepository.save(survey);
 
+        return survey;
     }
 
     public int getRestaurantCash(int cash, Survey survey){
@@ -79,7 +82,7 @@ public class SurveyService {
         List<Restaurant> list = restaurantService.getRestaurantList();
         int date = survey.getSiteOrder().getDate();
         //하루에 쓸수 있는 돈
-        int oneDayCash = cash / (date - 1) / survey.getSiteOrder().getProd();
+        int oneDayCash = cash/ (date - 1) / survey.getSiteOrder().getProd();
 
         //금액에 맞는 식당 {점심, 저녁}리스트로 10개 반환
         restaurantList = getRestaurantTop15ByPrice(oneDayCash , false);

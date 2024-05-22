@@ -9,14 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import yagaza.com.Tourism.Tourism;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.hotel.HotelRoomService;
 import yagaza.com.hotel.HotelService;
+import yagaza.com.restaurant.Restaurant;
 import yagaza.com.survey.Survey;
+import yagaza.com.survey.SurveyCreateForm;
 import yagaza.com.survey.SurveyService;
 import yagaza.com.user.UserService;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -49,14 +53,22 @@ public class OrderController {
     }
     @PreAuthorize("isAuthenticated()")
     //TODO 주소값은 main/{survey.id} 로 설정하기
-    @GetMapping("/main")
-    public String order(Model model, Principal principal, Survey survey){
+    @PostMapping("/main")
+    public String order(Model model, Principal principal, SurveyCreateForm surveyCreateForm){
+        SiteOrder siteOrder = orderService.getOrder(userService.getUser(principal.getName()));
         //TODO surveyId값을 넘겨줘야함
-        Long id = 4L;
-        survey = surveyService.getById(id);
-        SiteOrder siteOrder = survey.getSiteOrder();
+        Survey survey =surveyService.create(surveyCreateForm.getTourismType(), surveyCreateForm.getTourismCount(), surveyCreateForm.getRestaurantType(),
+                surveyCreateForm.getOpenTime(), surveyCreateForm.getHotelType(), surveyCreateForm.getHotelKeyword(), surveyCreateForm.getHotelImportance(),
+                surveyCreateForm.getRestaurantImportance(),surveyCreateForm.isHotelChange(), siteOrder);
 
+        List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
+        List<Hotel> hotelList = surveyService.getHotel(survey);
+        List<Tourism> tourismList = surveyService.getTourism(survey);
+        model.addAttribute("survey" , survey);
         model.addAttribute("siteOrder", siteOrder);
+        model.addAttribute("restaurantList" ,restaurantList);
+        model.addAttribute("hotelList", hotelList);
+        model.addAttribute("tourismList", tourismList);
         return "order_form";
     }
 }

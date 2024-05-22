@@ -38,7 +38,7 @@ public class OrderService {
     }
 
     public SiteOrder getOrder(SiteUser siteUser) {
-        SiteOrder siteOrder = orderRepository.findTopBySiteUserIdOrderByIdDesc(siteUser.getId());
+        SiteOrder siteOrder = orderRepository.findTopByOrderByIdDesc();
         return siteOrder;
     }
 

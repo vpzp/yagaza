@@ -58,7 +58,7 @@ public class orderTest {
 
         int cash = 300000;
         int prod = 2;
-        String date = "2";
+        int date = 2;
         String car = "없음";
         String travel = "부산";
         SiteUser siteUser = userService.getUser("관리자");
@@ -146,15 +146,6 @@ public class orderTest {
             System.out.println();
         }
 
-        date = 1;
-        for(Hotel hotel : hotelList2){
-            System.out.println(date++ +" 일차--------------------------");
-            System.out.println("호텔 이름은 = " + hotel.getHotelName());
-            System.out.println("호텔 가격은 = " + hotelService.getHotelPrice(survey2.getSiteOrder().getProd(), hotel));
-            System.out.println("호텔 종류는 = " + hotel.getType());
-            System.out.println("호텔 키워드는 = "+ Arrays.toString(hotel.getKeyword().toArray()));
-            System.out.println();
-        }
     }
     @Test
     public void getTourismTest(){

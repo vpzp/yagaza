@@ -28,7 +28,7 @@
       </div>
   </div>
   <!-- intro end-->
-  <form th:action = "@{/main}" method="post">
+  <form th:action = "@{/survey}" method="post">
       <ul class="amount">
           <li>
               <div>
@@ -47,10 +47,10 @@
                           <option value=4> 4명 </option>
                           <option value=5> 5명 </option></select> |</td>
                       <td>날짜 <select id="date" th:name = "date">
-                          <option value=1> 1박2일 </option>
-                          <option value=2> 2박3일 </option>
-                          <option value=3> 3박4일 </option>
-                          <option value=4> 4박5일 </option></select></td>
+                          <option value=2> 1박2일 </option>
+                          <option value=3> 2박3일 </option>
+                          <option value=4> 3박4일 </option>
+                          <option value=5> 4박5일 </option></select></td>
                   </table>
               </div>
           </li>

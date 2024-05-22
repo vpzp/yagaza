@@ -1,4 +1,4 @@
-<!doctype html>
+    <!doctype html>
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/mainstrap.css}">
@@ -52,140 +52,94 @@
 <!--    카카오맵 + 일차별 여행지 표시해주는 부분-->
     <div class="mx-auto">
         <div class="container-md" style="width: 1300px;">
-            <div class="text-dark bg-warning bg-opacity-50">
+            <div class="text-dark bg-info bg-opacity-25">
                 <div class="position-relative">
                     <div class="row">
                         <div class="col-6 ">
-                            <svg class="bd-placeholder-img bd-placeholder-img-lg img-fluid" width="100%" height="800" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="자리표시자: 반응형 이미지" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">카카오 맵</text></svg>
+                            <svg class="bd-placeholder-img bd-placeholder-img-lg img-fluid" width="100%" height="600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="자리표시자: 반응형 이미지" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">카카오 맵</text></svg>
                         </div>
                         <div class="col-6">
                             <!-- 탭 메뉴 -->
                             <ul class="nav nav-tabs w-100 justify-content-start">
-                                <li class="nav-item" >
-                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#userinfo">
-                                        1일차
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#myreview">
-                                        2일차
-                                    </button>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#wishlist">
-                                        3일차
-                                    </button>
+                                <li class="nav-item" th:each="i: ${#numbers.sequence(1, siteOrder.date)}" >
+                                    <td th:switch="${i}">
+                                        <button class="nav-link active" th:case =1 data-bs-toggle="tab" th:attr="data-bs-target=${'#date'+ i}" th:text="${i+ '일차'}"></button>
+                                        <button class="nav-link" th:case ="*" data-bs-toggle="tab" th:attr="data-bs-target=${'#date'+ i}" th:text="${i+ '일차'}"></button>
+                                    </td>
                                 </li>
                             </ul>
+                            <!-- 탭 메뉴 -->
                             <!-- 탭 내용 -->
-                            <div class="tab-content">
-                                <div class="tab-pane fade show active" id="userinfo">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <svg class="bd-placeholder-img img-fluid rounded-start" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">관광지 이미지</text></svg>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <p class="text-center">종류(관광, 점심, 저녁)</p><br>
-                                                        <p class="border-bottom">이름</p>
-                                                        <p class="border-bottom">종류</p>
-                                                        <p class="border-bottom">가격</p>
-                                                    </div>
+                            <div class="tab-content p-2">
+                                <div class="tab-pane fade" th:each="i: ${#numbers.sequence(1, siteOrder.date)}" th:id="'date' + ${i}">
+                                    <div class="card" th:block th:if="${i < siteOrder.date}" th:each="j: ${#numbers.sequence(i*survey.getTourismDayCount() - survey.getTourismDayCount(), i*survey.getTourismDayCount() - 1)}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img th:src = "${tourismList.get(j).getImgUrl()}" width="100%" height="100%">
+                                                </div>
+                                                <div class="col-7">
+                                                    <p class="text-center" th:text="관광">종류(관광, 점심, 저녁)</p><br>
+                                                    <p class="border-bottom" th:text="${tourismList.get(j).getName()}">이름</p>
+                                                    <p class="border-bottom" th:text="'종류 : '+${tourismList.get(j).getType()}">종류</p>
+                                                    <p class="border-bottom" th:text="'가격 : '+${tourismList.get(j).getPrice()}">가격</p>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <svg class="bd-placeholder-img img-fluid rounded-start" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">관광지 이미지</text></svg>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <p class="text-center">종류(관광, 점심, 저녁)</p><br>
-                                                        <p class="border-bottom">이름</p>
-                                                        <p class="border-bottom">종류</p>
-                                                        <p class="border-bottom">가격</p>
-                                                    </div>
+
+                                    <div class="card" th:block th:if="${i > 1}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img th:src = "${restaurantList[0][i-2].img}" width="100%" height="100%">
+                                                </div>
+                                                <div class="col-7">
+                                                    <p class="text-center" th:text="점심">종류(관광, 점심, 저녁)</p><br>
+                                                    <p class="border-bottom" th:text="${restaurantList[0][i-2].getName()}">이름</p>
+                                                    <p class="border-bottom" th:text="${restaurantList[0][i-2].getType()}">종류</p>
+                                                    <p class="border-bottom" th:text="'가격 : '+${restaurantList[0][i-2].getPrice()[1]}">가격</p>
                                                 </div>
                                             </div>
                                         </div>
-                                </div>
-                                <div class="tab-pane fade" id="myreview" >
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <svg class="bd-placeholder-img img-fluid rounded-start" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">관광지 이미지</text></svg>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <p class="text-center">종류(관광, 점심, 저녁)</p><br>
-                                                        <p class="border-bottom">이름</p>
-                                                        <p class="border-bottom">종류</p>
-                                                        <p class="border-bottom">가격</p>
-                                                    </div>
+                                    </div>
+
+                                    <div class="card" th:block th:if="${i < siteOrder.date}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img th:src = "${restaurantList[1][i-1].img}" width="100%" height="100%">
+                                                </div>
+                                                <div class="col-7">
+                                                    <p class="text-center" th:text="저녁">종류(관광, 점심, 저녁)</p><br>
+                                                    <p class="border-bottom" th:text="${restaurantList[1][i-1].getName()}">이름</p>
+                                                    <p class="border-bottom" th:text="${restaurantList[1][i-1].getType()}">종류</p>
+                                                    <p class="border-bottom" th:text="'가격 : '+${restaurantList[1][i-1].getPrice()[1]}">가격</p>
                                                 </div>
                                             </div>
                                         </div>
-                                </div>
-                                <div class="tab-pane fade" id="wishlist" >
-                                    <div class="container">
-                                        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 g-3">
-                                            <div class="col">
-                                                <div class="card shadow-sm">
-                                                    <!--            이미지 변수 넣기-->
-                                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                        <rect width="100%" height="100%" fill="#55595c"/>
-                                                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                                                            관광지 이미지</text>
-                                                    </svg>
-                                                    <div class="card-body">
-                                                        <!--              호텔name-->
-                                                        <p class="card-text">이름</p>
-                                                        <!--              호텔region-->
-                                                        <div class="d-flex justify-content-end">
-                                                            <p class="card-text">종류(관광, 점심, 저녁)</p>
-                                                        </div>
-                                                        <br>
-                                                        <!--              호텔 content-->
-                                                        <div class="commentContentsClosed">
-                                                            <p class="card-text" >종류</p>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <!--                호텔 가격-->
-                                                            <small class="text-muted">가격</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card shadow-sm">
-                                                        <!--            이미지 변수 넣기-->
-                                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                            <rect width="100%" height="100%" fill="#55595c"/>
-                                                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                                                                관광지 이미지</text>
-                                                        </svg>
-                                                        <div class="card-body">
-                                                            <!--              호텔name-->
-                                                            <p class="card-text">이름</p>
-                                                            <!--              호텔region-->
-                                                            <div class="d-flex justify-content-end">
-                                                                <p class="card-text">종류(관광, 점심, 저녁)</p>
-                                                            </div>
-                                                            <br>
-                                                            <!--              호텔 content-->
-                                                            <div class="commentContentsClosed">
-                                                                <p class="card-text" >종류</p>
-                                                            </div>
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <!--                호텔 가격-->
-                                                                <small class="text-muted">가격</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                    </div>
+
+                                    <div class="card" th:block th:if="${i < siteOrder.date}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img th:src = "${hotelList.get(i-1).img}" width="100%" height="100%">
+                                                </div>
+                                                <div class="col-7">
+                                                    <p class="text-center" th:text="숙소">종류(관광, 점심, 저녁)</p><br>
+                                                    <p class="border-bottom" th:text="${hotelList.get(i-1).getHotelName()}">이름</p>
+                                                    <p class="border-bottom" th:text="'종류 : '+${hotelList.get(i-1).getType()}">종류</p>
+                                                    <span class="border-bottom" th:each ="keyword :${hotelList.get(i-1).getKeyword()}" th:utext="{keyword} + '&nbsp;'">키워드</span>
+                                                    <br>
+                                                    <p class="border-bottom">가격</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <!-- 탭 내용 -->
                             </div>
                         </div>
                     </div>
@@ -193,6 +147,8 @@
             </div>
         </div>
     </div>
+    <br>
+    <br>
 </body>
 
 </html>

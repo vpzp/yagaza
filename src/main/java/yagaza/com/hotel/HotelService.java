@@ -111,7 +111,7 @@ public class HotelService {
             case 4: return hotel.getPriceFourPerson();
             case 5: return hotel.getPriceFivePerson();
         }
-        return 0;
+        return hotel.getPriceOnePerson();
     }
 
     public List<Hotel> getHotelList(){

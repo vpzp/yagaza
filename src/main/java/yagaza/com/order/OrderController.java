@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import yagaza.com.Tourism.Tourism;
+import yagaza.com.Tourism.TourismService;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.hotel.HotelRoomService;
 import yagaza.com.hotel.HotelService;
@@ -31,6 +32,7 @@ public class OrderController {
     private final HotelRoomService hotelRoomService;
     private final UserService userService;
     private final SurveyService surveyService;
+    private final TourismService tourismService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/hotel")
@@ -64,11 +66,25 @@ public class OrderController {
         List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
         List<Hotel> hotelList = surveyService.getHotel(survey);
         List<Tourism> tourismList = surveyService.getTourism(survey);
+        List<Tourism> tourismAllList = tourismService.getToursimList();
+        List<Hotel> hotels = hotelService.getHotelTypeAndKeyword(survey.getHotelType(), survey.getHotelKeyword());
+        hotels.removeIf(hotel -> hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel) == null);
+
+        List<Hotel> hotelListTop10ByPrice = surveyService.getHotelTop10ByPrice(hotels, (int) (siteOrder.getCash() / (siteOrder.getDate() - 1) *0.16), siteOrder.getProd());
+
+        int oneDayCash = siteOrder.getCash() / (siteOrder.getDate() - 1) / siteOrder.getProd();
+        List<Restaurant>[] restaurantTop15ByPrice = surveyService.getRestaurantTop15ByPrice((int) (oneDayCash *0.42), false);
+
         model.addAttribute("survey" , survey);
         model.addAttribute("siteOrder", siteOrder);
         model.addAttribute("restaurantList" ,restaurantList);
         model.addAttribute("hotelList", hotelList);
         model.addAttribute("tourismList", tourismList);
+        model.addAttribute("tourismAllList", tourismAllList);
+        model.addAttribute("hotelListTop10ByPrice", hotelListTop10ByPrice);
+        model.addAttribute("restaurantTop15ByPrice", restaurantTop15ByPrice);
+        model.addAttribute("hotelService", hotelService);
+
         return "order_form";
     }
 }

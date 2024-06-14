@@ -44,4 +44,7 @@ public class SiteOrder {
     @OneToOne
     private Survey survey;
 
+    @OneToOne
+    private Plan plan;
+
 }

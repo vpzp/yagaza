@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import yagaza.com.Tourism.Tourism;
 import yagaza.com.hotel.Hotel;
+import yagaza.com.plan.Plan;
 import yagaza.com.restaurant.Restaurant;
 import yagaza.com.survey.Survey;
 import yagaza.com.user.SiteUser;

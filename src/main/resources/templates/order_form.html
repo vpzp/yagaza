@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
 <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/mainstrap.css}">
 <head>
@@ -31,28 +32,26 @@
 
 <!--  진행 상황 내역표시해주는 부분-->
 <div class="p-3 mb-2">
-    <ul class="amount">
+    <div class="amount2" style="font-weight:900;">
         <li>
-            <td>금액<p th:text ="${siteOrder.cash}">금액값</p></td>
+            <span>금액 : </span><span th:text="${siteOrder.cash}">금액값</span>
         </li>
         <li>
-            <td>인원수 <p th:text = "${siteOrder.prod}">인원 수</p></td>
-        <li>
-            <td>날짜 <p th:text = ${siteOrder.date}></td>
+            <span>인원수 : </span><span th:text="${siteOrder.prod}">인원 수</span>
         </li>
         <li>
-            <td>차량유무<p th:text = "${siteOrder.car}">예 아니오</p></td>
+            <span>날짜 : </span><span th:text="${siteOrder.date}"></span>
         </li>
         <li>
-            <td>지역<p th:text = "${siteOrder.travel}">지역명</p></td>
+            <span>지역 : </span><span th:text="${siteOrder.travel}">지역명</span>
         </li>
-    </ul>
+    </div>
 </div>
 <!--  진행 상황 내역표시해주는 부분-->
 <!--    카카오맵 + 일차별 여행지 표시해주는 부분-->
 <div class="mx-auto">
     <div class="container-md" style="width: 1300px;">
-        <div class="text-dark bg-info bg-opacity-25">
+        <div class="text-dark" style="background-color: #F4F7FA;">
             <div class="position-relative">
                 <!-- 탭 메뉴 시작-->
                 <ul class="nav nav-tabs w-100 justify-content-start">
@@ -65,7 +64,7 @@
                     <div class="tab-pane fade" th:each="i: ${#numbers.sequence(1, siteOrder.date)}"
                          th:classappend="${i == 1} ? 'show active'" th:id="'date' + ${i}">
                         <div class="row">
-                            <div class="col-6 ">
+                            <div class="col-6">
                                 <!-- 카카오맵 시작 -->
                                 <div th:id="'map' +${i}" style="width: 100%; height: 770px;"></div>
                                 <!-- 카카오 맵 끝 -->
@@ -83,7 +82,7 @@
                                                 <p class="border-bottom" th:text="${tourismList.get(j).getName()}">이름</p>
                                                 <p class="border-bottom" th:text="'종류 : '+${tourismList.get(j).getType()}">종류</p>
                                                 <p class="border-bottom" th:text="'가격 : '+${tourismList.get(j).getPrice()}">가격</p>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" th:attr="data-bs-target='#tourismModifyList'" th:text="수정"></button>
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#tourismModifyList'" th:text="수정"></button>
                                             </div>
                                         </div>
                                     </div>
@@ -100,7 +99,7 @@
                                                 <p class="border-bottom" th:text="${restaurantList[0][i-2].getName()}">이름</p>
                                                 <p class="border-bottom" th:text="${restaurantList[0][i-2].getType()}">종류</p>
                                                 <p class="border-bottom" th:text="'가격 : '+${restaurantList[0][i-2].getPrice()[1]}">가격</p>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" th:attr="data-bs-target='#launchModifyList'" th:text="수정"></button>
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#launchModifyList'" th:text="수정"></button>
                                             </div>
                                         </div>
                                     </div>
@@ -117,7 +116,7 @@
                                                 <p class="border-bottom" th:text="${restaurantList[1][i-1].getName()}">이름</p>
                                                 <p class="border-bottom" th:text="${restaurantList[1][i-1].getType()}">종류</p>
                                                 <p class="border-bottom" th:text="'가격 : '+${restaurantList[1][i-1].getPrice()[1]}">가격</p>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" th:attr="data-bs-target='#dinnerModifyList'" th:text="수정"></button>
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#dinnerModifyList'" th:text="수정"></button>
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +135,7 @@
                                                 <span class="border-bottom" th:each ="keyword :${hotelList.get(i-1).getKeyword()}" th:utext="${keyword} + '&nbsp;'">키워드</span>
                                                 <br>
                                                 <p class="border-bottom" th:text="'가격 : ' +${hotelService.getHotelPrice(siteOrder.getProd(), hotelList.get(i-1))}">가격</p>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" th:attr="data-bs-target='#hotelModifyList'" th:text="수정"></button>
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#hotelModifyList'" th:text="수정"></button>
                                             </div>
                                         </div>
                                     </div>
@@ -169,7 +168,7 @@
                                                         <p class="border-bottom" th:text="${tourism.getName()}">이름</p>
                                                         <p class="border-bottom" th:text="'종류 : '+${tourism.getType()}">종류</p>
                                                         <p class="border-bottom" th:text="'가격 : '+${tourism.getPrice()}">가격</p>
-                                                        <button type="button" class="btn btn-outline-primary" th:text="선택"></button>
+                                                        <button type="button" class="btn btn-outline-secondary" th:text="선택"></button>
 
                                                     </div>
                                                 </div>
@@ -203,7 +202,7 @@
                                                         <p class="border-bottom" th:text="${restaurant.getName()}">이름</p>
                                                         <p class="border-bottom" th:text="'종류 : '+${restaurant.getType()}">종류</p>
                                                         <p class="border-bottom" th:text="'가격 : '+${restaurant.getPrice()[0]}">가격</p>
-                                                        <button type="button" class="btn btn-outline-primary" th:text="선택"></button>
+                                                        <button type="button" class="btn btn-outline-secondary" th:text="선택"></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -236,7 +235,7 @@
                                                         <p class="border-bottom" th:text="${restaurant.getName()}">이름</p>
                                                         <p class="border-bottom" th:text="'종류 : '+${restaurant.getType()}">종류</p>
                                                         <p class="border-bottom" th:text="'가격 : '+${restaurant.getPrice()[1]}">가격</p>
-                                                        <button type="button" class="btn btn-outline-primary" th:text="선택"></button>
+                                                        <button type="button" class="btn btn-outline-secondary" th:text="선택"></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -271,7 +270,7 @@
                                                         <p class="border-bottom" th:text="'종류 : '+${hotel.getType()}">종류</p>
                                                         <span class="border-bottom" th:each ="keyword :${hotel.getKeyword()}" th:utext="${keyword} + '&nbsp;'">키워드</span>
                                                         <p class="border-bottom" th:text="'가격 : ' +${hotelService.getHotelPrice(siteOrder.getProd(), hotel)}">가격</p>
-                                                        <button type="button" class="btn btn-outline-primary" th:text="선택"></button>
+                                                        <button type="button" class="btn btn-outline-secondary" th:text="선택"></button>
                                                     </div>
                                                 </div>
                                             </div>

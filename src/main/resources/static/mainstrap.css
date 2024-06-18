@@ -64,6 +64,39 @@ h1 {
 }
 
 /*위에가 헤더랑 검색창, 네비게이션 구현*/
+.amount2 {
+  position: relative;
+  display: flex;
+  width: 1280px;
+  height: 80px;
+  background: #F4F7FA;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  align-items: center;
+}
+
+.amount2 > li {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center; /* Center content horizontally */
+  position: relative;
+}
+
+.amount2 > li::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -70%;
+  width: 1px;
+  height: 230%;
+  background-color: #000000;
+}
+
+.amount2 > li:last-child::after {
+  display: none; /* Hide the line for the last item */
+}
 
 .amount{
   position: relative;
@@ -115,6 +148,7 @@ h1 {
 }
 /* main_text0 어디로가나요 글씨 틀 잡기 */
 
+
 .icons{
   display: flex;
   width:1280px;
@@ -129,6 +163,10 @@ h1 {
   text-align: center;
 }
 .icons > li > .icon_img{
+    /*width: 150px;
+    height: 150px;
+    object-fit: cover;*/
+
   margin-top:15px;
   width:100px;
   height: 100px;
@@ -142,7 +180,7 @@ h1 {
 /*어디로 가나요 밑에 세개 틀 만들기*/
 
 .more{
-  width:100px;
+  width:120px;
   height: 30px;
   background: #2F7AF4;
   color: #fff;

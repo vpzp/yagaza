@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,48 +43,12 @@
       <div class="table-responsive">
         <table class="table table-bordered text-center">
           <tbody>
-            <tr class="mb-5">
+            <tr class="mb-5" th:each="siteOrder : ${siteOrderList}">
               <td class="image-cell" style="background-image: url('https://via.placeholder.com/500');"></td>
               <td class="align-middle description-cell">
-                <h5><strong>지역</strong></h5>
-                <p>지역 / 기간(2박3일) / 인원 / 금액</p>
-                <p><strong>날짜:</strong> 2024년 5월 29일</p>
-                <div class="button-container">
-                  <button class="styled-button">확인</button>
-                  <button class="styled-button">링크 복사</button>
-                </div>
-              </td>
-            </tr>
-            <tr class="mb-5">
-              <td class="image-cell" style="background-image: url('https://via.placeholder.com/500');"></td>
-              <td class="align-middle description-cell">
-                <h5><strong>지역</strong></h5>
-                <p>지역 / 기간(2박3일) / 인원 / 금액</p>
-                <p><strong>날짜:</strong> 2024년 5월 29일</p>
-                <div class="button-container">
-                  <button class="styled-button">확인</button>
-                  <button class="styled-button">링크 복사</button>
-                </div>
-              </td>
-            </tr>
-            <tr class="mb-5">
-              <td class="image-cell" style="background-image: url('https://via.placeholder.com/500');"></td>
-              <td class="align-middle description-cell">
-                <h5><strong>지역</strong></h5>
-                <p>지역 / 기간(2박3일) / 인원 / 금액</p>
-                <p><strong>날짜:</strong> 2024년 5월 28일</p>
-                <div class="button-container">
-                  <button class="styled-button">확인</button>
-                  <button class="styled-button">링크 복사</button>
-                </div>
-              </td>
-            </tr>
-            <tr class="mb-5">
-              <td class="image-cell" style="background-image: url('https://via.placeholder.com/500');"></td>
-              <td class="align-middle description-cell">
-                <h5><strong>지역</strong></h5>
-                <p>지역 / 기간(2박3일) / 인원 / 금액</p>
-                <p><strong>날짜:</strong> 2024년 5월 28일</p>
+                <h5><strong>부산</strong></h5>
+                <p th:text="'부산 / ' + ${siteOrder.date} +' / '+${siteOrder.prod}+' / ' +${siteOrder.cash}">부산 / 기간(2박3일) / 인원 / 금액</p>
+                <p><strong>날짜:</strong></p><p th:text="${siteOrder.createDateTime != null ? siteOrder.createDateTime.format(T(java.time.format.DateTimeFormatter).ISO_LOCAL_DATE) : ''}"> 2024년 5월 29일</p>
                 <div class="button-container">
                   <button class="styled-button">확인</button>
                   <button class="styled-button">링크 복사</button>

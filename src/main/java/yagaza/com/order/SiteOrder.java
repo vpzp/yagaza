@@ -10,6 +10,7 @@ import yagaza.com.restaurant.Restaurant;
 import yagaza.com.survey.Survey;
 import yagaza.com.user.SiteUser;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -48,4 +49,5 @@ public class SiteOrder {
     @OneToOne
     private Plan plan;
 
+    private LocalDateTime createDateTime;
 }

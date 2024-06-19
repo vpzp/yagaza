@@ -206,3 +206,8 @@ h1 {
   color: #fff;
 }
 /*푸터*/
+.scroll{
+    float:left;
+    overflow-y : auto;
+    height : 800px;
+}

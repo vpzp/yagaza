@@ -7,12 +7,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import yagaza.com.order.OrderService;
+import yagaza.com.order.SiteOrder;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -20,6 +24,7 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
 
     @GetMapping(value = "/signup")
     public String create(UserCreateForm userCreateForm){
@@ -95,6 +100,15 @@ public class UserController {
     @GetMapping("/mypage")
     public String myPage(){
         return "mypage";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/useList")
+    public String useList(Principal principal, Model model){
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        List<SiteOrder> siteOrderList =orderService.findBySiteUserRealIdOrderByIdDesc(siteUser.getRealId());
+        model.addAttribute("siteOrderList", siteOrderList);
+        return "UseList";
     }
 
     @GetMapping(value = "/login")

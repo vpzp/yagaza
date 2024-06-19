@@ -66,80 +66,83 @@
                         <div class="row">
                             <div class="col-6">
                                 <!-- 카카오맵 시작 -->
-                                <div th:id="'map' +${i}" style="width: 100%; height: 770px;"></div>
+                                <div th:id="'map' +${i}" style="width: 100%; height: 800px;"></div>
                                 <!-- 카카오 맵 끝 -->
                             </div>
                             <!--                            카드 시작-->
                             <div class="col-6">
-                                <div class="card" th:block th:if="${i < siteOrder.date}" th:each="j: ${#numbers.sequence(i*survey.getTourismDayCount() - survey.getTourismDayCount(), i*survey.getTourismDayCount() - 1)}">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-5">
-                                                <img th:src = "${tourismList.get(j).getImgUrl()}" width="100%" height="100%">
-                                            </div>
-                                            <div class="col-7">
-                                                <p class="text-center" th:text="관광">종류(관광, 점심, 저녁)</p><br>
-                                                <p class="border-bottom" th:text="${tourismList.get(j).getName()}">이름</p>
-                                                <p class="border-bottom" th:text="'종류 : '+${tourismList.get(j).getType()}">종류</p>
-                                                <p class="border-bottom" th:text="'가격 : '+${tourismList.get(j).getPrice()}">가격</p>
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#tourismModifyList'" th:text="수정"></button>
+                                <div class="scroll">
+                                    <div class="card" th:block th:if="${i < siteOrder.date}" th:each="j: ${#numbers.sequence(i*survey.getTourismDayCount() - survey.getTourismDayCount(), i*survey.getTourismDayCount() - 1)}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img th:src = "${tourismList.get(j).getImgUrl()}" width="100%" height="100%">
+                                                </div>
+                                                <div class="col-7">
+                                                    <p class="text-center" th:text="관광">종류(관광, 점심, 저녁)</p><br>
+                                                    <p class="border-bottom" th:text="${tourismList.get(j).getName()}">이름</p>
+                                                    <p class="border-bottom" th:text="'종류 : '+${tourismList.get(j).getType()}">종류</p>
+                                                    <p class="border-bottom" th:text="'가격 : '+${tourismList.get(j).getPrice()}">가격</p>
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#tourismModifyList'" th:text="수정"></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="card" th:block th:if="${i > 1}">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-5">
-                                                <img th:src = "${restaurantList[0][i-2].img}" width="100%" height="100%">
-                                            </div>
-                                            <div class="col-7">
-                                                <p class="text-center" th:text="점심">종류(관광, 점심, 저녁)</p><br>
-                                                <p class="border-bottom" th:text="${restaurantList[0][i-2].getName()}">이름</p>
-                                                <p class="border-bottom" th:text="${restaurantList[0][i-2].getType()}">종류</p>
-                                                <p class="border-bottom" th:text="'가격 : '+${restaurantList[0][i-2].getPrice()[1]}">가격</p>
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#launchModifyList'" th:text="수정"></button>
+                                    <div class="card" th:block th:if="${i > 1}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img th:src = "${restaurantList[0][i-2].img}" width="100%" height="100%">
+                                                </div>
+                                                <div class="col-7">
+                                                    <p class="text-center" th:text="점심">종류(관광, 점심, 저녁)</p><br>
+                                                    <p class="border-bottom" th:text="${restaurantList[0][i-2].getName()}">이름</p>
+                                                    <p class="border-bottom" th:text="${restaurantList[0][i-2].getType()}">종류</p>
+                                                    <p class="border-bottom" th:text="'가격 : '+${restaurantList[0][i-2].getPrice()[1]}">가격</p>
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#launchModifyList'" th:text="수정"></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="card" th:block th:if="${i < siteOrder.date}">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-5">
-                                                <img th:src = "${restaurantList[1][i-1].img}" width="100%" height="100%">
-                                            </div>
-                                            <div class="col-7">
-                                                <p class="text-center" th:text="저녁">종류(관광, 점심, 저녁)</p><br>
-                                                <p class="border-bottom" th:text="${restaurantList[1][i-1].getName()}">이름</p>
-                                                <p class="border-bottom" th:text="${restaurantList[1][i-1].getType()}">종류</p>
-                                                <p class="border-bottom" th:text="'가격 : '+${restaurantList[1][i-1].getPrice()[1]}">가격</p>
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#dinnerModifyList'" th:text="수정"></button>
+                                    <div class="card" th:block th:if="${i < siteOrder.date}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img th:src = "${restaurantList[1][i-1].img}" width="100%" height="100%">
+                                                </div>
+                                                <div class="col-7">
+                                                    <p class="text-center" th:text="저녁">종류(관광, 점심, 저녁)</p><br>
+                                                    <p class="border-bottom" th:text="${restaurantList[1][i-1].getName()}">이름</p>
+                                                    <p class="border-bottom" th:text="${restaurantList[1][i-1].getType()}">종류</p>
+                                                    <p class="border-bottom" th:text="'가격 : '+${restaurantList[1][i-1].getPrice()[1]}">가격</p>
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#dinnerModifyList'" th:text="수정"></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="card" th:block th:if="${i < siteOrder.date}">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-5">
-                                                <img th:src = "${hotelList.get(i-1).img}" width="100%" height="100%">
-                                            </div>
-                                            <div class="col-7">
-                                                <p class="text-center" th:text="숙소">종류(관광, 점심, 저녁)</p><br>
-                                                <p class="border-bottom" th:text="${hotelList.get(i-1).getHotelName()}">이름</p>
-                                                <p class="border-bottom" th:text="'종류 : '+${hotelList.get(i-1).getType()}">종류</p>
-                                                <span class="border-bottom" th:each ="keyword :${hotelList.get(i-1).getKeyword()}" th:utext="${keyword} + '&nbsp;'">키워드</span>
-                                                <br>
-                                                <p class="border-bottom" th:text="'가격 : ' +${hotelService.getHotelPrice(siteOrder.getProd(), hotelList.get(i-1))}">가격</p>
-                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#hotelModifyList'" th:text="수정"></button>
+                                    <div class="card" th:block th:if="${i < siteOrder.date}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-5">
+                                                    <img th:src = "${hotelList.get(i-1).img}" width="100%" height="100%">
+                                                </div>
+                                                <div class="col-7">
+                                                    <p class="text-center" th:text="숙소">종류(관광, 점심, 저녁)</p><br>
+                                                    <p class="border-bottom" th:text="${hotelList.get(i-1).getHotelName()}">이름</p>
+                                                    <p class="border-bottom" th:text="'종류 : '+${hotelList.get(i-1).getType()}">종류</p>
+                                                    <span class="border-bottom" th:each ="keyword :${hotelList.get(i-1).getKeyword()}" th:utext="${keyword} + '&nbsp;'">키워드</span>
+                                                    <br>
+                                                    <p class="border-bottom" th:text="'가격 : ' +${hotelService.getHotelPrice(siteOrder.getProd(), hotelList.get(i-1))}">가격</p>
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#hotelModifyList'" th:text="수정"></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                                 <!--                            카드 끝-->
                             </div>
                         </div>
@@ -287,6 +290,72 @@
 </div>
 <br>
 <br>
+<div class="mx-auto" style="width: 800px;">
+    <div class="container-md">
+        <div class="p-2 text-dark">
+            <div class="position-relative">
+                <div class="align-middle">
+                    <div class="row">
+                        <div class="col border border-dark">
+                            항목
+                        </div>
+                        <div class="col border border-dark">
+                            실제 비용
+                        </div>
+                        <div class="col border border-dark">
+                            알고리즘 예상 비용
+                        </div>
+                        <div class="col border border-dark">
+                            차이
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            식사
+                        </div>
+                        <div class="col border border-dark" th:text="2 * ${orderService.getAllRestaurantPrice(restaurantList)}">
+                            실제 비용
+                        </div>
+                        <div class="col border border-dark"th:text="${surveyService.getRestaurantCash(siteOrder.getCash(), survey)}">
+                            알고리즘 예상 비용
+                        </div>
+                        <div class="col border border-dark"th:text="2 * ${orderService.getAllRestaurantPrice(restaurantList)} - ${surveyService.getRestaurantCash(siteOrder.getCash(), survey)}">
+                            차이
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            숙소
+                        </div>
+                        <div class="col border border-dark" th:text="${orderService.getAllHotelPrice(hotelList, siteOrder)}">
+                            실제 비용
+                        </div>
+                        <div class="col border border-dark"th:text="${surveyService.getHotelCash(siteOrder.getCash(), survey)}">
+                            알고리즘 예상 비용
+                        </div>
+                        <div class="col border border-dark"th:text="${orderService.getAllHotelPrice(hotelList, siteOrder)} - ${surveyService.getHotelCash(siteOrder.getCash(), survey)}">
+                            차이
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col border border-dark">
+                            총계
+                        </div>
+                        <div class="col border border-dark"th:text="2 * ${orderService.getAllRestaurantPrice(restaurantList)} + ${orderService.getAllHotelPrice(hotelList, siteOrder)}">
+                            실제 비용
+                        </div>
+                        <div class="col border border-dark"th:text="${surveyService.getRestaurantCash(siteOrder.getCash(), survey)} + ${surveyService.getHotelCash(siteOrder.getCash(), survey)}">
+                            알고리즘 예상 비용
+                        </div>
+                        <div class="col border border-dark"th:text="2 * ${orderService.getAllRestaurantPrice(restaurantList)} - ${surveyService.getRestaurantCash(siteOrder.getCash(), survey)} + ${orderService.getAllHotelPrice(hotelList, siteOrder)} - ${surveyService.getHotelCash(siteOrder.getCash(), survey)}">
+                            차이
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e94dc602b209897863c8d8f3e6073cb7"></script>
 <script type="text/javascript">
 

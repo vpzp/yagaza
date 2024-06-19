@@ -9,7 +9,7 @@
 <body>
 <div class="survey-container">
     <h2>나의 여행 취향은?</h2>
-    <form id="survey-form" th:action = "@{/order/main}" th:object="${surveyCreateForm}" method="post">
+    <form id="survey-form" th:action = "@{/order/main/${siteOrder.getId()}}" th:object="${surveyCreateForm}" method="post">
         <div class="form-group">
             <label for="question1">질문 1: 어떤 종류의 관을 선호하시나요?</label>
             <input type="radio" th:field = "*{tourismType}" value="문화" id="question1-1" >

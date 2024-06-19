@@ -1,7 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <body>
     <div layout:fragment="content" class="container my-3">
+        <div class="p-3 m-0 border-0 bd-example m-0 border-0">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary mx-5">
+                <div class="container-fluid">
+                    <a class="navbar-brand" th:href="@{/}">로고</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active"th:href="@{/post/list}">커뮤니티</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
         <table class="table">
             <thead class="table-dark">
             <tr class="text-center">

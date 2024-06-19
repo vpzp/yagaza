@@ -54,9 +54,9 @@ public class OrderController {
         return "choice_hotel_room_form";
     }
     @PreAuthorize("isAuthenticated()")
-    //TODO 주소값은 main/{survey.id} 로 설정하기
-    @PostMapping("/main")
-    public String order(Model model, Principal principal, SurveyCreateForm surveyCreateForm){
+    //TODO 주소값은 main/{siteOrder.id} 로 설정하기
+    @PostMapping("/main/{id}")
+    public String order(Model model, Principal principal, SurveyCreateForm surveyCreateForm, @PathVariable("id") Long id){
         SiteOrder siteOrder = orderService.getOrder(userService.getUser(principal.getName()));
         //TODO surveyId값을 넘겨줘야함
         Survey survey =surveyService.create(surveyCreateForm.getTourismType(), surveyCreateForm.getTourismCount(), surveyCreateForm.getRestaurantType(),
@@ -84,6 +84,8 @@ public class OrderController {
         model.addAttribute("hotelListTop10ByPrice", hotelListTop10ByPrice);
         model.addAttribute("restaurantTop15ByPrice", restaurantTop15ByPrice);
         model.addAttribute("hotelService", hotelService);
+        model.addAttribute("orderService", orderService);
+        model.addAttribute("surveyService", surveyService);
 
         return "order_form";
     }

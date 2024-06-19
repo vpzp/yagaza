@@ -13,4 +13,6 @@ public interface OrderRepository extends JpaRepository<SiteOrder, Long> {
     Optional<SiteOrder> findById(Long id);
 
     SiteOrder findTopByOrderByIdDesc();
+
+    List<SiteOrder> findBySiteUserRealIdOrderByIdDesc(Long realId);
 }

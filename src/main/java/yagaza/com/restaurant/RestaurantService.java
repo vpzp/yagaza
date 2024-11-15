@@ -11,14 +11,16 @@ import java.util.List;
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
-    public void create(String name, String content, String type, String img, int[] price, List<String> openTime){
+    public void create(String name, String type, String content,  List<String> img, int[] price,
+                       List<String> openTime, String region){
         Restaurant restaurant = new Restaurant();
         restaurant.setName(name);
-        restaurant.setContent(content);
         restaurant.setType(type);
+        restaurant.setContent(content);
         restaurant.setImg(img);
         restaurant.setPrice(price);
         restaurant.setOpenTime(openTime);
+        restaurant.setRegion(region);
 
         this.restaurantRepository.save(restaurant);
     }

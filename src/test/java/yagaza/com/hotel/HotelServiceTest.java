@@ -10,6 +10,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import yagaza.com.user.SiteUser;
 import yagaza.com.user.UserService;
 
 
+import java.time.Duration;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,22 +45,58 @@ class HotelServiceTest {
     public void hotelNumberCrawling(){
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
-        String url = "https://www.yanolja.com/search/" + "부산";
+        String region = "부산";
+        String url = "https://www.yanolja.com/search/" + region + "?pageKey=1731649938781&switchFilter=availableOnly%3Dtrue&filter=reservationTypeCodes%3DRESERVATION_TYPE_STAY";
         driver.get(url);
         System.out.println("성공");
         try {
             Thread.sleep(1500);
             WebElement hotels = driver.findElement(By.className("common_clearfix__M6urU"));
             var stTime = new Date().getTime();
-            while (new Date().getTime() < stTime + 60000) { //30초 동안 무한스크롤 지속
+            while (new Date().getTime() < stTime + 40000) { //30초 동안 무한스크롤 지속
                 Thread.sleep(500); //리소스 초과 방지
                 ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, document.body.scrollHeight)", hotels);
             }
 
             List<WebElement> hotelElements = driver.findElements(By.className("common_clearfix__M6urU"));
             for (WebElement hotelElement : hotelElements){
+                // title 추출
+                String title = hotelElement.findElement(By.cssSelector("strong.PlaceListTitle_text__2511B")).getText();
+
+                // 이미지 URL 추출
+                String imgUrl = hotelElement.findElement(By.cssSelector("div.PlaceListImage_imageText__2XEMn"))
+                        .getAttribute("style")
+                        .replace("background-image: url(\"", "")
+                        .replace("\");", "");
+
+                // type 추출
+                String type = hotelElement.findElement(By.cssSelector("div.PlaceListGrade_container__1oIhJ")).getText();
+
+                // checkInTime 추출
+                String checkInTime = hotelElement.findElements(By.cssSelector("span"))
+                        .stream()
+                        .filter(span -> span.getText().matches("\\d{2}:\\d{2}~"))
+                        .findFirst()
+                        .orElseThrow(() -> new Exception("Check-in time not found"))
+                        .getText();
+
+                // priceTwoPerson 추출
+                String priceTwoPersonText = hotelElement.findElement(By.cssSelector("span.PlacePriceInfoV2_discountPrice__1PuwK"))
+                        .getText()
+                        .replace(",", "")
+                        .replace("원", "");
+                Integer priceTwoPerson = Integer.parseInt(priceTwoPersonText);
+
+                // 결과 출력
+                System.out.println("Title: " + title);
+                System.out.println("Image URL: " + imgUrl);
+                System.out.println("Type: " + type);
+                System.out.println("Check-In Time: " + checkInTime);
+                System.out.println("Price for Two: " + priceTwoPerson);
+
                 hotelService.createHrefName(hrefToId(hotelElement.getAttribute("href")), hotelElement.getAttribute("href"),
                         hotelElement.getAttribute("title"));
+
             }
         }catch (Exception e){
             System.out.println("오류발생");
@@ -78,78 +117,62 @@ class HotelServiceTest {
     public void 크롤링_단일_테스트(){
         hotelCrawling(10041088);
     }
-    public void hotelCrawling(long placeId){
-        String url = "https://place-site.yanolja.com/places/" + placeId + "?checkInDate=2024-05-25&checkOutDate=2024-05-26"+"&adultPax=";
-        String name, href, checkInTime, price, hotelContent,hotelRoomContent, id;
-        try{
-            Document document = Jsoup.connect(url + 1).get();
+    public void hotelCrawling(long placeId) {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // 요소 로드를 위한 대기 시간 설정
+        String url = "https://place-site.yanolja.com/places/" + placeId + "?checkInDate=2024-11-21&checkOutDate=2024-11-22&adultPax=";
+        driver.get(url);
 
-            String adress = document.getElementsByClass("address css-18ufud2").text();
-            String imgElement = document.getElementsByClass("css-sr2c7j").attr("src");
-            hotelContent = document.getElementsByClass("css-1muque2").text();
-            this.hotelService.createRegionImgContent(placeId, adress, imgElement ,hotelContent);
+        try {
+            driver.get(url + 1);
+            Thread.sleep(1500);
+
+            // 주소, 이미지, 호텔 정보 크롤링
+            WebElement addressElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".address .css-9ih6hc span")));
+            String address = addressElement.getText();
+
+            String imgElement = driver.findElement(By.className("css-sr2c7j")).getAttribute("src");
+            String hotelContent = driver.findElement(By.className("css-1muque2")).getText();
+
+            this.hotelService.createRegionImgContent(placeId, address, imgElement, hotelContent);
             Hotel hotel = this.hotelService.getHotel(placeId);
-            Elements elements = document.getElementsByClass("rate-plan-container");
-            for (int i = 1 ; i <= 5 ; i++){
-                document = Jsoup.connect(url + i).get();
-//                System.out.println(url + i);
-//                System.out.println(document.getElementsByClass("css-n990ss").text());
-                if(document.getElementsByClass("css-n990ss").text().equals("선택하신 인원정보로 이용가능한 객실이 없습니다.")){
+
+            for (int i = 1; i <= 5; i++) {
+                driver.get(url + i); // 각 인원 페이지 로드
+
+                // 선택한 인원 정보로 객실 없음 메시지 확인
+                List<WebElement> noRoomsMessages = driver.findElements(By.className("css-n990ss"));
+                if (!noRoomsMessages.isEmpty() && noRoomsMessages.get(0).getText().equals("선택하신 인원정보로 이용가능한 객실이 없습니다.")) {
                     continue;
                 }
-                elements = document.getElementsByClass("rate-plan-container");
-                for (int j = 0 ; j < elements.size() ; j++){
-//                    System.out.println(elements.get(j).getElementsByClass("css-1vtgvgb").text());
-                    if (isLodgment(elements.get(j))){
-                        switch (i){
-                            case 1 : hotel.setPriceOnePerson(Integer.parseInt((elements.get(j).getElementsByClass("css-13bialb").text()).replaceAll("[^0-9]", "")));
-                                System.out.println(Integer.parseInt((elements.get(j).getElementsByClass("css-13bialb").text()).replaceAll("[^0-9]", "")));
-                                break;
-                            case 2 : hotel.setPriceTwoPerson(Integer.parseInt((elements.get(j).getElementsByClass("css-13bialb").text()).replaceAll("[^0-9]", "")));
-                                System.out.println(elements.get(j).getElementsByClass("css-13bialb").text().replaceAll("[^0-9]", ""));
-                                break;
-                            case 3: hotel.setPriceThreePerson(Integer.parseInt((elements.get(j).getElementsByClass("css-13bialb").text()).replaceAll("[^0-9]", "")));
-                                System.out.println(elements.get(j).getElementsByClass("css-13bialb").text().replaceAll("[^0-9]", ""));
-                                break;
-                            case 4: hotel.setPriceFourPerson(Integer.parseInt((elements.get(j).getElementsByClass("css-13bialb").text()).replaceAll("[^0-9]", "")));
-                                System.out.println(elements.get(j).getElementsByClass("css-13bialb").text().replaceAll("[^0-9]", ""));
-                                break;
-                            case 5: hotel.setPriceFivePerson(Integer.parseInt((elements.get(j).getElementsByClass("css-13bialb").text()).replaceAll("[^0-9]", "")));
-                                System.out.println(elements.get(j).getElementsByClass("css-13bialb").text().replaceAll("[^0-9]", ""));
-                                break;
-                        }
-                        this.hotelRepository.save(hotel);
-                        System.out.println("세이브");
-                        break;
-                    }
-                }
 
+                // rate-plan-container 클래스에 해당하는 요소들 가져오기
+                List<WebElement> ratePlanElements = driver.findElements(By.className("rate-plan-container"));
+                for (WebElement element : ratePlanElements) {
+                    String priceText = element.findElement(By.className("css-13bialb")).getText().replaceAll("[^0-9]", "");
+                    int parsedPrice = Integer.parseInt(priceText); // 숫자만 추출
+
+                    // 인원수에 따라 가격 설정
+                    switch (i) {
+                        case 1 -> hotel.setPriceOnePerson(parsedPrice);
+                        case 2 -> hotel.setPriceTwoPerson(parsedPrice);
+                        case 3 -> hotel.setPriceThreePerson(parsedPrice);
+                        case 4 -> hotel.setPriceFourPerson(parsedPrice);
+                        case 5 -> hotel.setPriceFivePerson(parsedPrice);
+                    }
+                    this.hotelRepository.save(hotel);
+                    System.out.println("세이브 완료");
+                    break;
+                }
             }
             System.out.println("성공");
 
-//            Elements hotelRoomElements = document.getElementsByClass("css-1nnj57j");
-//            for(Element element : hotelRoomElements){
-//                //숙박가능한 객실만 체크하는 조건문
-//                //TODO 호텔룸의 이미지 주소값 받아오기, 호텔룸 테이블 생성하는 코드 작성
-//                if(isLodgment(element)){
-//                    System.out.println("객실 이름은 : "+ element.getElementsByClass("css-1rr4h0w").text());
-//                    System.out.println("href 주소는 : " + element.getElementsByClass("css-1w7jlh2").attr("href"));
-//                    System.out.println("체크인 시간은 : " + element.getElementsByClass("css-1qxtkjb").text());
-//                    System.out.println("가격은 : "+ element.getElementsByClass("price").text());
-//                    System.out.println();
-//                    name = element.getElementsByClass("css-1rr4h0w").text();
-//                    href = element.getElementsByClass("css-1w7jlh2").attr("href");
-//                    checkInTime = element.getElementsByClass("css-1qxtkjb").text();
-//                    price = element.getElementsByClass("price").text();
-//                    hotelRoomContent = element.getElementsByClass("css-1w8cj78").text();
-//                    id = href.replaceAll("/places/" + placeId +"/","");
-//
-//                    hotelRoomService.create(id, name, href, checkInTime, price, hotelRoomContent, placeId);
-//                }
-//            }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("오류발생");
+        } finally {
+            driver.quit();
         }
     }
 
@@ -162,34 +185,6 @@ class HotelServiceTest {
             return true;
         }
         return false;
-    }
-
-//    @Test
-//    public void getUser_테스트(){
-//        SiteUser siteUser =this.userService.getUser("관리자");
-//        this.orderService.create("30~50만원", "5명", "대충날짜",
-//                "아니오", "부산", siteUser);
-//    }
-
-//    @Test
-//    public void getOrder_테스트(){
-//        SiteOrder order = orderService.getOrder(userService.getUser("관리자"));
-//        System.out.println(order.getProd()+ "  " + order.getCash());
-//
-//        System.out.println(orderService.getOrder(userService.getUser("관리자")).getCash());
-//    }
-
-    @Test
-    public void 크롤링테스트(){
-        String url = "https://place-site.yanolja.com/places/23298";
-        try {
-            Document document = Jsoup.connect(url).get();
-            String content = document.getElementsByClass("css-1muque2").text();
-            System.out.println(content);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     //호텔의 타입을 크롤링

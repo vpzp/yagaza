@@ -36,6 +36,17 @@ public class HotelService {
 
         this.hotelRepository.save(hotel);
     }
+
+    public void setHotelPrice(Hotel hotel, int prod, Integer price){
+        switch (prod){
+            case 1: hotel.setPriceOnePerson(price);
+            case 2: hotel.setPriceTwoPerson(price);
+            case 3: hotel.setPriceThreePerson(price);
+            case 4: hotel.setPriceFourPerson(price);
+            case 5: hotel.setPriceFivePerson(price);
+        }
+        hotelRepository.save(hotel);
+    }
     public Hotel getHotel(long id) {
         Optional<Hotel> hotel = this.hotelRepository.findById(id);
         if (hotel.isPresent()) {

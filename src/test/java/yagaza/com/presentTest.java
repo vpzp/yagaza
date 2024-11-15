@@ -67,7 +67,6 @@ public class presentTest {
             if (date != 1){
                 System.out.println("점심");
                 System.out.println("레스토랑 이름은 : " + restaurantList[0].get(index - 1).getName());
-                System.out.println("레스토랑 소개는 : " + restaurantList[0].get(index - 1).getContent());
                 System.out.println("레스토랑 가격은 : " + restaurantList[0].get(index - 1).getPrice()[0]);
                 System.out.println("레스토랑 오픈 시간은 : " + restaurantList[0].get(index -1).getOpenTime().toString());
                 System.out.println();
@@ -77,7 +76,6 @@ public class presentTest {
             if (date != survey.getSiteOrder().getDate()){
                 System.out.println("저녁");
                 System.out.println("레스토랑 이름은 : " + restaurantList[1].get(index).getName());
-                System.out.println("레스토랑 소개는 : " + restaurantList[1].get(index).getContent());
                 System.out.println("레스토랑 가격은 : " + restaurantList[1].get(index).getPrice()[1]);
                 System.out.println("레스토랑 오픈 시간은 : " + restaurantList[1].get(index).getOpenTime().toString());
                 System.out.println();

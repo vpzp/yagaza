@@ -68,27 +68,6 @@ public class orderTest {
 
     @Test
     public void createSurveyTest(){
-//        String tourismType = "활동";
-//        int tourismDayCount = 2;
-//        String restaurantType = "한식";
-//        List<String> openTime = new ArrayList<>(Arrays.asList("점심, 저녁"));
-//        String hotelType = "모텔";
-//        List<String> hotelKeyword = new ArrayList<>(Arrays.asList("깔끔한"));
-//        int hotelImportance = 2;
-//        int restaurantImportance = 2;
-//        boolean isHotelChange = false;
-//        Optional<SiteOrder> siteOrder = orderRepository.findById(62L);
-
-//        String tourismType = "문화";
-//        int tourismDayCount = 1;
-//        String restaurantType = "일식";
-//        List<String> openTime = new ArrayList<>(Arrays.asList("점심, 저녁"));
-//        String hotelType = "호텔/리조트";
-//        List<String> hotelKeyword = new ArrayList<>(Arrays.asList("친절한"));
-//        int hotelImportance = 2;
-//        int restaurantImportance = 2;
-//        boolean isHotelChange = true;
-//        Optional<SiteOrder> siteOrder = orderRepository.findById(63L);
 
         String tourismType = "활동";
         int tourismDayCount = 1;
@@ -115,13 +94,11 @@ public class orderTest {
         for (int i = 0 ; i < restaurantList[0].size(); i++){
             System.out.println("점심");
             System.out.println("레스토랑 이름은 : " + restaurantList[0].get(i).getName());
-            System.out.println("레스토랑 소개는 : " + restaurantList[0].get(i).getContent());
             System.out.println("레스토랑 가격은 : " + restaurantList[0].get(i).getPrice()[0]);
             System.out.println("레스토랑 오픈 시간은 : " + restaurantList[0].get(i).getOpenTime().toString());
 
             System.out.println("저녁");
             System.out.println("레스토랑 이름은 : " + restaurantList[1].get(i).getName());
-            System.out.println("레스토랑 소개는 : " + restaurantList[1].get(i).getContent());
             System.out.println("레스토랑 가격은 : " + restaurantList[1].get(i).getPrice()[1]);
             System.out.println("레스토랑 오픈 시간은 : " + restaurantList[1].get(i).getOpenTime().toString());
             System.out.println("하루식사 가격은 : " + (restaurantList[0].get(i).getPrice()[0] + restaurantList[1].get(i).getPrice()[1]));

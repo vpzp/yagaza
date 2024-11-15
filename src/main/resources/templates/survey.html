@@ -42,7 +42,7 @@
     <h2>나의 여행 취향은?</h2>
     <form id="survey-form" th:action = "@{/order/main/{id}(id=${siteOrder.id})}" th:object="${surveyCreateForm}" method="post">
         <div class="form-group">
-            <label for="question1">질문 1: 어떤 종류의 관을 선호하시나요?</label>
+            <label for="question1">질문 1: 어떤 종류의 관광지를 선호하시나요?</label>
             <input type="radio" th:field = "*{tourismType}" value="문화" id="question1-1" >
             <label for="question1-1">문화적인 관심사에 관련된 관광지</label>
             <input type="radio" th:field = "*{tourismType}" value="자연" id="question1-2" >

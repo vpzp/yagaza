@@ -22,7 +22,7 @@ public class SurveyService {
     private final TourismService tourismService;
 
     public Survey create(String tourismType, int tourismCount, String restaurantType, List<String> openTime, String hotelType,
-                       List<String> hotelKeyword, int hotelImportance, int restaurantImportance, boolean isHotelChange, SiteOrder siteOrder){
+                        int hotelImportance, int restaurantImportance, boolean isHotelChange, SiteOrder siteOrder){
         Survey survey = new Survey();
         openTime.add("점심");
         openTime.add("저녁");
@@ -31,7 +31,6 @@ public class SurveyService {
         survey.setRestaurantType(restaurantType);
         survey.setOpenTime(openTime);
         survey.setHotelType(hotelType);
-        survey.setHotelKeyword(hotelKeyword);
         survey.setHotelImportance(hotelImportance);
         survey.setRestaurantImportance(restaurantImportance);
         survey.setHotelChange(isHotelChange);
@@ -110,7 +109,9 @@ public class SurveyService {
     public List<Hotel> getHotel(Survey survey){
         List<Hotel> hotelList = new ArrayList<>();
         int cash = getHotelCash(survey.getSiteOrder().getCash(), survey);
-        hotelList = hotelService.getHotelTypeAndKeyword(survey.getHotelType(), survey.getHotelKeyword());
+//        기존 코드변경 테스트 필요
+//        키워드, type 일치에서 type일치로 조건문 수정
+        hotelList = hotelService.getHotelType(survey.getHotelType());
         cash = cash / (survey.getSiteOrder().getDate() - 1);
 
         //cash == null인 호텔 제거
@@ -124,55 +125,95 @@ public class SurveyService {
 
         return hotelList;
     }
-//    cash에 가장 금액이 가까운 레스토랑 10개 list<Restaurant>[]로 리턴
-    public List<Restaurant>[] getRestaurantTop15ByPrice(int oneDayCash, boolean isMidnight){
-        List<Restaurant>[] restaurants = new ArrayList[3];
-        for(int i = 0 ; i < restaurants.length ; i++){
-            restaurants[i] = new ArrayList<>();
-        }
-        List<Restaurant> launchRestaurantList = restaurantService.getRestaurantListByOpenTime("점심");
-        List<Restaurant> dinnerRestaurantList = restaurantService.getRestaurantListByOpenTime("저녁");
-
-        for(int j = 0 ; j < 15 ; j ++){
-            int launchIndex = 0;
-            int dinnerIndex = 0;
-            int min = Integer.MAX_VALUE;
-
-            for (int i = 0 ; i < launchRestaurantList.size() ; i++){
-                if (launchRestaurantList.get(i).getPrice()[0] == 0){
-                    continue;
-                }
-                for (int k = 0 ; k < dinnerRestaurantList.size() ; k++){
-                    if (dinnerRestaurantList.get(k).getPrice()[1] == 0){
-                        continue;
-                    }
-                    if (isMidnight){
-
-                    }else {
-                        //abs는 cash - (점심 + 저녁 값) 또는 cash - (점심 + 저녁 + 야식)가격
-                        int abs = Math.abs(oneDayCash - (launchRestaurantList.get(i).getPrice()[0] + dinnerRestaurantList.get(k).getPrice()[1]));
-                        if (abs < min){
-                            min = abs;
-                            launchIndex = i;
-                            dinnerIndex = k;
-                        }
-                    }
-                }
-            }
-
-            restaurants[0].add(launchRestaurantList.get(launchIndex));
-            restaurants[1].add(dinnerRestaurantList.get(dinnerIndex));
-
-            launchRestaurantList.remove(launchIndex);
-            if(launchRestaurantList.contains(dinnerRestaurantList.get(dinnerIndex))){
-                launchRestaurantList.remove(dinnerRestaurantList.get(dinnerIndex));
-            }
-
-            dinnerRestaurantList.remove(dinnerIndex);
-            dinnerRestaurantList.remove(launchRestaurantList.get(launchIndex));
-        }
-        return restaurants;
+//    cash에 가장 금액이 가까운 레스토랑 15개 list<Restaurant>[]로 리턴
+//    public List<Restaurant>[] getRestaurantTop15ByPrice(int oneDayCash, boolean isMidnight){
+//        List<Restaurant>[] restaurants = new ArrayList[3];
+//        for(int i = 0 ; i < restaurants.length ; i++){
+//            restaurants[i] = new ArrayList<>();
+//        }
+//        List<Restaurant> launchRestaurantList = restaurantService.getRestaurantListByOpenTime("점심");
+//        List<Restaurant> dinnerRestaurantList = restaurantService.getRestaurantListByOpenTime("저녁");
+//
+//        for(int j = 0 ; j < 15 ; j ++){
+//            int launchIndex = 0;
+//            int dinnerIndex = 0;
+//            int min = Integer.MAX_VALUE;
+//
+//            for (int i = 0 ; i < launchRestaurantList.size() ; i++){
+//                if (launchRestaurantList.get(i).getPrice()[0] == 0){
+//                    continue;
+//                }
+//                for (int k = 0 ; k < dinnerRestaurantList.size() ; k++){
+//                    if (dinnerRestaurantList.get(k).getPrice()[1] == 0){
+//                        continue;
+//                    }
+//                    if (isMidnight){
+//
+//                    }else {
+//                        //abs는 cash - (점심 + 저녁 값) 또는 cash - (점심 + 저녁 + 야식)가격
+//                        int abs = Math.abs(oneDayCash - (launchRestaurantList.get(i).getPrice()[0] + dinnerRestaurantList.get(k).getPrice()[1]));
+//                        if (abs < min){
+//                            min = abs;
+//                            launchIndex = i;
+//                            dinnerIndex = k;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            restaurants[0].add(launchRestaurantList.get(launchIndex));
+//            restaurants[1].add(dinnerRestaurantList.get(dinnerIndex));
+//
+//            launchRestaurantList.remove(launchIndex);
+//            if(launchRestaurantList.contains(dinnerRestaurantList.get(dinnerIndex))){
+//                launchRestaurantList.remove(dinnerRestaurantList.get(dinnerIndex));
+//            }
+//
+//            dinnerRestaurantList.remove(dinnerIndex);
+//            dinnerRestaurantList.remove(launchRestaurantList.get(launchIndex));
+//        }
+//        return restaurants;
+//    }
+public List<Restaurant>[] getRestaurantTop15ByPrice(int oneDayCash, boolean isMidnight){
+    List<Restaurant>[] restaurants = new ArrayList[3];
+    for(int i = 0; i < restaurants.length; i++) {
+        restaurants[i] = new ArrayList<>();
     }
+    List<Restaurant> launchRestaurantList = restaurantService.getRestaurantListByOpenTime("점심");
+    List<Restaurant> dinnerRestaurantList = restaurantService.getRestaurantListByOpenTime("저녁");
+
+    for(int j = 0; j < 15; j++) {
+        int launchIndex = -1;
+        int dinnerIndex = -1;
+        int minDifference = Integer.MAX_VALUE;
+
+        for (int i = 0; i < launchRestaurantList.size(); i++) {
+            if (launchRestaurantList.get(i).getPrice()[0] == 0) continue;
+            for (int k = 0; k < dinnerRestaurantList.size(); k++) {
+                if (dinnerRestaurantList.get(k).getPrice()[1] == 0) continue;
+
+                int combinedPrice = launchRestaurantList.get(i).getPrice()[0] + dinnerRestaurantList.get(k).getPrice()[1];
+                int difference = Math.abs(oneDayCash - combinedPrice);
+
+                if (difference < minDifference) {
+                    minDifference = difference;
+                    launchIndex = i;
+                    dinnerIndex = k;
+                }
+            }
+        }
+
+        // 찾은 레스토랑을 배열에 추가
+        restaurants[0].add(launchRestaurantList.get(launchIndex));
+        restaurants[1].add(dinnerRestaurantList.get(dinnerIndex));
+
+        // 해당 레스토랑을 리스트에서 제거
+        launchRestaurantList.remove(launchIndex);
+        dinnerRestaurantList.remove(dinnerIndex);
+    }
+
+    return restaurants;
+}
 
 
     //cash에 가장 금액이 가까운 호텔 10개 list<hotel>로 리턴

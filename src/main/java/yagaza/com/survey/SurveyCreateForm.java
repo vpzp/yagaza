@@ -18,8 +18,6 @@ public class SurveyCreateForm {
 
     private String hotelType;
 
-    private List<String> hotelKeyword;
-
     private int hotelImportance;
 
     private int restaurantImportance;

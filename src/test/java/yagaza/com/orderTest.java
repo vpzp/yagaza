@@ -3,7 +3,6 @@ package yagaza.com;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import yagaza.com.Tourism.Tourism;
 import yagaza.com.Tourism.TourismService;
 import yagaza.com.hotel.Hotel;
@@ -80,7 +79,7 @@ public class orderTest {
         boolean isHotelChange = true;
         Optional<SiteOrder> siteOrder = orderRepository.findById(64L);
 
-        surveyService.create(tourismType, tourismDayCount, restaurantType, openTime, hotelType, hotelKeyword,
+        surveyService.create(tourismType, tourismDayCount, restaurantType, openTime, hotelType,
                 hotelImportance, restaurantImportance, isHotelChange, siteOrder.get());
     }
 
@@ -119,7 +118,6 @@ public class orderTest {
             System.out.println("호텔 이름은 = " + hotel.getHotelName());
             System.out.println("호텔 가격은 = " + hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel));
             System.out.println("호텔 종류는 = " + hotel.getType());
-            System.out.println("호텔 키워드는 = "+ Arrays.toString(hotel.getKeyword().toArray()));
             System.out.println();
         }
 

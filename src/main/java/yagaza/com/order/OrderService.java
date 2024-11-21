@@ -19,15 +19,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final HotelService hotelService;
-//    private int money;
-//    private int day;
-//    private int prod;
-//
-//    public void setOrderService(int money, int day, int prod){
-//        this.money = money;
-//        this.day = day;
-//        this.prod = prod;
-//    }
 
     public SiteOrder create(int cash, int prod, int date, String car, String travel, SiteUser user){
         ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));

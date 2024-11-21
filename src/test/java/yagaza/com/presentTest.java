@@ -89,7 +89,6 @@ public class presentTest {
                 System.out.println("호텔 이름은 = " + hotelList.get(index).getHotelName());
                 System.out.println("호텔 가격은 = " + hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotelList.get(index)));
                 System.out.println("호텔 종류는 = " + hotelList.get(index).getType());
-                System.out.println("호텔 키워드는 = "+ Arrays.toString(hotelList.get(index).getKeyword().toArray()));
                 System.out.println();
             }
             index++;

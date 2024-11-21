@@ -45,4 +45,11 @@ public class RestaurantService {
     public List<Restaurant> getRestaurantListByType(String type){
         return this.restaurantRepository.findByType(type);
     }
+
+    public void setMap(Restaurant restaurant, Double x, Double y) {
+        restaurant.setMapX(x);
+        restaurant.setMapY(y);
+
+        restaurantRepository.save(restaurant);
+    }
 }

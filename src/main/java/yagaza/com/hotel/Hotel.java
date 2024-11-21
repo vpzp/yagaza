@@ -4,11 +4,8 @@ package yagaza.com.hotel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 import yagaza.com.order.SiteOrder;
-import yagaza.com.review.HotelReview;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -17,19 +14,12 @@ import java.util.List;
 @Entity
 public class Hotel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String hotelHref;
 
     private String hotelName;
 
     private String region;
-
-    @Column(columnDefinition = "TEXT")
-    private String content;
-
-    @OneToMany
-    private List<HotelRoom> hotelRoom;
 
     private Integer priceOnePerson;
 
@@ -43,9 +33,13 @@ public class Hotel {
 
     private String img;
 
+    private Double mapX;
+
+    private Double mapY;
+
     private String type;
 
-    private List<String> keyword;
+    private String checkInTime;
 
     @ManyToMany
     private List<SiteOrder> siteOrder;

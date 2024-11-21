@@ -31,6 +31,10 @@ public class Restaurant {
 
     private List<String> img;
 
+    private Double mapX;
+
+    private Double mapY;
+
     @ManyToOne
     private RestaurantReview restaurantReview;
 

@@ -2,6 +2,10 @@ package yagaza.com.hotel;
 
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import yagaza.com.DataNotFoundException;
 import yagaza.com.restaurant.Restaurant;
@@ -88,6 +92,14 @@ public class HotelService {
 
     public List<Hotel> getHotelList(){
         return hotelRepository.findAll();
+    }
+
+    public Page<Hotel> getPagingHotelList(int page, String keyword){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
+        return hotelRepository.findAllByHotelNameContaining(keyword, pageable);
     }
 
     public Optional<Hotel> getHotelByHotelName(String hotelName){

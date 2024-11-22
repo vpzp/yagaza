@@ -1,6 +1,10 @@
 package yagaza.com.restaurant;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,6 +44,14 @@ public class RestaurantService {
         }
         return restaurants;
 
+    }
+
+    public Page<Restaurant> getRestaurantList(int page, String keyword){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
+        return restaurantRepository.findAllByNameContaining(keyword, pageable);
     }
 
     public List<Restaurant> getRestaurantListByType(String type){

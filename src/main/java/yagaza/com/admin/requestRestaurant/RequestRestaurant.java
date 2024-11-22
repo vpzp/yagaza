@@ -1,23 +1,28 @@
-package yagaza.com.restaurant;
+package yagaza.com.admin.requestRestaurant;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import yagaza.com.order.SiteOrder;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
-public class Restaurant {
+@Entity
+@Accessors(chain=true)
+public class RequestRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String region;
-
     private String name;
+
+    private String region;
 
     private String content;
 
@@ -26,18 +31,9 @@ public class Restaurant {
 
     private List<String> openTime;
 
-    //음식 종류(한식, 일식, 기타 세계 음식)
     private String type;
 
     private List<String> img;
 
-    private Double mapX;
-
-    private Double mapY;
-
-
-
-    @ManyToMany
-    private List<SiteOrder> siteOrder;
-
+    private String status;
 }

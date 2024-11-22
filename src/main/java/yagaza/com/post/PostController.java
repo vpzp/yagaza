@@ -48,7 +48,7 @@ public class PostController {
     @PostMapping("/create")
     public String postCreate(@Valid PostForm postForm, BindingResult bindingResult, Principal principal){
         if(bindingResult.hasErrors()){
-            return "Post_Form";
+            return "post_Form";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
         this.postService.create(postForm.getSubject(), postForm.getContent(), siteUser);

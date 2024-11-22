@@ -1,5 +1,7 @@
 package yagaza.com.hotel;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +18,7 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
     List<Hotel> findTop100By();
 
     List<Hotel> findAllByTypeContains(String type);
+
+    Page<Hotel> findAllByHotelNameContaining(String keyword, Pageable pageable);
+
 }

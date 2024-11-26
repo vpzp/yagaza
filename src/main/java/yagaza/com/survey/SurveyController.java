@@ -32,9 +32,5 @@ public class SurveyController {
 
         return "survey";
     }
-//    @PreAuthorize("isAuthenticated()")
-//    @GetMapping("/survey")
-//    public String main()  {
-//        return "survey";
-//    }
+
 }

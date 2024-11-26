@@ -6,16 +6,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import yagaza.com.DataNotFoundException;
+import yagaza.com.Geocoding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
+    private final Geocoding geocoding;
 
-    public void create(String name, String type, String content,  List<String> img, int[] price,
+    public Restaurant create(String name, String type, String content,  List<String> img, int[] price,
                        List<String> openTime, String region){
         Restaurant restaurant = new Restaurant();
         restaurant.setName(name);
@@ -27,10 +32,21 @@ public class RestaurantService {
         restaurant.setRegion(region);
 
         this.restaurantRepository.save(restaurant);
+
+        return restaurant;
     }
 
     public List<Restaurant> getRestaurantList(){
         return this.restaurantRepository.findAll();
+    }
+
+    public Restaurant getRestaurant(Long id){
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(id);
+        if (restaurantOptional.isPresent()){
+            return restaurantOptional.get();
+        }else {
+            throw new DataNotFoundException("restaurant 객체 없습니다");
+        }
     }
 
 
@@ -58,9 +74,18 @@ public class RestaurantService {
         return this.restaurantRepository.findByType(type);
     }
 
-    public void setMap(Restaurant restaurant, Double x, Double y) {
-        restaurant.setMapX(x);
-        restaurant.setMapY(y);
+    public void setAllMap(){
+        List<Restaurant> restaurantList = getRestaurantList();
+        for (Restaurant restaurant : restaurantList) {
+            setMap(restaurant);
+        }
+    }
+
+    public void setMap(Restaurant restaurant) {
+
+        Map<String, Double> map = geocoding.fecthMap(restaurant.getName());
+        restaurant.setMapX(map.get("x"));
+        restaurant.setMapY(map.get("y"));
 
         restaurantRepository.save(restaurant);
     }

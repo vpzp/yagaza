@@ -8,19 +8,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import yagaza.com.DataNotFoundException;
+import yagaza.com.Geocoding;
 import yagaza.com.restaurant.Restaurant;
 import yagaza.com.user.SiteUser;
 import org.jsoup.nodes.Document;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class HotelService {
     private final HotelRepository hotelRepository;
+    private final Geocoding geocoding;
 
     public void createHotel(String title, String checkInTime, String img,String type,
                             int prod, Integer price, String region){
@@ -31,6 +30,30 @@ public class HotelService {
         hotel.setType(type);
         setHotelPrice(hotel, prod, price);
         hotel.setRegion(region);
+
+        hotelRepository.save(hotel);
+    }
+    public Hotel createHotel(String title, String checkInTime, String img,String type,
+                            String region){
+        Hotel hotel = new Hotel();
+        hotel.setHotelName(title);
+        hotel.setCheckInTime(checkInTime);
+        hotel.setImg(img);
+        hotel.setType(type);
+        hotel.setRegion(region);
+
+        hotelRepository.save(hotel);
+
+        return hotel;
+    }
+
+    public void setHotelPrice(Hotel hotel, Integer priceOnePerson, Integer priceTwoPerson,
+                              Integer priceThreePerson, Integer priceFourPerson, Integer priceFivePerson){
+        hotel.setPriceOnePerson(priceOnePerson);
+        hotel.setPriceTwoPerson(priceTwoPerson);
+        hotel.setPriceThreePerson(priceThreePerson);
+        hotel.setPriceFourPerson(priceFourPerson);
+        hotel.setPriceFivePerson(priceFivePerson);
 
         hotelRepository.save(hotel);
     }
@@ -79,11 +102,19 @@ public class HotelService {
         }
         return hotel.getPriceOnePerson();
     }
-    public void setMap(Hotel hotel, Double x, Double y) {
-        hotel.setMapX(x);
-        hotel.setMapY(y);
+    public void setMap(Hotel hotel) {
+        Map<String, Double> map = geocoding.fecthMap(hotel.getHotelName());
+        hotel.setMapX(map.get("x"));
+        hotel.setMapY(map.get("y"));
 
         hotelRepository.save(hotel);
+    }
+
+    public void setAllMap(){
+        List<Hotel> hotelList = getHotelList();
+        for (Hotel hotel : hotelList) {
+            setMap(hotel);
+        }
     }
 
     public List<Hotel> getHotelType(String type){
@@ -105,4 +136,5 @@ public class HotelService {
     public Optional<Hotel> getHotelByHotelName(String hotelName){
         return hotelRepository.findByHotelName(hotelName);
     }
+
 }

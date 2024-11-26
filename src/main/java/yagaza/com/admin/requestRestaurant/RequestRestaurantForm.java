@@ -1,5 +1,7 @@
 package yagaza.com.admin.requestRestaurant;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -20,8 +22,9 @@ public class RequestRestaurantForm {
     @NotEmpty(message = "음식점 설명을 입력해주세요.")
     private String content;
 
-    private int[] price;
+    private List<Integer> price;
 
+    @NotEmpty(message = "운영 시간을 최소 하나 이상 선택해주세요.")
     private List<String> openTime;
 
     @NotEmpty(message = "음식점 종류를 선택해주세요.")

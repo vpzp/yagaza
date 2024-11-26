@@ -27,7 +27,7 @@ public class RequestRestaurant {
     private String content;
 
     //인덱스 0은 점심 가격 1은 저녁 가격
-    private int[] price;
+    private List<Integer> price;
 
     private List<String> openTime;
 
@@ -36,4 +36,6 @@ public class RequestRestaurant {
     private List<String> img;
 
     private String status;
+
+    private String userId;
 }

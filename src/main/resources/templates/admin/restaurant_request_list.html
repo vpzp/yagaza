@@ -35,8 +35,8 @@
     <div class="mx-auto" style="max-width: 900px;">
         <div class="card p-4 shadow-sm">
             <div class="d-flex justify-content-between align-items-center ">
-                <h2>음식점 목록</h2>
-                <form th:action="@{/admin/restaurantList}" method="get" class="d-flex">
+                <h2>음식점 요청 목록</h2>
+                <form th:action="@{/admin/requestRestaurantList}" method="get" class="d-flex">
                     <input type="text" name="keyword" th:value="${param.keyword}" placeholder="음식점명 검색" class="form-control me-1" style="height: 30px;">
                     <button type="submit" class="btn btn-sm btn-primary ms-2" style="white-space: nowrap;">검색</button>
                 </form>
@@ -47,8 +47,10 @@
                     <thead class="table-light">
                     <tr>
                         <th>이름</th>
+                        <th>요청 아이디</th>
                         <th>지역</th>
                         <th>타입</th>
+                        <th>상태</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,9 +59,30 @@
                     </div>
                     <div th:each="restaurant : ${paging}">
                         <tr>
-                            <td><a th:href="@{/admin/restaurant/{id}(id=${restaurant.id})}" th:text="${restaurant.name}"></td>
+                            <td>
+                                <a th:href="@{/admin/requestRestaurantList/{id}(id=${restaurant.id})}" th:text="${restaurant.name}">호텔 이름</a>
+                            </td>
+                            <td th:text="${restaurant.userId}"></td>
                             <td th:text="${restaurant.region}"></td>
                             <td th:text="${restaurant.type}"></td>
+                            <td>
+                                <form th:action="@{/admin/requestRestaurantList/update}" method="post" class="d-flex align-items-center">
+                                    <input type="hidden" name="id" th:value="${restaurant.id}" />
+                                    <!-- 처리완료 상태일 때 텍스트 표시 -->
+                                    <div th:if="${restaurant.status == '처리완료'}" class="d-flex align-items-center" style="flex: 1;">
+                                        <span th:text="${restaurant.status}" class="form-control form-control-sm" style="border: none; background-color: transparent;">처리완료</span>
+                                    </div>
+
+                                    <!-- 대기중 상태일 때 select 박스와 버튼 표시 -->
+                                    <div th:if="${restaurant.status != '처리완료'}" class="d-flex align-items-center" style="flex: 1;">
+                                        <select name="status" class="form-select form-select-sm" style="max-width: 150px;">
+                                            <option th:value="'대기중'" th:text="'대기중'" th:selected="${restaurant.status == '대기중'}">대기중</option>
+                                            <option th:value="'처리완료'" th:text="'처리완료'" th:selected="${restaurant.status == '처리완료'}">처리완료</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-primary ms-2">변경</button>
+                                    </div>
+                                </form>
+                            </td>
                         </tr>
                     </div>
                     </tbody>
@@ -71,7 +94,7 @@
                     <br>
                     <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
                         <a class="page-link"
-                           th:href="@{/admin/restaurantList(page=${paging.number + -1}, keyword = ${param.keyword})}">
+                           th:href="@{/admin/requestRestaurantList(page=${paging.number + -1}, keyword = ${param.keyword})}">
                             <span>이전</span>
                         </a>
                     </li>
@@ -79,20 +102,19 @@
                         th:if="${page >= paging.number-5 and page <= paging.number+5}"
                         th:classappend="${page == paging.number} ? 'active'"
                         class="page-item">
-                        <a th:text="${page}" class="page-link" th:href="@{/admin/restaurantList(page=${page}, keyword=${param.keyword})}"></a>
+                        <a th:text="${page}" class="page-link" th:href="@{/admin/requestRestaurantList(page=${page}, keyword=${param.keyword})}"></a>
                     </li>
                     <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                        <a class="page-link" th:href="@{/admin/restaurantList(page=${paging.number+1}, keyword=${param.keyword})}">
+                        <a class="page-link" th:href="@{/admin/requestRestaurantList(page=${paging.number+1}, keyword=${param.keyword})}">
                             <span>다음</span>
                         </a>
                     </li>
                 </ul>
             </div>
             <!--            페이징 처리 끝-->
-            <form th:action="@{/admin/restaurantList/create}" method="get" class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-sm btn-primary ms-2" style="white-space: nowrap;">작성</button>
-            </form>
         </div>
     </div>
+
+</div>
 </body>
 </html>

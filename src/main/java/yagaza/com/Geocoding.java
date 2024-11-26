@@ -2,12 +2,12 @@ package yagaza.com;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.hotel.HotelService;
@@ -18,33 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootTest
+@Service
 public class Geocoding {
     private String apiKey = "f27879a6408379d53c8d6135e7422e59";
-    @Autowired
-    private RestaurantService restaurantService;
-    @Autowired
-    private HotelService hotelService;
-
-    @Test
-    public void setRestaurantMap(){
-        List<Restaurant> restaurantList = restaurantService.getRestaurantList();
-        for (Restaurant restaurant : restaurantList) {
-            String title = restaurant.getName();
-            Map<String, Double> map = fecthMap(title);
-            restaurantService.setMap(restaurant, map.get("x"), map.get("y"));
-        }
-    }
-
-    @Test
-    public void setHotelMap(){
-        List<Hotel> hotelList = hotelService.getHotelList();
-        for (Hotel hotel : hotelList) {
-            String title = hotel.getHotelName();
-            Map<String, Double> map = fecthMap(title);
-            hotelService.setMap(hotel, map.get("x"), map.get("y"));
-        }
-    }
 
     public Map<String, Double> fecthMap(String title) {
         // API 호출 URL
@@ -82,4 +58,5 @@ public class Geocoding {
         }
         return xyMap;
     }
+
 }

@@ -37,7 +37,7 @@
       <h2 class="text-center mb-4">호텔 등록</h2>
 
       <!-- Form 시작 -->
-      <form th:action="@{/admin/hotellist/create}" th:object="${requestHotelForm}" method="post" enctype="multipart/form-data">
+      <form th:action="@{/admin/hotelList/create}" th:object="${requestHotelForm}" method="post" enctype="multipart/form-data">
 
         <!-- 호텔 이름 -->
         <div class="mb-3">
@@ -86,7 +86,7 @@
         <!-- 이미지 -->
         <div class="mb-3">
           <label for="img" class="form-label">이미지</label>
-          <input type="text" id="img" class="form-control form-control-sm" th:field="*{img}" placeholder="호텔의 대표 이미지 URL을 입력하세요">
+          <input type="text" id="img" class="form-control form-control-sm" th:field="*{img}" placeholder="호텔의 대표 이미지 URL을 입력하세요 (예: http://example.com/image.jpg)">
           <div class="text-danger" th:if="${#fields.hasErrors('img')}" th:errors="*{img}"></div>
         </div>
 
@@ -106,7 +106,6 @@
         <!-- 버튼 -->
         <div class="text-center">
           <button type="submit" class="btn btn-primary btn-sm">등록</button>
-          <a th:href="@{/}" class="btn btn-secondary btn-sm">취소</a>
         </div>
       </form>
       <!-- Form 끝 -->

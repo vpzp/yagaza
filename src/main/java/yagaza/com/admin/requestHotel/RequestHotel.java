@@ -41,4 +41,6 @@ public class RequestHotel {
     private String checkInTime;
 
     private String status;
+
+    private String userId;
 }

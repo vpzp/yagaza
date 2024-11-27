@@ -6,6 +6,7 @@ import yagaza.com.Tourism.Tourism;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.hotel.HotelService;
 import yagaza.com.restaurant.Restaurant;
+import yagaza.com.survey.Survey;
 import yagaza.com.user.SiteUser;
 import yagaza.com.user.UserRepository;
 
@@ -51,6 +52,11 @@ public class OrderService {
     public SiteOrder getOrder(SiteUser siteUser) {
         SiteOrder siteOrder = orderRepository.findTopByOrderByIdDesc();
         return siteOrder;
+    }
+
+    public void setSurvey(SiteOrder siteOrder, Survey survey){
+        siteOrder.setSurvey(survey);
+        this.orderRepository.save(siteOrder);
     }
 
     public int getAllTourismPrice(List<Tourism> tourismList){

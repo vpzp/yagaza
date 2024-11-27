@@ -63,6 +63,40 @@ public class OrderController {
                 surveyCreateForm.getOpenTime(), surveyCreateForm.getHotelType(), surveyCreateForm.getHotelKeyword(), surveyCreateForm.getHotelImportance(),
                 surveyCreateForm.getRestaurantImportance(),surveyCreateForm.isHotelChange(), siteOrder);
 
+        orderService.setSurvey(siteOrder, survey);
+        List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
+        List<Hotel> hotelList = surveyService.getHotel(survey);
+        List<Tourism> tourismList = surveyService.getTourism(survey);
+        List<Tourism> tourismAllList = tourismService.getToursimList();
+        List<Hotel> hotels = hotelService.getHotelTypeAndKeyword(survey.getHotelType(), survey.getHotelKeyword());
+        hotels.removeIf(hotel -> hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel) == null);
+
+        List<Hotel> hotelListTop10ByPrice = surveyService.getHotelTop10ByPrice(hotels, (int) (siteOrder.getCash() / (siteOrder.getDate() - 1) *0.16), siteOrder.getProd());
+
+        int oneDayCash = siteOrder.getCash() / (siteOrder.getDate() - 1) / siteOrder.getProd();
+        List<Restaurant>[] restaurantTop15ByPrice = surveyService.getRestaurantTop15ByPrice((int) (oneDayCash *0.42), false);
+
+        model.addAttribute("survey" , survey);
+        model.addAttribute("siteOrder", siteOrder);
+        model.addAttribute("restaurantList" ,restaurantList);
+        model.addAttribute("hotelList", hotelList);
+        model.addAttribute("tourismList", tourismList);
+        model.addAttribute("tourismAllList", tourismAllList);
+        model.addAttribute("hotelListTop10ByPrice", hotelListTop10ByPrice);
+        model.addAttribute("restaurantTop15ByPrice", restaurantTop15ByPrice);
+        model.addAttribute("hotelService", hotelService);
+        model.addAttribute("orderService", orderService);
+        model.addAttribute("surveyService", surveyService);
+
+        return "order_form";
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/main/{id}")
+    public String orderModify(Model model, Principal principal, @PathVariable("id") Long id){
+        SiteOrder siteOrder = orderService.getOrder(userService.getUser(principal.getName()));
+        Survey survey = siteOrder.getSurvey();
+
+        orderService.setSurvey(siteOrder, survey);
         List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
         List<Hotel> hotelList = surveyService.getHotel(survey);
         List<Tourism> tourismList = surveyService.getTourism(survey);

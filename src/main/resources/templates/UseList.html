@@ -39,7 +39,9 @@
       <div class="p-3 m-0 border-0 bd-example m-0 border-0">
       <nav class="navbar navbar-expand-lg bg-body-tertiary mx-5">
         <div class="container-fluid">
-          <a class="navbar-brand" th:href="@{/}">로고</a>
+          <a class="navbar-brand" th:href="@{/main}">
+            <img th:src="@{/images/logo.png}" alt="Logo" width="163" height="38" class="d-inline-block align-text-top">
+          </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -74,13 +76,15 @@
         <table class="table table-bordered text-center">
           <tbody>
             <tr class="mb-5" th:each="siteOrder : ${siteOrderList}">
-              <td class="image-cell" style="background-image: url('https://via.placeholder.com/500');"></td>
+              <td class="image-cell" style="background-image: url('/images/부산5.jpg');"></td>
               <td class="align-middle description-cell">
                 <h5><strong>부산</strong></h5>
                 <p th:text="'부산 / ' + ${siteOrder.date} +' / '+${siteOrder.prod}+' / ' +${siteOrder.cash}">부산 / 기간(2박3일) / 인원 / 금액</p>
                 <p><strong>날짜:</strong></p><p th:text="${siteOrder.createDateTime != null ? siteOrder.createDateTime.format(T(java.time.format.DateTimeFormatter).ISO_LOCAL_DATE) : ''}"> 2024년 5월 29일</p>
                 <div class="button-container">
-                  <button class="styled-button" th:onclick="|location.href='@{/order/main/{id}(id=${siteOrder.id})}'|" method = "post">확인</button>
+                  <form th:action = "@{/order/main/{id}(id=${siteOrder.id})}" method="get">
+                    <button class="styled-button" >확인</button>
+                  </form>
                   <button class="styled-button">링크 복사</button></div>
               </td>
             </tr>

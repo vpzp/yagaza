@@ -27,6 +27,7 @@ public class Post {
     @Column(length = 40)
     private String subject;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime createDateTime;

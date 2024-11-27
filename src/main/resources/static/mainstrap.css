@@ -110,6 +110,7 @@ h1 {
 .amount > li {
   flex: 1;
   height: 132px;
+  list-style-type: none
 }
 .amount > li > div {
   text-align: center;
@@ -161,6 +162,7 @@ h1 {
   margin-top:49px;
   height:302px;
   text-align: center;
+  list-style-type: none
 }
 .icons > li > .icon_img{
     /*width: 150px;
@@ -182,7 +184,7 @@ h1 {
 .more{
   width:120px;
   height: 30px;
-  background: #2F7AF4;
+  background: #F1ECE1;
   color: #fff;
   font-size: 12px;
   line-height: 30px;

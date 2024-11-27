@@ -59,14 +59,6 @@ public class HotelService {
     }
 
 
-    public void createRegionImgContent(long id, String region, String img, String content){
-        Hotel hotel = getHotel(id);
-        hotel.setRegion(region);
-        hotel.setImg(img);
-
-        this.hotelRepository.save(hotel);
-    }
-
     public void setHotelPrice(Hotel hotel, int prod, Integer price){
         switch (prod){
             case 1: hotel.setPriceOnePerson(price);
@@ -83,6 +75,11 @@ public class HotelService {
 
         hotelRepository.save(hotel);
     }
+
+    public void deleteHotel(Hotel hotel){
+        hotelRepository.delete(hotel);
+    }
+
     public Hotel getHotel(long id) {
         Optional<Hotel> hotel = this.hotelRepository.findById(id);
         if (hotel.isPresent()) {

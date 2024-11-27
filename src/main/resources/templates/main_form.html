@@ -20,6 +20,12 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" th:href="@{/admin/userList}">관리자</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_PARTNER')">
+                    <a class="nav-link" th:href="@{/admin/myRequestHotel}">관리자</a>
+                </li>
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/post/list}">커뮤니티</a>
               </li>

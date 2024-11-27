@@ -2,6 +2,7 @@ package yagaza.com.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,15 +19,11 @@ import yagaza.com.user.UserService;
 @RequestMapping("/admin")
 @Controller
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
     private final UserService userService;
-    private final HotelService hotelService;
-    private final RestaurantService restaurantService;
-    private final RequestHotelService requestHotelService;
-    private final RequestRestaurantService requestRestaurantService;
 
-
-    @GetMapping("/userlist")
+    @GetMapping("/userList")
     public String getUserList(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
                               @RequestParam(value = "keyword", defaultValue = "") String keyword){
         Page<SiteUser> userList = userService.getUserList(page, keyword);
@@ -35,18 +32,12 @@ public class AdminController {
         return "/admin/userList";
     }
 
-    @PostMapping("/userlist/update")
+    @PostMapping("/userList/update")
     public String updateUserAuthority(String id, String authority){
         userService.updateAuthority(id, authority);
 
-        return "redirect:/admin/userlist";
+        return "redirect:/admin/userList";
 
-    }
-
-    @GetMapping("/test")
-    public String test(){
-
-        return "hotel_detail";
     }
 
 }

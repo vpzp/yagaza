@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
-<body>
+<body style="background-color: #F9F2EC;">
 <div layout:fragment="content" class="container my-3">
-  <div class="p-3 m-0 border-0 bd-example m-0 border-0">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary mx-5">
+  <div class="p-3 m-0 border-0 bd-example">
+    <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #343A40;">
       <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">로고</a>
+        <a class="navbar-brand" th:href="@{/main}">
+          <img th:src="@{/images/logo.png}" alt="Logo" width="163" height="38" class="d-inline-block align-text-top">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon" style="filter: invert(1);"></span> <!-- 아이콘 색상 반전 -->
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- 좌측 정렬된 메뉴 -->
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+              <a class="nav-link text-white" th:href="@{/admin/userList}">사용자 목록</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+              <a class="nav-link text-white" th:href="@{/admin/hotelList}">숙소 목록</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+              <a class="nav-link text-white" th:href="@{/admin/restaurantList}">음식점 목록</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+              <a class="nav-link text-white" th:href="@{/admin/requestHotelList}">숙소 요청 목록</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+              <a class="nav-link text-white" th:href="@{/admin/requestRestaurantList}">음식점 요청 목록</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_PARTNER')">
+              <a class="nav-link text-white" th:href="@{/admin/myRequestHotel}">나의 숙소 요청 목록</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_PARTNER')">
+              <a class="nav-link text-white" th:href="@{/admin/myRequestRestaurant}">나의 음식점 요청 목록</a>
+            </li>
+          </ul>
+          <!-- 우측 정렬된 로그아웃 버튼 -->
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active"th:href="@{/post/list}">커뮤니티</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+              <a class="nav-link text-white" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
             </li>
           </ul>
         </div>
@@ -33,8 +48,11 @@
     </nav>
   </div>
 
+  <!-- 콘텐츠가 네비게이션 바와 겹치지 않도록 상단에 패딩 추가 -->
+  <div style="padding-top: 40px;"></div>
+
   <!-- 호텔 정보 카드 -->
-  <div class="card shadow-sm p-4 mx-auto" style="max-width: 1100px;">
+  <div class="card shadow-sm p-4 mx-auto" style="max-width: 900px;">
     <!-- 호텔 제목 -->
     <div class="hotel-header text-center mb-4">
       <h2 th:text="${hotel.hotelName}">호텔 이름</h2>
@@ -42,7 +60,7 @@
 
     <!-- 호텔 이미지 -->
     <div class="text-center mb-4">
-      <img th:src="${hotel.img}" alt="호텔 이미지" class="img-fluid rounded w-50">
+      <img th:src="${hotel.img}" alt="호텔 이미지" class="img-fluid rounded w-50" style="width: 375px; height: 250px; object-fit: cover;">
     </div>
 
     <!-- 호텔 정보 -->

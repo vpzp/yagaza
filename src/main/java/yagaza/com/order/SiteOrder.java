@@ -43,7 +43,7 @@ public class SiteOrder {
     @ManyToOne
     private SiteUser siteUser;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Survey survey;
 
     @OneToOne

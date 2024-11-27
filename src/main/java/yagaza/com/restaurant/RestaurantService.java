@@ -49,6 +49,9 @@ public class RestaurantService {
         }
     }
 
+    public void deleteRestaurant(Restaurant restaurant){
+        restaurantRepository.delete(restaurant);
+    }
 
     public List<Restaurant> getRestaurantListByOpenTime(String openTime){
         List<Restaurant> restaurantList = getRestaurantList();
@@ -68,10 +71,6 @@ public class RestaurantService {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
         return restaurantRepository.findAllByNameContaining(keyword, pageable);
-    }
-
-    public List<Restaurant> getRestaurantListByType(String type){
-        return this.restaurantRepository.findByType(type);
     }
 
     public void setAllMap(){

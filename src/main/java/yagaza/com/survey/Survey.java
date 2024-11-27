@@ -39,6 +39,6 @@ public class Survey {
     //질문 11: 여행하는 동안 숙소는 어떻게 할까요?
     private boolean isHotelChange;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private SiteOrder siteOrder;
 }

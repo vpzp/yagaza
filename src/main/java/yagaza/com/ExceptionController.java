@@ -8,6 +8,6 @@ public class ExceptionController {
 
     @GetMapping("/denied")
     public String accessDenied() {
-        return "denied_form";
+        return "/exception/denied_form";
     }
 }

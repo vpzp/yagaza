@@ -64,7 +64,7 @@ public class OrderController {
         List<Hotel> hotelList = surveyService.getHotel(survey);
         List<Tourism> tourismList = surveyService.getTourism(survey);
         List<Tourism> tourismAllList = tourismService.getToursimList();
-        List<Hotel> hotels = hotelService.getHotelTypeAndKeyword(survey.getHotelType(), survey.getHotelKeyword());
+        List<Hotel> hotels = hotelService.getHotelType(survey.getHotelType());
         hotels.removeIf(hotel -> hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel) == null);
 
         List<Hotel> hotelListTop10ByPrice = surveyService.getHotelTop10ByPrice(hotels, (int) (siteOrder.getCash() / (siteOrder.getDate() - 1) *0.16), siteOrder.getProd());
@@ -92,6 +92,7 @@ public class OrderController {
         SiteOrder siteOrder = orderService.getOrder(userService.getUser(principal.getName()));
         Survey survey = siteOrder.getSurvey();
 
+//       TODO 알고리즘을 실행시키지말고 siteOrder에 저장된 값을 꺼내오고 model로 넘겨주기
         orderService.setSurvey(siteOrder, survey);
         List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
         List<Hotel> hotelList = surveyService.getHotel(survey);

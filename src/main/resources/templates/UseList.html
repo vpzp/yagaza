@@ -78,6 +78,7 @@
             <tr class="mb-5" th:each="siteOrder : ${siteOrderList}">
               <td class="image-cell" style="background-image: url('/images/부산5.jpg');"></td>
               <td class="align-middle description-cell">
+<!--                TODO 지역이름 수정 필요-->
                 <h5><strong>부산</strong></h5>
                 <p th:text="'부산 / ' + ${siteOrder.date} +' / '+${siteOrder.prod}+' / ' +${siteOrder.cash}">부산 / 기간(2박3일) / 인원 / 금액</p>
                 <p><strong>날짜:</strong></p><p th:text="${siteOrder.createDateTime != null ? siteOrder.createDateTime.format(T(java.time.format.DateTimeFormatter).ISO_LOCAL_DATE) : ''}"> 2024년 5월 29일</p>

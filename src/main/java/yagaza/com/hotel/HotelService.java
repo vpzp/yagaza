@@ -2,39 +2,86 @@ package yagaza.com.hotel;
 
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import yagaza.com.DataNotFoundException;
+import yagaza.com.Geocoding;
+import yagaza.com.restaurant.Restaurant;
 import yagaza.com.user.SiteUser;
 import org.jsoup.nodes.Document;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class HotelService {
     private final HotelRepository hotelRepository;
+    private final Geocoding geocoding;
 
-    public Hotel createHrefName(Long id, String href, String name){
+    public void createHotel(String title, String checkInTime, String img,String type,
+                            int prod, Integer price, String region){
         Hotel hotel = new Hotel();
-        hotel.setId(id);
-        hotel.setHotelHref(href);
-        hotel.setHotelName(name);
+        hotel.setHotelName(title);
+        hotel.setCheckInTime(checkInTime);
+        hotel.setImg(img);
+        hotel.setType(type);
+        setHotelPrice(hotel, prod, price);
+        hotel.setRegion(region);
 
-        this.hotelRepository.save(hotel);
+        hotelRepository.save(hotel);
+    }
+    public Hotel createHotel(String title, String checkInTime, String img,String type,
+                            String region){
+        Hotel hotel = new Hotel();
+        hotel.setHotelName(title);
+        hotel.setCheckInTime(checkInTime);
+        hotel.setImg(img);
+        hotel.setType(type);
+        hotel.setRegion(region);
+
+        hotelRepository.save(hotel);
 
         return hotel;
     }
+
+    public void setHotelPrice(Hotel hotel, Integer priceOnePerson, Integer priceTwoPerson,
+                              Integer priceThreePerson, Integer priceFourPerson, Integer priceFivePerson){
+        hotel.setPriceOnePerson(priceOnePerson);
+        hotel.setPriceTwoPerson(priceTwoPerson);
+        hotel.setPriceThreePerson(priceThreePerson);
+        hotel.setPriceFourPerson(priceFourPerson);
+        hotel.setPriceFivePerson(priceFivePerson);
+
+        hotelRepository.save(hotel);
+    }
+
 
     public void createRegionImgContent(long id, String region, String img, String content){
         Hotel hotel = getHotel(id);
         hotel.setRegion(region);
         hotel.setImg(img);
-        hotel.setContent(content);
 
         this.hotelRepository.save(hotel);
+    }
+
+    public void setHotelPrice(Hotel hotel, int prod, Integer price){
+        switch (prod){
+            case 1: hotel.setPriceOnePerson(price);
+                break;
+            case 2: hotel.setPriceTwoPerson(price);
+                break;
+            case 3: hotel.setPriceThreePerson(price);
+                break;
+            case 4: hotel.setPriceFourPerson(price);
+                break;
+            case 5: hotel.setPriceFivePerson(price);
+                break;
+        }
+
+        hotelRepository.save(hotel);
     }
     public Hotel getHotel(long id) {
         Optional<Hotel> hotel = this.hotelRepository.findById(id);
@@ -43,64 +90,6 @@ public class HotelService {
         } else {
             throw new DataNotFoundException("hotel객체가 없습니다");
         }
-    }
-
-    public List<String> getHotelReview(long id){
-        Optional<Hotel> hotel = this.hotelRepository.findById(id);
-        String url = hotel.get().getHotelHref();
-        String review = "";
-        try {
-            Document document = Jsoup.connect(url).get();
-            review = document.getElementsByClass("css-4a3h28").text();
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("setHotelKeyword 오류 발생");
-        }
-        System.out.println(review);
-        System.out.println(getHotelKeyword(review).toString());
-
-        return getHotelKeyword(review);
-    }
-    public List<String> getHotelKeyword(String review){
-        List<String> keyword = new ArrayList<>();
-
-        //편리한 위치, 편의시설, 깔끔한, 친절한, 경치, 가성비, 조용한
-        String[][] word = {{"편리한 위치", "위치", "거리", "가까", "인프라", "접근"}
-                , {"편의 시설", "편의점", "주차", "스낵바"}
-                , {"깔끔한", "깨끗", "깔끔", "청결"}
-                , {"친절한", "친절", "편안", "편히", "아늑"}
-                , {"경치", "뷰", "바닷가", "바다"}
-                , {"가성비", "가격", "저렴"}
-                , {"조용한", "조용", "방음"}};
-        for (int i = 0 ; i < word.length ; i++){
-            for(int j = 0 ; j < word[i].length ; j++){
-                if (review.contains(word[i][j])){
-                    keyword.add(word[i][0]);
-                    break;
-                }
-            }
-        }
-
-        return keyword;
-    }
-
-    public List<Hotel> getHotelTypeAndKeyword(String type, List<String> keyword){
-        List<Hotel> hotelList = getHotelList();
-        List<Hotel> hotels = new ArrayList<>();
-        for (int i = 0 ; i < hotelList.size() ; i++){
-            switch (keyword.size()){
-                case 1: if(hotelList.get(i).getType().equals(type) && hotelList.get(i).getKeyword().contains(keyword.get(0))){
-                    hotels.add(hotelList.get(i));
-                }
-                break;
-                case 2: if(hotelList.get(i).getType().equals(type) && hotelList.get(i).getKeyword().contains(keyword.get(0))
-                    && hotelList.get(i).getKeyword().contains(keyword.get(1))){
-                    hotels.add(hotelList.get(i));
-                }
-                break;
-            }
-        }
-        return hotels;
     }
 
     public Integer getHotelPrice(int prod, Hotel hotel){
@@ -113,8 +102,39 @@ public class HotelService {
         }
         return hotel.getPriceOnePerson();
     }
+    public void setMap(Hotel hotel) {
+        Map<String, Double> map = geocoding.fecthMap(hotel.getHotelName());
+        hotel.setMapX(map.get("x"));
+        hotel.setMapY(map.get("y"));
+
+        hotelRepository.save(hotel);
+    }
+
+    public void setAllMap(){
+        List<Hotel> hotelList = getHotelList();
+        for (Hotel hotel : hotelList) {
+            setMap(hotel);
+        }
+    }
+
+    public List<Hotel> getHotelType(String type){
+        return hotelRepository.findAllByTypeContains(type);
+    }
 
     public List<Hotel> getHotelList(){
         return hotelRepository.findAll();
     }
+
+    public Page<Hotel> getPagingHotelList(int page, String keyword){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
+        return hotelRepository.findAllByHotelNameContaining(keyword, pageable);
+    }
+
+    public Optional<Hotel> getHotelByHotelName(String hotelName){
+        return hotelRepository.findByHotelName(hotelName);
+    }
+
 }

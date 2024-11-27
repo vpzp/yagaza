@@ -28,7 +28,7 @@ public class PostService {
         sorts.add(Sort.Order.desc("createDateTime"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
-        return this.postRepository.findAll(pageable);
+        return postRepository.findAll(pageable);
     }
 
     public Post getPost(Long id){

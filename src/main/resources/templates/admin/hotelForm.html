@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content" class="container-sm my-3">
+  <div class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary mx-5">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">로고</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" th:href="@{/post/list}">커뮤니티</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="container mt-3">
+    <div class="card shadow-sm p-4">
+      <h2 class="text-center mb-4">호텔 등록</h2>
+
+      <!-- Form 시작 -->
+      <form th:action="@{/admin/hotelList/create}" th:object="${requestHotelForm}" method="post" enctype="multipart/form-data">
+
+        <!-- 호텔 이름 -->
+        <div class="mb-3">
+          <label for="hotelName" class="form-label">호텔 이름</label>
+          <input type="text" id="hotelName" class="form-control form-control-sm" th:field="*{hotelName}" placeholder="호텔 이름을 입력하세요">
+          <div class="text-danger" th:if="${#fields.hasErrors('hotelName')}" th:errors="*{hotelName}"></div>
+        </div>
+
+        <!-- 지역 -->
+        <div class="mb-3">
+          <label for="region" class="form-label">지역</label>
+          <select id="region" class="form-select form-select-sm" th:field="*{region}">
+            <option value="" disabled selected>지역을 선택하세요</option>
+            <option value="서울">서울</option>
+            <option value="부산">부산</option>
+            <option value="제주">제주</option>
+            <option value="대전">대전</option>
+            <option value="전주">전주</option>
+            <option value="강릉">강릉</option>
+          </select>
+          <div class="text-danger" th:if="${#fields.hasErrors('region')}" th:errors="*{region}"></div>
+        </div>
+
+        <!-- 가격 (1인 ~ 5인) -->
+        <div class="mb-3">
+          <label class="form-label">가격 (1~5인)</label>
+          <div class="row">
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" th:field="*{priceOnePerson}" placeholder="1인">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" th:field="*{priceTwoPerson}" placeholder="2인">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" th:field="*{priceThreePerson}" placeholder="3인">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" th:field="*{priceFourPerson}" placeholder="4인">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" th:field="*{priceFivePerson}" placeholder="5인">
+            </div>
+          </div>
+        </div>
+
+        <!-- 이미지 -->
+        <div class="mb-3">
+          <label for="img" class="form-label">이미지</label>
+          <input type="text" id="img" class="form-control form-control-sm" th:field="*{img}" placeholder="호텔의 대표 이미지 URL을 입력하세요 (예: http://example.com/image.jpg)">
+          <div class="text-danger" th:if="${#fields.hasErrors('img')}" th:errors="*{img}"></div>
+        </div>
+
+        <!-- 타입 -->
+        <div class="mb-3">
+          <label for="type" class="form-label">타입</label>
+          <input type="text" id="type" class="form-control form-control-sm" th:field="*{type}" placeholder="타입을 입력하세요 (예: 호텔, 모텔)">
+          <div class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+        </div>
+
+        <!-- 체크인 시간 -->
+        <div class="mb-3">
+          <label for="checkInTime" class="form-label">체크인 시간</label>
+          <input type="text" id="checkInTime" class="form-control form-control-sm" th:field="*{checkInTime}" placeholder="체크인 시간을 입력하세요 (예: 14:00)">
+        </div>
+
+        <!-- 버튼 -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-sm">등록</button>
+        </div>
+      </form>
+      <!-- Form 끝 -->
+    </div>
+  </div>
+</div>
+</body>
+</html>

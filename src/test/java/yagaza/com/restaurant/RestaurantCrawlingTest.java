@@ -1,11 +1,9 @@
 package yagaza.com.restaurant;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,85 +19,92 @@ public class RestaurantCrawlingTest {
     private RestaurantRepository restaurantRepository;
 
     @Test
-    public void RestaurantCrawling(){
-        Set<String> name = new LinkedHashSet <String>();
-        Set<String> restaurantUrl = new LinkedHashSet <String>();
-        List<String> content = new ArrayList<>();
-        List<String> price = new ArrayList<>();
-        int count = 0;
+    public void scrollTest() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        String url = "https://app.catchtable.co.kr/ct/map/COMMON?showTabs=true&bottomSheetHeightType=FULL_LIST&serviceType=INTEGRATION&keyword=%EB%B6%80%EC%82%B0&keywordSearch=%EB%B6%80%EC%82%B0&isShowListLabelExpanded=1&zoomLevel=11&centerBoundsLat=34.75064277788241&centerBoundsLng=129.08379544898582&isSearchKeywordComplete=1&isNewSearchInMap=1&isShowMapSearchButton=1&isScrollTop=1&location=CAT026_CAT026001_CAT026002_CAT026003_CAT026004_CAT026005_CAT026006_CAT026007&foodKind=C_13&foodKind=C_22&foodKind=C_18&foodKind=C_17&foodKind=C_23&foodKind=C_24&foodKind=C_16&foodKind=C_15&foodKind=C_25&foodKind=C_12&foodKind=C_2&foodKind=C_3&isSearchedInMap=0&uniqueListId=1731634791630";
+        String type = "기타 세계음식";
+        String region = "부산";
+        driver.get(url);
+        Thread.sleep(5500); // 페이지 로드 대기
 
-        for(int i = 0; i < 4 ; i ++){
-            try {
-                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
-                WebDriver driver = new ChromeDriver();
-                String url = "https://app.catchtable.co.kr/ct/search/list?showTabs=true&location=CAT026_CAT026001_CAT026002_CAT026003_CAT026004_CAT026005_CAT026006_CAT026007_CAT026_CAT026001_CAT026002_CAT026003_CAT026004_CAT026005_CAT026006_CAT026007&uniqueListId=1715488404675&foodKind=D_16&foodKind=E_43&foodKind=E_45&foodKind=E_84&foodKind=E_86&foodKind=E_89";
-                driver.get(url);
-                Thread.sleep(2500);
-                var stTime = new Date().getTime();
+        WebElement bodyElement = driver.findElement(By.cssSelector("body"));
+        Actions actions = new Actions(driver);
 
-                while (new Date().getTime() < stTime + 35000) { //30초 동안 무한스크롤 지속
-                    List<WebElement> restaurantElements = driver.findElements(By.className("restaurant-info"));
-                    System.out.println(restaurantElements.size());
-
-                    for (WebElement restaurantElement : restaurantElements){
-                        System.out.println("이미지 주소는 : " + restaurantElement.findElement(By.className("img")).getAttribute("style"));
-                        restaurantUrl.add(getImgto(restaurantElement.findElement(By.className("img")).getAttribute("style")));
-
-                        System.out.println("가게 이름은 : " + restaurantElement.findElement(By.className("name")).getText());
-                        name.add(restaurantElement.findElement(By.className("name")).getText());
-
-                        System.out.println("내용은  :" + restaurantElement.findElement(By.className("excerpt")).getText());
-                        if(name.size() != count){
-                            content.add(restaurantElement.findElement(By.className("excerpt")).getText());
-                        }
-
-                        System.out.println("가격은 : " + restaurantElement.findElement(By.className("price")).getText());
-                        if(name.size() != count){
-                            price.add(restaurantElement.findElement(By.className("price")).getText());
-                        }
-
-                        count = name.size();
-                        System.out.println("set의 size : "+ count);
-                        System.out.println();
-
+        // 65초 동안 반복적으로 PAGE_DOWN을 사용하여 스크롤
+        var stTime = new Date().getTime();
+        List<String> nameList =  new ArrayList<>();
+        List<String> priceList = new ArrayList<>();
+        List<String> contentList = new ArrayList<>();
+        List<List<String>> imgList = new ArrayList<>();
+        while (new Date().getTime() < stTime + 40000) { // 30초 동안 스크롤
+            List<WebElement> elements = driver.findElements(By.cssSelector("[id^='virtual_']"));
+            for (WebElement element : elements) {
+                try {
+                    // 음식점 이름 추출
+                   String name = (element.findElement(By.cssSelector(".ShopListItem_title__1p45wh65"))).getText();
+                    if (nameList.contains(name) || name == ""){
+                        continue;
                     }
-                    Thread.sleep(2000); //리소스 초과 방지
-                    ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+                    // 가격 정보 추출
+
+                    List<WebElement> priceElements = element.findElements(By.cssSelector(".IconText_text__6va2fh2"));
+                    String price = priceElements.stream()
+                            .reduce((first, second) -> second)
+                            .map(WebElement::getText)
+                            .orElse("");
+
+                    //content 추가
+                    List<WebElement> contentElements = element.findElements(By.cssSelector(".ShopHeaderInfo_text__1lnb8ff1"));
+                    String content = contentElements.stream()
+                            .reduce((first, second) -> second)
+                            .map(WebElement::getText)
+                            .orElse("");
+
+
+                    // 이미지 URL 3장 리스트로 추출
+                    List<WebElement> imageElements = element.findElements(By.cssSelector(".w9ce3a"));
+                    List<String> imageUrls = new ArrayList<>();
+                    for (int i = 0; i < Math.min(imageElements.size(), 3); i++) {
+                        imageUrls.add(imageElements.get(i).getAttribute("src"));
+                    }
+                    if (imageUrls.isEmpty()) {
+                        imageUrls.add("이미지 없음"); // 기본값 추가
+                    }
+                    nameList.add(name);
+                    priceList.add(price);
+                    contentList.add(content);
+                    imgList.add(imageUrls);
+
+                } catch (Exception e) {
+                    System.out.println("정보 추출 중 오류가 발생한 요소: " + element);
+                    e.printStackTrace();
                 }
-                System.out.println(name.size());
-            }catch (Exception e){
-                System.out.println("오류발생");
-                e.printStackTrace();
             }
+
+            actions.moveToElement(bodyElement)
+                    .sendKeys(Keys.PAGE_DOWN)
+                    .sendKeys(Keys.PAGE_DOWN)
+                    .sendKeys(Keys.PAGE_DOWN)
+                    .sendKeys(Keys.PAGE_DOWN).perform();
         }
-        Iterator<String> nameIterator = name.iterator();
-        Iterator<String> urlIterator = restaurantUrl.iterator();
-        Iterator<String> contentIterator = content.iterator();
-        Iterator<String> priceIterator = price.iterator();
 
-        System.out.println(name.size() +", " + restaurantUrl.size() + ", " +
-                content.size()+", "+ price.size());
-        String priceIndex;
-        String restName;
-        String contentIndex;
-        String urlIndex;
+        contentList = getContent(contentList);
+        System.out.println("elemnets의 size" + nameList.size());
+        for (int i = 0; i < priceList.size(); i++) {
+            System.out.println("음식점 이름: " + nameList.get(i));
+            System.out.println("content 이름 : " + contentList.get(i));
+            doubleToInt(getPrice(priceList.get(i)));
+            System.out.println("오픈시각 : " + getOpenTime(priceList.get(i)));
+            System.out.println("이미지 URLs: " + imgList.get(i).get(0));
+            System.out.println("-----");
+        }
+
         int flag = 0;
-        while(nameIterator.hasNext()){
-            flag = 0;
-            priceIndex = priceIterator.next();
-            restName = nameIterator.next();
-            contentIndex = contentIterator.next();
-            urlIndex = urlIterator.next();
-            System.out.println("nameIterator = " + restName);
-//            System.out.println("urlIterator = " + urlIndex);
-//            System.out.println("contentIterator = " + contentIndex);
-            System.out.println("priceIterator = " + priceIndex);
-//            System.out.println("doubleToInt(getPrice(priceIndex) = " + Arrays.toString(doubleToInt(getPrice(priceIndex))));
-//            System.out.println("getOpenTime(priceIndex) = " + getOpenTime(priceIndex));
-//            System.out.println();
-
+        for (int i = 0; i < nameList.size(); i++) {
             for(Restaurant restaurant : this.restaurantRepository.findAll()){
-                if(restName.equals(restaurant.getName())){
+                if(nameList.equals(restaurant.getName())){
                     flag = 1;
                 }
 
@@ -107,29 +112,10 @@ public class RestaurantCrawlingTest {
             if (flag == 1){
                 continue;
             }
-            restaurantService.create(restName, contentIndex, "기타 세계 음식", urlIndex,
-                    doubleToInt(getPrice(priceIndex)), getOpenTime(priceIndex));
-        }
-    }
 
-    @Test
-    public void getImgToTest(){
-        String str = "background-image: url(\"https://image.toast.com/aaaaaqx/catchtable/shopinfo/swP-96takmlxejVtgZDPRzg/wp-96takmlxejvtgzdprzg_2312901253969752_thumbMenuImage.jpg?small180\"); overflow: hidden;";
-        getImgto(str);
-    }
-
-    public String getImgto(String str){
-        Pattern pattern = Pattern.compile("\\(\".*?\"\\)");
-        Matcher matcher = pattern.matcher(str);
-        if (matcher.find()) {
-            str = matcher.group();
-            str = str.replaceAll("\\(" ,"");
-            str = str.replaceAll("\\)", "");
-            str = str.replace("\"", "");
-        } else {
-            System.out.println("No URL found.");
+            restaurantService.create(nameList.get(i), type, contentList.get(i), imgList.get(i),
+                    doubleToInt(getPrice(priceList.get(i))), getOpenTime(priceList.get(i)), region);
         }
-        return str;
     }
 
     public double[] getPrice(String str){
@@ -149,14 +135,14 @@ public class RestaurantCrawlingTest {
                 }
                 price[0] = (price[0] + price[1]) / 2;
                 price[1] = price[0];
-                System.out.println(price[0] +", "+ price[1]);
+                System.out.println("가격 : " + price[0] +", "+ price[1]);
                 return price;
 
             }else {
                 if(matcher.find()){
                     price[0] = Double.parseDouble(matcher.group(0));
                     price[1] = Double.parseDouble(matcher.group(0));
-                    System.out.println(price[0] +", "+ price[1]);
+                    System.out.println("가격 : " + price[0] +", "+ price[1]);
                     return price;
                 }
             }
@@ -218,6 +204,14 @@ public class RestaurantCrawlingTest {
         }
 
         return ints;
+    }
+    public List<String> getContent(List<String> contentList){
+        List<String> formantContent = new ArrayList<>();
+        for (String content : contentList) {
+            formantContent.add(content.substring(content.indexOf("·") +1));
+        }
+
+        return formantContent;
     }
 
     public List<String> getOpenTime(String str){

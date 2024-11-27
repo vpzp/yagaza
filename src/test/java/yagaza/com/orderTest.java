@@ -3,7 +3,6 @@ package yagaza.com;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import yagaza.com.Tourism.Tourism;
 import yagaza.com.Tourism.TourismService;
 import yagaza.com.hotel.Hotel;
@@ -68,27 +67,6 @@ public class orderTest {
 
     @Test
     public void createSurveyTest(){
-//        String tourismType = "활동";
-//        int tourismDayCount = 2;
-//        String restaurantType = "한식";
-//        List<String> openTime = new ArrayList<>(Arrays.asList("점심, 저녁"));
-//        String hotelType = "모텔";
-//        List<String> hotelKeyword = new ArrayList<>(Arrays.asList("깔끔한"));
-//        int hotelImportance = 2;
-//        int restaurantImportance = 2;
-//        boolean isHotelChange = false;
-//        Optional<SiteOrder> siteOrder = orderRepository.findById(62L);
-
-//        String tourismType = "문화";
-//        int tourismDayCount = 1;
-//        String restaurantType = "일식";
-//        List<String> openTime = new ArrayList<>(Arrays.asList("점심, 저녁"));
-//        String hotelType = "호텔/리조트";
-//        List<String> hotelKeyword = new ArrayList<>(Arrays.asList("친절한"));
-//        int hotelImportance = 2;
-//        int restaurantImportance = 2;
-//        boolean isHotelChange = true;
-//        Optional<SiteOrder> siteOrder = orderRepository.findById(63L);
 
         String tourismType = "활동";
         int tourismDayCount = 1;
@@ -101,7 +79,7 @@ public class orderTest {
         boolean isHotelChange = true;
         Optional<SiteOrder> siteOrder = orderRepository.findById(64L);
 
-        surveyService.create(tourismType, tourismDayCount, restaurantType, openTime, hotelType, hotelKeyword,
+        surveyService.create(tourismType, tourismDayCount, restaurantType, openTime, hotelType,
                 hotelImportance, restaurantImportance, isHotelChange, siteOrder.get());
     }
 
@@ -115,13 +93,11 @@ public class orderTest {
         for (int i = 0 ; i < restaurantList[0].size(); i++){
             System.out.println("점심");
             System.out.println("레스토랑 이름은 : " + restaurantList[0].get(i).getName());
-            System.out.println("레스토랑 소개는 : " + restaurantList[0].get(i).getContent());
             System.out.println("레스토랑 가격은 : " + restaurantList[0].get(i).getPrice()[0]);
             System.out.println("레스토랑 오픈 시간은 : " + restaurantList[0].get(i).getOpenTime().toString());
 
             System.out.println("저녁");
             System.out.println("레스토랑 이름은 : " + restaurantList[1].get(i).getName());
-            System.out.println("레스토랑 소개는 : " + restaurantList[1].get(i).getContent());
             System.out.println("레스토랑 가격은 : " + restaurantList[1].get(i).getPrice()[1]);
             System.out.println("레스토랑 오픈 시간은 : " + restaurantList[1].get(i).getOpenTime().toString());
             System.out.println("하루식사 가격은 : " + (restaurantList[0].get(i).getPrice()[0] + restaurantList[1].get(i).getPrice()[1]));
@@ -142,7 +118,6 @@ public class orderTest {
             System.out.println("호텔 이름은 = " + hotel.getHotelName());
             System.out.println("호텔 가격은 = " + hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel));
             System.out.println("호텔 종류는 = " + hotel.getType());
-            System.out.println("호텔 키워드는 = "+ Arrays.toString(hotel.getKeyword().toArray()));
             System.out.println();
         }
 

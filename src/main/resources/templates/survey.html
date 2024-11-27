@@ -44,7 +44,7 @@
     <h2>나의 여행 취향은?</h2>
     <form id="survey-form" th:action = "@{/order/main/{id}(id=${siteOrder.id})}" th:object="${surveyCreateForm}" method="post">
         <div class="form-group">
-            <label for="question1">질문 1: 어떤 종류의 관을 선호하시나요?</label>
+            <label for="question1">질문 1: 어떤 종류의 관광지를 선호하시나요?</label>
             <input type="radio" th:field = "*{tourismType}" value="문화" id="question1-1" >
             <label for="question1-1">문화적인 관심사에 관련된 관광지</label>
             <input type="radio" th:field = "*{tourismType}" value="자연" id="question1-2" >
@@ -92,50 +92,14 @@
 
         <div class="form-group">
             <label for="question5">질문 5: 어떤 종류의 숙소를 선호하시나요?</label>
-            <input type="radio" th:field = "*{hotelType}" value="호텔/리조트" id="question5-1">
+            <input type="radio" th:field = "*{hotelType}" value="호텔" id="question5-1">
             <label for="question5-1">호텔/리조트</label>
             <input type="radio" th:field = "*{hotelType}" value="모텔" id="question5-2">
             <label for="question5-2">모텔</label>
-            <input type="radio" th:field = "*{hotelType}" value="펜션/풀빌라" id="question5-3">
+            <input type="radio" th:field = "*{hotelType}" value="펜션" id="question5-3">
             <label for="question5-3">펜션/풀빌라</label>
             <input type="radio" th:field = "*{hotelType}" value="게스트하우스" id="question5-4">
             <label for="question5-4">게스트하우스</label>
-        </div>
-
-        <div class="form-group">
-            <label for="question3">질문 6: 어떤 특성의 숙소를 선호하시나요? </label>
-
-            <div class="meal-options">
-                <div>
-                    <input type="checkbox" th:field = "*{hotelKeyword}" value="편리한 위치" id="question6-1">
-                    <label for="question6-1">편리한 위치(교통)</label>
-                </div>
-                <div>
-                    <input type="checkbox" th:field = "*{hotelKeyword}" value="편의 시설" id="question6-2">
-                    <label for="question6-2">편의시설</label>
-                </div>
-                <div>
-                    <input type="checkbox" th:field = "*{hotelKeyword}" value="깔끔한" id="question6-3">
-                    <label for="question6-3">깔끔한</label>
-                </div>
-                <div>
-                    <input type="checkbox" th:field = "*{hotelKeyword}" value="친절한" id="question6-4">
-                    <label for="question6-4">친절한</label>
-                </div>
-                <div>
-                    <input type="checkbox" th:field = "*{hotelKeyword}" value="경치" id="question6-5">
-                    <label for="question6-5">경치</label>
-                </div>
-                <div>
-                    <input type="checkbox" th:field = "*{hotelKeyword}" value="가성비" id="question6-6">
-                    <label for="question6-6">가성비</label>
-                </div>
-                <div>
-                    <input type="checkbox" th:field = "*{hotelKeyword}" value="조용한" id="question6-7">
-                    <label for="question6-7">조용한</label>
-                </div>
-
-            </div>
         </div>
 
         <div class="form-group">

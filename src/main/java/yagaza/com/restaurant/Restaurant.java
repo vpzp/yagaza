@@ -29,10 +29,13 @@ public class Restaurant {
     //음식 종류(한식, 일식, 기타 세계 음식)
     private String type;
 
-    private String img;
+    private List<String> img;
 
-    @ManyToOne
-    private RestaurantReview restaurantReview;
+    private Double mapX;
+
+    private Double mapY;
+
+
 
     @ManyToMany
     private List<SiteOrder> siteOrder;

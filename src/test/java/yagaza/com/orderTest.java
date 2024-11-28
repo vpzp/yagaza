@@ -79,8 +79,8 @@ public class orderTest {
         boolean isHotelChange = true;
         Optional<SiteOrder> siteOrder = orderRepository.findById(64L);
 
-        surveyService.create(tourismType, tourismDayCount, restaurantType, openTime, hotelType,
-                hotelImportance, restaurantImportance, isHotelChange, siteOrder.get());
+        surveyService.create(tourismType, tourismDayCount, restaurantType,  hotelType,
+                isHotelChange, siteOrder.get());
     }
 
     @Test

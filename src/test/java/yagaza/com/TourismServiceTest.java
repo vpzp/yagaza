@@ -11,7 +11,7 @@ public class TourismServiceTest {
     private TourismService tourismService;
 
     @Test
-    public void createTest(){
+    public void createTourism(){
         tourismService.create("감천문화마을" , " https://a.cdn-hotels.com/gdcs/production15/d863/dea52703-bdd6-4e71-acd8-a6ec41138c4d.jpg " , "부산" ,  "부산광역시 사하구 감천동 203-9", 0, "문화");
         tourismService.create("해동용궁사" , "https://i.namu.wiki/i/2x-R7RROVzBHVTeOioOADMJobZZYST8txK6Bl7kNPRFeDSPCVHWydeXGdaqLty14OYYOmwdbJdYwL0O8A_ENRw.webp",  "부산", "부산광역시 영도구 동삼동 산 1", 0, "문화");
         tourismService.create("송도베이스테이션(송도해상케이블카)" , "https://mblogthumb-phinf.pstatic.net/MjAyMjA2MjVfMiAg/MDAxNjU2MDkwMTU0NDQx.B5i9uOfpszXW2CERNwrNL3beyjLb29BEBt8deMSkb1Qg.u50HQUuxMDW7KoL160k_HmaAtFWOViVCXhqlti9ZI-kg.JPEG.suk4408/1X5A5845.jpg?type=w800",  "부산", "부산광역시 서구 아미동 산 17-1", 16000, "자연");

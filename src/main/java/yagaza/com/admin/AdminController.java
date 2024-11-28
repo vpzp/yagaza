@@ -29,7 +29,7 @@ public class AdminController {
         Page<SiteUser> userList = userService.getUserList(page, keyword);
         model.addAttribute("paging", userList);
 
-        return "/admin/userList";
+        return "admin/userList";
     }
 
     @PostMapping("/userList/update")

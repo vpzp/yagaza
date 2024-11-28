@@ -50,16 +50,14 @@ public class OrderController {
         return "choice_hotel_room_form";
     }
     @PreAuthorize("isAuthenticated()")
-    //TODO 주소값은 main/{siteOrder.id} 로 설정하기
     @PostMapping("/main/{id}")
     public String order(Model model, Principal principal, SurveyCreateForm surveyCreateForm, @PathVariable("id") Long id){
         SiteOrder siteOrder = orderService.getOrder(userService.getUser(principal.getName()));
-        //TODO surveyId값을 넘겨줘야함
         Survey survey =surveyService.create(surveyCreateForm.getTourismType(), surveyCreateForm.getTourismCount(), surveyCreateForm.getRestaurantType(),
-                surveyCreateForm.getOpenTime(), surveyCreateForm.getHotelType(), surveyCreateForm.getHotelImportance(),
-                surveyCreateForm.getRestaurantImportance(),surveyCreateForm.isHotelChange(), siteOrder);
+                surveyCreateForm.getHotelType(),surveyCreateForm.isHotelChange(), siteOrder);
 
         orderService.setSurvey(siteOrder, survey);
+        //TODO 지역값 고려해야함
         List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
         List<Hotel> hotelList = surveyService.getHotel(survey);
         List<Tourism> tourismList = surveyService.getTourism(survey);
@@ -71,6 +69,9 @@ public class OrderController {
 
         int oneDayCash = siteOrder.getCash() / (siteOrder.getDate() - 1) / siteOrder.getProd();
         List<Restaurant>[] restaurantTop15ByPrice = surveyService.getRestaurantTop15ByPrice((int) (oneDayCash *0.42), false);
+
+        //TODO 고정값저장
+//        orderService.setOrderItem(siteOrder, restaurantList, tourismList, hotelList);
 
         model.addAttribute("survey" , survey);
         model.addAttribute("siteOrder", siteOrder);
@@ -93,13 +94,18 @@ public class OrderController {
         Survey survey = siteOrder.getSurvey();
 
 //       TODO 알고리즘을 실행시키지말고 siteOrder에 저장된 값을 꺼내오고 model로 넘겨주기
+        //기존 재생성하는 알고리즘
         orderService.setSurvey(siteOrder, survey);
         List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
         List<Hotel> hotelList = surveyService.getHotel(survey);
         List<Tourism> tourismList = surveyService.getTourism(survey);
-        List<Tourism> tourismAllList = tourismService.getToursimList();
+// 고정값 저장
+//        List<Restaurant>[] restaurantList = siteOrder.getRestaurant();
+//        List<Hotel> hotelList = siteOrder.getHotel();
+//        List<Tourism> tourismList = siteOrder.getTourism();
 
-//        기존 코드변경 테스트 필요
+
+        List<Tourism> tourismAllList = tourismService.getToursimList();
         List<Hotel> hotels = hotelService.getHotelType(survey.getHotelType());
         hotels.removeIf(hotel -> hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel) == null);
 

@@ -14,13 +14,7 @@ public class SurveyCreateForm {
 
     private String restaurantType;
 
-    private List<String> openTime;
-
     private String hotelType;
-
-    private int hotelImportance;
-
-    private int restaurantImportance;
 
     private boolean hotelChange;
 }

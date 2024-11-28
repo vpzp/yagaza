@@ -13,11 +13,10 @@ public class TourismService {
     @Autowired
     private final TourismRepository tourismRepository;
 
-    public void create(String name, String imgUrl, String content, String region, String address, int price, String type){
+    public void create(String name, String imgUrl, String region, String address, int price, String type){
         Tourism tourism = new Tourism();
         tourism.setName(name);
         tourism.setImgUrl(imgUrl);
-        tourism.setContent(content);
         tourism.setRegion(region);
         tourism.setAddress(address);
         tourism.setPrice(price);

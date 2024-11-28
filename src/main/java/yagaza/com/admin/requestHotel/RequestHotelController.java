@@ -37,7 +37,7 @@ public class RequestHotelController {
         model.addAttribute("paging", hotelList);
 
 
-        return "/admin/hotelList";
+        return "admin/hotelList";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -46,7 +46,7 @@ public class RequestHotelController {
         Hotel hotel = hotelService.getHotel(id);
         model.addAttribute("hotel", hotel);
 
-        return "/admin/hotel_detail";
+        return "admin/hotel_detail";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PARTNER')")
@@ -61,7 +61,7 @@ public class RequestHotelController {
         Page<RequestHotel> requestHotelList = requestHotelService.getPagingHotelList(page, keyword);
         model.addAttribute("paging", requestHotelList);
 
-        return "/admin/hotel_request_list";
+        return "admin/hotel_request_list";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -89,20 +89,20 @@ public class RequestHotelController {
         RequestHotel hotel = requestHotelService.getHotel(id);
         model.addAttribute("hotel", hotel);
 
-        return "/admin/hotel_request_detail";
+        return "admin/hotel_request_detail";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PARTNER')")
     @GetMapping("/hotelList/create")
     public String createHotelForm(RequestHotelForm requestHotelForm){
-        return "/admin/hotelForm";
+        return "admin/hotelForm";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PARTNER')")
     @PostMapping("/hotelList/create")
     public String createHotel(@Valid RequestHotelForm requestHotelForm, BindingResult bindingResult, Principal principal){
         if (bindingResult.hasErrors()){
-            return "/admin/hotelForm";
+            return "admin/hotelForm";
         }
         SiteUser user = userService.getUser(principal.getName());
         requestHotelService.create(requestHotelForm.getHotelName(), requestHotelForm.getRegion(), requestHotelForm.getPriceOnePerson(),
@@ -130,7 +130,7 @@ public class RequestHotelController {
         Page<RequestHotel> hotelList = requestHotelService.getPagingMyHotelList(page, user.getId());
         model.addAttribute("paging", hotelList);
 
-        return "/admin/my_request_hotel";
+        return "admin/my_request_hotel";
     }
 
 

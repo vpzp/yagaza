@@ -21,9 +21,10 @@ public class SurveyService {
     private final RestaurantService restaurantService;
     private final TourismService tourismService;
 
-    public Survey create(String tourismType, int tourismCount, String restaurantType, List<String> openTime, String hotelType,
-                        int hotelImportance, int restaurantImportance, boolean isHotelChange, SiteOrder siteOrder){
+    public Survey create(String tourismType, int tourismCount, String restaurantType, String hotelType,
+                         boolean isHotelChange, SiteOrder siteOrder){
         Survey survey = new Survey();
+        List<String> openTime = new ArrayList<>();
         openTime.add("점심");
         openTime.add("저녁");
         survey.setTourismType(tourismType);
@@ -31,8 +32,6 @@ public class SurveyService {
         survey.setRestaurantType(restaurantType);
         survey.setOpenTime(openTime);
         survey.setHotelType(hotelType);
-        survey.setHotelImportance(hotelImportance);
-        survey.setRestaurantImportance(restaurantImportance);
         survey.setHotelChange(isHotelChange);
         survey.setSiteOrder(siteOrder);
 

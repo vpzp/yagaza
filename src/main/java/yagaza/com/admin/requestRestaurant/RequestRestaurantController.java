@@ -33,7 +33,7 @@ public class RequestRestaurantController {
         Page<Restaurant> restaurantList = restaurantService.getRestaurantList(page, keyword);
         model.addAttribute("paging", restaurantList);
 
-        return "/admin/restaurantList";
+        return "admin/restaurantList";
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/restaurant/{id}")
@@ -41,7 +41,7 @@ public class RequestRestaurantController {
         Restaurant restaurant = restaurantService.getRestaurant(id);
         model.addAttribute("restaurant", restaurant);
 
-        return "/admin/restaurant_detail";
+        return "admin/restaurant_detail";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PARTNER')")
@@ -56,7 +56,7 @@ public class RequestRestaurantController {
         Page<RequestRestaurant> requestRestaurantList = requestRestaurantService.getPagingRestaurant(page, keyword);
         model.addAttribute("paging", requestRestaurantList);
 
-        return "/admin/restaurant_request_list";
+        return "admin/restaurant_request_list";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -87,13 +87,13 @@ public class RequestRestaurantController {
         RequestRestaurant restaurant = requestRestaurantService.getRestaurant(id);
         model.addAttribute("restaurant", restaurant);
 
-        return "/admin/restaurant_request_detail";
+        return "admin/restaurant_request_detail";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PARTNER')")
     @GetMapping("/restaurantList/create")
     public String createRestaurantForm(RequestRestaurantForm requestRestaurantForm){
-        return "/admin/restaurantForm";
+        return "admin/restaurantForm";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PARTNER')")
@@ -101,7 +101,7 @@ public class RequestRestaurantController {
     public String createRestaurant(@Valid RequestRestaurantForm requestRestaurantForm, BindingResult bindingResult,
                                    Principal principal){
         if (bindingResult.hasErrors()){
-            return "/admin/restaurantForm";
+            return "admin/restaurantForm";
         }
 
         List<Integer> price = requestRestaurantForm.getPrice();
@@ -117,7 +117,7 @@ public class RequestRestaurantController {
                 }
             } catch (NumberFormatException e) {
                 bindingResult.rejectValue("price", "error.price", "가격은 숫자만 입력 가능합니다.");
-                return "/admin/restaurantForm"; // 에러가 있으면 폼 다시 렌더링
+                return "admin/restaurantForm"; // 에러가 있으면 폼 다시 렌더링
             }
         }
 
@@ -145,6 +145,6 @@ public class RequestRestaurantController {
         Page<RequestRestaurant> restaurant = requestRestaurantService.getPagingMyRestaurant(page, user.getId());
         model.addAttribute("paging", restaurant);
 
-        return "/admin/my_request_restaurant";
+        return "admin/my_request_restaurant";
     }
 }

@@ -76,6 +76,15 @@ public class OrderService {
         return sum;
     }
 
+    //TODO 고정값 저장
+//    public void setOrderItem(SiteOrder siteOrder, List<Restaurant>[] restaurantList, List<Tourism> tourismList,
+//                             List<Hotel> hotelList){
+//        siteOrder.setRestaurant(restaurantList);
+//        siteOrder.setTourism(tourismList);
+//        siteOrder.setHotel(hotelList);
+//
+//    }
+
     public List<SiteOrder> findBySiteUserRealIdOrderByIdDesc(Long realId){
         return this.orderRepository.findBySiteUserRealIdOrderByIdDesc(realId);
     }

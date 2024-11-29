@@ -22,9 +22,9 @@ public class RestaurantCrawlingTest {
     public void scrollTest() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
-        String url = "https://app.catchtable.co.kr/ct/map/COMMON?showTabs=true&bottomSheetHeightType=FULL_LIST&serviceType=INTEGRATION&keyword=%EB%B6%80%EC%82%B0&keywordSearch=%EB%B6%80%EC%82%B0&isShowListLabelExpanded=1&zoomLevel=11&centerBoundsLat=34.75064277788241&centerBoundsLng=129.08379544898582&isSearchKeywordComplete=1&isNewSearchInMap=1&isShowMapSearchButton=1&isScrollTop=1&location=CAT026_CAT026001_CAT026002_CAT026003_CAT026004_CAT026005_CAT026006_CAT026007&foodKind=C_13&foodKind=C_22&foodKind=C_18&foodKind=C_17&foodKind=C_23&foodKind=C_24&foodKind=C_16&foodKind=C_15&foodKind=C_25&foodKind=C_12&foodKind=C_2&foodKind=C_3&isSearchedInMap=0&uniqueListId=1731634791630";
+        String url = "https://app.catchtable.co.kr/ct/map/COMMON?showTabs=true&serviceType=INTEGRATION&bottomSheetHeightType=FULL_LIST&keyword=%EA%B0%95%EB%A6%89&keywordSearch=%EA%B0%95%EB%A6%89&isNewSearchInMap=1&uniqueListId=1732863912550&centerBoundsLat=37.54093279807492&centerBoundsLng=128.905559565887&isScrollTop=1&isSearchKeywordComplete=1&legalDistrictByKeyword=51150&zoomLevel=10&isShowMapSearchButton=1";
         String type = "기타 세계음식";
-        String region = "부산";
+        String region = "강릉";
         driver.get(url);
         Thread.sleep(5500); // 페이지 로드 대기
 
@@ -37,7 +37,7 @@ public class RestaurantCrawlingTest {
         List<String> priceList = new ArrayList<>();
         List<String> contentList = new ArrayList<>();
         List<List<String>> imgList = new ArrayList<>();
-        while (new Date().getTime() < stTime + 40000) { // 30초 동안 스크롤
+        while (new Date().getTime() < stTime + 40000) { // 40초 동안 스크롤
             List<WebElement> elements = driver.findElements(By.cssSelector("[id^='virtual_']"));
             for (WebElement element : elements) {
                 try {

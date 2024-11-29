@@ -59,7 +59,7 @@ public class UserController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/passwordChange")
-    public String modify(UserCreateForm userCreateForm){
+    public String modify(UserModifyForm userModifyForm){
         return "password_change";
     }
 
@@ -71,22 +71,17 @@ public class UserController {
             return "password_change";
         }
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        if(passwordEncoder.matches(userModifyForm.getPassword(), siteUser.getPassword())){
+        if(!passwordEncoder.matches(userModifyForm.getPassword(), siteUser.getPassword())){
             bindingResult.rejectValue("password", "passwordSame",
-                    "기존의 비밀번호를 입력했습니다.");
+                    "기존의 비밀번호가 일치하지 않습니다.");
             return "password_change";
         } else if (!userModifyForm.getNewPassword1().equals(userModifyForm.getNewPassword2())) {
             bindingResult.rejectValue("NewPassword2", "passwordIncorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
             return "password_change";
         }
-        try{
+        userService.modifyPassword(siteUser, userModifyForm.getNewPassword1());
 
-        }catch (Exception e){
-            e.printStackTrace();
-            bindingResult.reject("modifyFailed", e.getMessage());
-            return "password_change";
-        }
         return "redirect:/";
     }
 

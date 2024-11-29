@@ -59,7 +59,7 @@
     </div>
 
     <!-- 레스토랑 이미지 -->
-    <div id="restaurantImageCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div id="restaurantImageCarousel" class="carousel slide mb-4">
       <div class="carousel-inner text-center">
         <div th:each="img, iterStat : ${restaurant.img}"
              th:classappend="${iterStat.index == 0} ? 'active'"

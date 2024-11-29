@@ -16,7 +16,6 @@ public class OrderCreateForm {
 
     int date;
 
-    String car;
 
     String travel;
 

@@ -10,42 +10,44 @@
   <div class="wrap">
       <div class="intro_bg">
         <div class="p-3 m-0 border-0 bd-example m-0 border-0">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary mx-5">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/main}">
-                <img th:src="@{/images/logo.png}" alt="Logo" width="163" height="38" class="d-inline-block align-text-top">
-            </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link" th:href="@{/admin/userList}">관리자</a>
-                </li>
-                <li class="nav-item" sec:authorize="hasRole('ROLE_PARTNER')">
-                    <a class="nav-link" th:href="@{/admin/myRequestHotel}">관리자</a>
-                </li>
-              <li class="nav-item">
-                <a class="nav-link" th:href="@{/post/list}">커뮤니티</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/mypage}">마이페이지</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
-              </li>
-            </ul>
-          </div>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary mx-5"
+                 style="border: 3px solid black; border-radius: 15px; padding: 10px; background-color: white;">
+                <div class="container-fluid">
+                    <a class="navbar-brand" th:href="@{/main}" style="margin-left: 10px;">
+                        <img th:src="@{/images/logo.png}" alt="Logo" width="163" height="38"
+                             style="border-radius: 5px;">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item" style="margin-right: 10px;">
+                                <a class="btn btn-warning fw-bold px-3 py-2"
+                                   th:href="@{/post/list}" style="color: black; border: 2px solid black; border-radius: 10px;">커뮤니티</a>
+                            </li>
+                            <li class="nav-item" style="margin-right: 10px;">
+                                <a class="btn btn-warning fw-bold px-3 py-2"
+                                   th:href="@{/user/login}" sec:authorize="isAnonymous()" style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
+                            </li>
+                            <li class="nav-item" style="margin-right: 10px;">
+                                <a class="btn btn-warning fw-bold px-3 py-2"
+                                   th:href="@{/user/signup}" sec:authorize="isAnonymous()" style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
+                            </li>
+                            <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAuthenticated()">
+                                <a class="btn btn-warning fw-bold px-3 py-2"
+                                   th:href="@{/user/mypage}" style="color: black; border: 2px solid black; border-radius: 10px;">마이페이지</a>
+                            </li>
+                            <li class="nav-item" sec:authorize="isAuthenticated()">
+                                <a class="btn btn-warning fw-bold px-3 py-2"
+                                   th:href="@{/user/logout}" style="color: black; border: 2px solid black; border-radius: 10px;">로그아웃</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
         <div class="intro_text">
             <h1>이번 여행 어디로가지</h1>
             <h4 class="contents1">금액에 맞춰진 여행 계획을 만들어 드리겠습니다.</h4>
@@ -53,139 +55,178 @@
       </div>
   </div>
   <!-- intro end-->
-  <form th:action = "@{/survey}" method="post">
-      <ul class="amount">
-          <li>
-              <div>
-                  <table>
-                      <td>금액<input id="cash" th:name = "cash"></input></td>
-                  </table>
-              </div>
-          </li>
-          <li>
-              <div>
-                  <table>
-                      <td>인원수 <select id="prod" th:name = "prod">
-                          <option value=1> 1명 </option>
-                          <option value=2> 2명 </option>
-                          <option value=3> 3명 </option>
-                          <option value=4> 4명 </option>
-                          <option value=5> 5명 </option></select> |</td>
-                      <td>날짜 <select id="date" th:name = "date">
-                          <option value=2> 1박2일 </option>
-                          <option value=3> 2박3일 </option>
-                          <option value=4> 3박4일 </option>
-                          <option value=5> 4박5일 </option></select></td>
-                  </table>
-              </div>
-          </li>
-          <li>
-              <div>
-                  <table>
-                      <td>차량유무
-                          <select id="car" th:name = "car">
-                              <option value="차량있음"> 예 </option>
-                              <option value="차량없음"> 아니요 </option>
-                          </select>
-                      </td>
-                  </table>
-              </div>
-          </li>
-          <li>
-              <div>
-                  <table>
-                      <td>지역
-                          <select id="travel" th:name = "부산">
-                              <option value="부산"> 부산 </option>
-                          </select>
-                      </td>
-                  </table>
-              </div>
-          </li>
-          <button>선택 완료</button>
-      </ul>
+  <form th:action="@{/survey}" method="post">
+      <div class="amount d-flex align-items-center border border-3 rounded p-4"
+           style="background: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border-color: black !important; margin-top: -50px; border-radius: 20px !important;">
+          <!-- 금액 -->
+          <div class="d-flex align-items-center flex-grow-1">
+              <label for="cash" class="me-2 fw-bold">금액</label>
+              <input type="text" id="cash" name="cash" class="form-control text-center"
+                     style="max-width: 120px; border-radius: 10px;">
+          </div>
+          <div class="vr mx-4" style="width: 3px; background-color: black !important;;"></div>
+
+          <!-- 인원 -->
+          <div class="d-flex align-items-center flex-grow-1">
+              <label for="prod" class="me-2 fw-bold">인원</label>
+              <select id="prod" name="prod" class="form-select text-center"
+                      style="max-width: 120px; border-radius: 10px;">
+                  <option value="1">1명</option>
+                  <option value="2">2명</option>
+                  <option value="3">3명</option>
+                  <option value="4">4명</option>
+                  <option value="5">5명</option>
+              </select>
+          </div>
+          <div class="vr mx-4" style="width: 3px; background-color: black !important;;"></div>
+
+          <!-- 날짜 -->
+          <div class="d-flex align-items-center flex-grow-1">
+              <label for="date" class="me-2 fw-bold">날짜</label>
+              <select id="date" name="date" class="form-select text-center"
+                      style="max-width: 140px; border-radius: 10px;">
+                  <option value="2">1박2일</option>
+                  <option value="3">2박3일</option>
+                  <option value="4">3박4일</option>
+                  <option value="5">4박5일</option>
+              </select>
+          </div>
+          <div class="vr mx-4" style="width: 3px; background-color: black !important;;"></div>
+
+          <!-- 지역 -->
+          <div class="d-flex align-items-center flex-grow-1">
+              <label for="travel" class="me-2 fw-bold">지역</label>
+              <select id="travel" name="travel" class="form-select text-center"
+                      style="max-width: 140px; border-radius: 10px;">
+                  <option value="부산">부산</option>
+              </select>
+          </div>
+          <div class="vr mx-4" style="width: 3px; background-color: black !important;;"></div>
+
+          <!-- 버튼 -->
+          <div class="d-flex align-items-stretch justify-content-end flex-grow-1">
+              <button type="submit" class="btn btn-warning fw-bold px-5"
+                      style="color: black; border: 2px solid black; border-radius: 10px; font-size: 1.2rem; height: 100%;">선택 완료</button>
+          </div>
+      </div>
   </form>
+
+
   <!-- amount end -->
   <div class="main_text0">
     <h1>한국의 다양한 도시를 탐험하세요!</h1>
-    <div class="contents1">한국의 대표적인 관광지 서울, 부산, 제주를 소개 합니다.</div>
+      <div id="cityCarousel" class="carousel slide">
+          <!-- 슬라이더 컨텐츠 -->
+          <div class="carousel-inner text-center">
+              <!-- Slide 1 -->
+              <div class="carousel-item active">
+                  <div class="d-flex justify-content-center align-items-center" style="gap: 130px;">
+                      <div class="text-center">
+                          <p class="mt-2 fw-bold" style="font-size: 1.5rem; font-weight: 900;">서울</p>
+                          <div class="d-flex justify-content-center align-items-center"
+                               style="width: 250px; height: 250px; border-radius: 50%; border: 7px solid black; overflow: hidden;">
+                              <a href="https://www.instagram.com/all.about.seoul.trip?igsh=MXdrbDY1Z2k5eG8zcw==" target="_blank">
+                                  <img th:src="@{'/images/seoul.jpg'}" alt="서울" style="width: 105%; height: 105%; object-fit: cover;">
+                              </a>
+                          </div>
+                      </div>
 
-    <ul class="icons">
-        <li>
-            <div class="icon_img">
-                <img th:src="@{'/images/서울3.jpg'}" style="width: 100%; height: 100%; object-fit:cover;">
-            </div>
-            <div class="contents1_bold">서울</div>
-            <div class="more">
-                <a href="https://www.instagram.com/all.about.seoul.trip?igsh=MXdrbDY1Z2k5eG8zcw==">서울에 대한 모든것</a>
-            </div>
-        </li>
+                      <div class="text-center">
+                          <p class="mt-2 fw-bold" style="font-size: 1.5rem; font-weight: 900;">부산</p>
+                          <div class="d-flex justify-content-center align-items-center"
+                               style="width: 250px; height: 250px; border-radius: 50%; border: 7px solid black; overflow: hidden;">
+                              <a href="https://www.instagram.com/all.about.busan?igsh=MXFzb2V2cDluZzgzaA==" target="_blank">
+                                  <img th:src="@{'/images/busan.jpg'}" alt="부산" style="width: 105%; height: 105%; object-fit: cover;">
+                              </a>
+                          </div>
+                      </div>
 
-        <li>
-            <div class="icon_img">
-                <img th:src="@{'/images/부산4.jpg'}" style="width: 100%; height: 100%; object-fit:cover;">
-            </div>
-            <div class="contents1_bold">부산</div>
-            <div class="more">
-                <a href="https://www.instagram.com/all.about.busan?igsh=MXFzb2V2cDluZzgzaA==">부산에 대한 모든것</a>
-            </div>
-        </li>
+                      <div class="text-center">
+                          <p class="mt-2 fw-bold" style="font-size: 1.5rem; font-weight: 900;">제주도</p>
+                          <div class="d-flex justify-content-center align-items-center"
+                               style="width: 250px; height: 250px; border-radius: 50%; border: 7px solid black; overflow: hidden;">
+                              <a href="https://www.instagram.com/all.about.jeju/" target="_blank">
+                                  <img th:src="@{'/images/jaejudo.jpg'}" alt="제주도" style="width: 105%; height: 105%; object-fit: cover;">
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
 
-        <li>
-            <div class="icon_img">
-                <img th:src="@{'/images/강릉3.jpg'}" style="width: 100%; height: 100%; object-fit:cover;">
-            </div>
-            <div class="contents1_bold">제주</div>
-            <div class="more">
-                <a href="https://www.instagram.com/all.about.jeju/">제주에 대한 모든것</a>
-            </div>
-        </li>
-    </ul>
+              <!-- Slide 2 -->
+              <div class="carousel-item">
+                  <div class="d-flex justify-content-center align-items-center" style="gap: 130px;">
+                      <div class="text-center">
+                          <p class="mt-2 fw-bold" style="font-size: 1.5rem; font-weight: 900;">대전</p>
+                          <div class="d-flex justify-content-center align-items-center"
+                               style="width: 250px; height: 250px; border-radius: 50%; border: 7px solid black; overflow: hidden;">
+                              <img th:src="@{'/images/daejeon.jpg'}" alt="대전" style="width: 105%; height: 105%; object-fit: cover;">
+                          </div>
+                      </div>
+
+                      <div class="text-center">
+                          <p class="mt-2 fw-bold" style="font-size: 1.5rem; font-weight: 900;">전주</p>
+                          <div class="d-flex justify-content-center align-items-center"
+                               style="width: 250px; height: 250px; border-radius: 50%; border: 7px solid black; overflow: hidden;">
+                              <img th:src="@{'/images/jeonju.jpg'}" alt="전주" style="width: 105%; height: 105%; object-fit: cover;">
+                          </div>
+                      </div>
+
+                      <div class="text-center">
+                          <p class="mt-2 fw-bold" style="font-size: 1.5rem; font-weight: 900;">강릉</p>
+                          <div class="d-flex justify-content-center align-items-center"
+                               style="width: 250px; height: 250px; border-radius: 50%; border: 7px solid black; overflow: hidden;">
+                              <img th:src="@{'/images/gangneung.jpg'}" alt="강릉" style="width: 105%; height: 105%; object-fit: cover;">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Controls -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#cityCarousel" data-bs-slide="prev"
+                  style="background: transparent; border: none;">
+              <img th:src="@{'/images/left-arrow.png'}" alt="Previous" style="width: 50px; height: 50px;">
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#cityCarousel" data-bs-slide="next"
+                  style="background: transparent; border: none;">
+              <img th:src="@{'/images/right-arrow.png'}" alt="Next" style="width: 50px; height: 50px;">
+          </button>
+      </div>
+  </div>
+
+<!--    <ul class="icons">-->
+<!--        <li>-->
+<!--            <div class="icon_img">-->
+<!--                <img th:src="@{'/images/서울3.jpg'}" style="width: 100%; height: 100%; object-fit:cover;">-->
+<!--            </div>-->
+<!--            <div class="contents1_bold">서울</div>-->
+<!--            <div class="more">-->
+<!--                <a href="https://www.instagram.com/all.about.seoul.trip?igsh=MXdrbDY1Z2k5eG8zcw==">서울에 대한 모든것</a>-->
+<!--            </div>-->
+<!--        </li>-->
+
+<!--        <li>-->
+<!--            <div class="icon_img">-->
+<!--                <img th:src="@{'/images/부산4.jpg'}" style="width: 100%; height: 100%; object-fit:cover;">-->
+<!--            </div>-->
+<!--            <div class="contents1_bold">부산</div>-->
+<!--            <div class="more">-->
+<!--                <a href="https://www.instagram.com/all.about.busan?igsh=MXFzb2V2cDluZzgzaA==">부산에 대한 모든것</a>-->
+<!--            </div>-->
+<!--        </li>-->
+
+<!--        <li>-->
+<!--            <div class="icon_img">-->
+<!--                <img th:src="@{'/images/강릉3.jpg'}" style="width: 100%; height: 100%; object-fit:cover;">-->
+<!--            </div>-->
+<!--            <div class="contents1_bold">제주</div>-->
+<!--            <div class="more">-->
+<!--                <a href="https://www.instagram.com/all.about.jeju/">제주에 대한 모든것</a>-->
+<!--            </div>-->
+<!--        </li>-->
+<!--    </ul>-->
 </div>
-
-  <!--<div class="main_text0">
-      <h1>같이 여행갈까요?</h1>
-      <div class="contents1">서울, 부산, 강릉, 제주도 </div>
-
-      <ul class="icons">
-          <li>
-              <div class="icon_img">
-                  <img src="https://assets.codefriends.net/users/e67b5557-04b3-48ba-ac7c-af4c62c73909/projects/media/b3441a82d97fec12521b212e2543627c.png">
-              </div>
-              <div class="contents1_bold">서울</div>
-              <div class="more">
-                  서울은 한국의 수도로 현대적인 도시와 전통적인 문화가 조화를 갖추는 도시입니다.
-                  광화문과 종로에서는 고대의 건축물과 전통 시장을 만나볼 수 있고, 한강을 따라 스카이 라인을 따라 걷거나 자전거나 유람선을 타며 
-                  도시 자연도 같이 즐길 수 있습니다. 서울은 역사와 문화, 먹거리, 엔터테인먼트 등 다양한 즐길 거리를 제공합니다
-              </div>
-          </li>
-
-          <li>
-              <div class="icon_img">
-                  <img src="https://assets.codefriends.net/users/e67b5557-04b3-48ba-ac7c-af4c62c73909/projects/media/890861e48991d649e47c487e77d19a3a.png">
-              </div>
-              <div class="contents1_bold">부산</div>
-              <div class="more">
-                  부산은 두번째로 큰 도시이자 한국에 중요한 항구 도시다. 매력적인 해안 풍경과 푸른 바다가 매력이며, 해운대 해수욕장과
-                  광안리 해수욕장이 인기가 많다. 또한, 부산은 부산타워와 국제시장 같은 관광 명소 뿐 아니라, 부산역 근처 먹거리 거리와 송도 해수욕장도
-                  갖추어 있다. 부산은 자연과 문화 먹거리가 공존하는 도시이다.
-              </div>
-          </li>
-
-          <li>
-              <div class="icon_img">
-                  <img src="https://assets.codefriends.net/users/e67b5557-04b3-48ba-ac7c-af4c62c73909/projects/media/3e38bc4b32b59c300fc7a1f9a14a31e0.png">
-              </div>
-              <div class="contents1_bold">강릉</div>
-              <div class="more">
-                  강릉은 한국 동해안의 주요 관광지로 아름다운 자연 경관을 가지고 있다. 관광명소로는 해안도로인 중앙시장과 오죽헌, 경포대등이 있다. 
-                  겨울에는 동해바다에서 유명한 얼음 축제를 즐길 수 있으며, 강릉은 아름다운 자연과 다채로운 문화를 경험 할 수 있는 매력적인 관광지로 
-                  꼽힌다.
-              </div>
-          </li>
-      </ul>
-  </div>-->
-
   <div class="footer">
       <div>LOGO</div>
       <div>

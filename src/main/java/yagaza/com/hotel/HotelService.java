@@ -130,8 +130,8 @@ public class HotelService {
         return hotelRepository.findAllByHotelNameContaining(keyword, pageable);
     }
 
-    public Optional<Hotel> getHotelByHotelName(String hotelName){
-        return hotelRepository.findByHotelName(hotelName);
+    public Optional<Hotel> getHotelByHotelName(String hotelName, String region){
+        return hotelRepository.findByHotelNameAndRegion(hotelName, region);
     }
 
 }

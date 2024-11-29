@@ -35,9 +35,4 @@ public class Restaurant {
 
     private Double mapY;
 
-
-
-    @ManyToMany
-    private List<SiteOrder> siteOrder;
-
 }

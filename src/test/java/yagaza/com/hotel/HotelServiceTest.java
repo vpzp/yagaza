@@ -36,7 +36,7 @@ class HotelServiceTest {
     public void hotelNumberCrawling(){
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
-        String region = "부산";
+        String region = "강릉";
 //        인원수 수동으로 설정 해야함
         int prod = 5;
 
@@ -47,7 +47,7 @@ class HotelServiceTest {
             Thread.sleep(1500);
             WebElement hotels = driver.findElement(By.className("common_clearfix__M6urU"));
             var stTime = new Date().getTime();
-            while (new Date().getTime() < stTime + 60000) { //30초 동안 무한스크롤 지속
+            while (new Date().getTime() < stTime + 38000) { //38초 동안 무한스크롤 지속
                 Thread.sleep(500); //리소스 초과 방지
                 ((JavascriptExecutor)driver).executeScript("window.scrollTo(0, document.body.scrollHeight)", hotels);
             }
@@ -75,26 +75,26 @@ class HotelServiceTest {
                         .getText();
 
                 // priceTwoPerson 추출
-                String priceTwoPersonText = hotelElement.findElement(By.cssSelector("span.PlacePriceInfoV2_discountPrice__1PuwK"))
+                String priceText = hotelElement.findElement(By.cssSelector("span.PlacePriceInfoV2_discountPrice__1PuwK"))
                         .getText()
                         .replace(",", "")
                         .replace("원", "");
-                Integer priceTwoPerson = Integer.parseInt(priceTwoPersonText);
+                Integer price = Integer.parseInt(priceText);
 
                 // 결과 출력
                 System.out.println("Title: " + title);
                 System.out.println("Image URL: " + imgUrl);
                 System.out.println("Type: " + type);
                 System.out.println("Check-In Time: " + checkInTime);
-                System.out.println("Price for Two: " + priceTwoPerson);
+                System.out.println("Price for Two: " + price);
 
-                if (hotelService.getHotelByHotelName(title).isPresent()){
-                    Hotel hotel = hotelService.getHotelByHotelName(title).get();
-                    hotelService.setHotelPrice(hotel, prod, priceTwoPerson);
+                if (hotelService.getHotelByHotelName(title, region).isPresent()){
+                    Hotel hotel = hotelService.getHotelByHotelName(title, region).get();
+                    hotelService.setHotelPrice(hotel, prod, price);
 
                     continue;
                 }
-                hotelService.createHotel(title, checkInTime, imgUrl, type, prod, priceTwoPerson, region);
+                hotelService.createHotel(title, checkInTime, imgUrl, type, prod, price, region);
             }
         }catch (Exception e){
             System.out.println("오류발생");

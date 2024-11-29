@@ -31,6 +31,10 @@ public class Tourism {
 
     private String type;
 
+    private Double mapX;
+
+    private Double mapY;
+
 //    @ManyToMany (cascade = CascadeType.REMOVE)
 //    private List<SiteOrder> siteOrder;
 }

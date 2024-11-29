@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import yagaza.com.Tourism.TourismService;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.hotel.HotelService;
 import yagaza.com.restaurant.Restaurant;
@@ -25,6 +26,8 @@ public class GeocodingTest {
     private RestaurantService restaurantService;
     @Autowired
     private HotelService hotelService;
+    @Autowired
+    private TourismService tourismService;
 
     @Test
     public void setRestaurantMap(){
@@ -34,5 +37,10 @@ public class GeocodingTest {
     @Test
     public void setHotelMap(){
         hotelService.setAllMap();
+    }
+
+    @Test
+    public void setTourismMap(){
+        tourismService.setAllMap();
     }
 }

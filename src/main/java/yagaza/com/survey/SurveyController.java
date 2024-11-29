@@ -27,7 +27,7 @@ public class SurveyController {
     public String main(OrderCreateForm orderCreateForm, Principal principal, SurveyCreateForm surveyCreateForm, Model model)  {
         SiteUser siteUser =this.userService.getUser(principal.getName());
         SiteOrder siteOrder = this.orderService.create(orderCreateForm.getCash(), orderCreateForm.getProd(), orderCreateForm.getDate(),
-                orderCreateForm.getCar(), "부산", siteUser);
+                "부산", siteUser);
         model.addAttribute("siteOrder", siteOrder);
 
         return "survey";

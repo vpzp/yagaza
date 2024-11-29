@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import yagaza.com.Tourism.Tourism;
 import yagaza.com.Tourism.TourismService;
+import yagaza.com.admin.ListUtil;
 import yagaza.com.hotel.Hotel;
 import yagaza.com.hotel.HotelService;
 import yagaza.com.restaurant.Restaurant;
@@ -18,6 +19,7 @@ import yagaza.com.survey.SurveyCreateForm;
 import yagaza.com.survey.SurveyService;
 import yagaza.com.user.UserService;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -71,7 +73,7 @@ public class OrderController {
         List<Restaurant>[] restaurantTop15ByPrice = surveyService.getRestaurantTop15ByPrice((int) (oneDayCash *0.42), false);
 
         //TODO 고정값저장
-//        orderService.setOrderItem(siteOrder, restaurantList, tourismList, hotelList);
+        orderService.setOrderItem(siteOrder, restaurantList, tourismList, hotelList);
 
         model.addAttribute("survey" , survey);
         model.addAttribute("siteOrder", siteOrder);
@@ -87,22 +89,16 @@ public class OrderController {
 
         return "order_form";
     }
-    @PreAuthorize("isAuthenticated()")
+
+//  TODO 예약내역 html에서 이 링크 복사해주기
     @GetMapping("/main/{id}")
-    public String orderModify(Model model, Principal principal, @PathVariable("id") Long id){
-        SiteOrder siteOrder = orderService.getOrder(userService.getUser(principal.getName()));
+    public String orderModify(Model model, @PathVariable("id") Long id) throws IOException {
+        SiteOrder siteOrder = orderService.getOrder(id);
         Survey survey = siteOrder.getSurvey();
 
-//       TODO 알고리즘을 실행시키지말고 siteOrder에 저장된 값을 꺼내오고 model로 넘겨주기
-        //기존 재생성하는 알고리즘
-        orderService.setSurvey(siteOrder, survey);
-        List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
-        List<Hotel> hotelList = surveyService.getHotel(survey);
-        List<Tourism> tourismList = surveyService.getTourism(survey);
-// 고정값 저장
-//        List<Restaurant>[] restaurantList = siteOrder.getRestaurant();
-//        List<Hotel> hotelList = siteOrder.getHotel();
-//        List<Tourism> tourismList = siteOrder.getTourism();
+        List<Restaurant>[] restaurantList = ListUtil.convertListToArray(siteOrder.getRestaurantList());
+        List<Hotel> hotelList = siteOrder.getHotel();
+        List<Tourism> tourismList = siteOrder.getTourism();
 
 
         List<Tourism> tourismAllList = tourismService.getToursimList();

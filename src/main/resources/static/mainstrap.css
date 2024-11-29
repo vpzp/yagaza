@@ -118,9 +118,6 @@ h1 {
   height:57px;
 }
 
-.amount > li:not(:last-child) > div{
-  border-right:1px solid #E1E1E1;
-} /*보더 마지막꺼만 빼고 회색 줄 삽입*/
 .intro_text{
   width:100%;
   margin:231px auto 231px auto;

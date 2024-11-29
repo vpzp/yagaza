@@ -35,11 +35,12 @@ public class UserService {
         return user;
     }
 
-    public SiteUser modify(){
-        SiteUser user = new SiteUser();
-        return user;
-    }
+    public void modifyPassword(SiteUser siteUser, String password){
+        siteUser.setPassword(passwordEncoder.encode(password));
 
+        userRepository.save(siteUser);
+
+    }
     public SiteUser getUser(String username) {
         Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
         if (siteUser.isPresent()) {

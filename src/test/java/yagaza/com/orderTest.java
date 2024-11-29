@@ -34,36 +34,6 @@ public class orderTest {
     private SurveyService surveyService;
     @Autowired
     private SurveyRepository surveyRepository;
-    @Autowired
-    private RestaurantService restaurantService;
-    @Autowired
-    private TourismService tourismService;
-
-    @Test
-    public void createOrderTest(){
-//        int cash = 700000;
-//        int prod = 2;
-//        String date = "3";
-//        String car = "없음";
-//        String travel = "부산";
-//        SiteUser siteUser = userService.getUser("관리자");
-
-//        int cash = 1100000;
-//        int prod = 3;
-//        String date = "3";
-//        String car = "없음";
-//        String travel = "부산";
-//        SiteUser siteUser = userService.getUser("관리자");
-
-        int cash = 300000;
-        int prod = 2;
-        int date = 2;
-        String car = "없음";
-        String travel = "부산";
-        SiteUser siteUser = userService.getUser("관리자");
-
-        orderService.create(cash, prod, date, car, travel, siteUser);
-    }
 
     @Test
     public void createSurveyTest(){

@@ -54,13 +54,13 @@
                           <a class="btn btn-warning fw-bold px-3 py-2"
                              th:href="@{/post/list}" style="color: black; border: 2px solid black; border-radius: 10px;">커뮤니티</a>
                       </li>
-                      <li class="nav-item" style="margin-right: 10px;">
+                      <li class="nav-item" style="margin-right: 10px;"sec:authorize="isAnonymous()">
                           <a class="btn btn-warning fw-bold px-3 py-2"
-                             th:href="@{/user/login}" sec:authorize="isAnonymous()" style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
+                             th:href="@{/user/login}"  style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
                       </li>
-                      <li class="nav-item" style="margin-right: 10px;">
+                      <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAnonymous()">
                           <a class="btn btn-warning fw-bold px-3 py-2"
-                             th:href="@{/user/signup}" sec:authorize="isAnonymous()" style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
+                             th:href="@{/user/signup}"  style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
                       </li>
                       <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAuthenticated()">
                           <a class="btn btn-warning fw-bold px-3 py-2"
@@ -85,18 +85,17 @@
         <table class="table table-bordered text-center">
           <tbody>
             <tr class="mb-5" th:each="siteOrder : ${siteOrderList}">
-              <td class="image-cell" style="background-image: url('/images/부산5.jpg');"></td>
-              <td class="align-middle description-cell">
-<!--                TODO 지역이름 수정 필요-->
-                <h5><strong>부산</strong></h5>
-                <p th:text="'부산 / ' + ${siteOrder.date} +' / '+${siteOrder.prod}+' / ' +${siteOrder.cash}">부산 / 기간(2박3일) / 인원 / 금액</p>
+                <td class="image-cell" th:style="'background-image: url(' + ${siteOrder.hotel.get(0).getImg} + ');'"></td>
+                <td class="align-middle description-cell">
+                <h5 th:text = "${siteOrder.travel}"><strong></strong></h5>
+                <p th:text="${siteOrder.travel}+ ' / ' + ${siteOrder.date} +' / '+${siteOrder.prod}+' / ' +${siteOrder.cash}">부산 / 기간(2박3일) / 인원 / 금액</p>
                 <p><strong>날짜:</strong></p><p th:text="${siteOrder.createDateTime != null ? siteOrder.createDateTime.format(T(java.time.format.DateTimeFormatter).ISO_LOCAL_DATE) : ''}"> 2024년 5월 29일</p>
                 <div class="button-container">
                   <form th:action = "@{/order/main/{id}(id=${siteOrder.id})}" method="get">
                     <button class="styled-button" >확인</button>
                   </form>
                   <button class="styled-button">링크 복사</button></div>
-              </td>
+                </td>
             </tr>
           </tbody>
         </table>

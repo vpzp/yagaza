@@ -68,7 +68,7 @@ public class RequestHotelController {
     @PostMapping("/requestHotelList/update")
     public String updateHotelStatus(Long id, String status){
         RequestHotel requestHotel = requestHotelService.updateStatus(id, status);
-        if (status.equals("대기중")){
+        if (status.equals("거절완료")){
             return "redirect:/admin/requestHotelList";
         }
 

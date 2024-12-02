@@ -30,6 +30,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
+        user.setAuthority("사용자");
         this.userRepository.save(user);
 
         return user;

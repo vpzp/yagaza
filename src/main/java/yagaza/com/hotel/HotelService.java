@@ -114,8 +114,8 @@ public class HotelService {
         }
     }
 
-    public List<Hotel> getHotelType(String type){
-        return hotelRepository.findAllByTypeContains(type);
+    public List<Hotel> getHotelType(String type, String region){
+        return hotelRepository.findAllByTypeContainsAndRegion(type, region);
     }
 
     public List<Hotel> getHotelList(){

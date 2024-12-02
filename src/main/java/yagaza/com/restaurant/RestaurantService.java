@@ -36,6 +36,10 @@ public class RestaurantService {
         return restaurant;
     }
 
+    public List<Restaurant> getRestaurantList(String region){
+        return this.restaurantRepository.findAllByRegion(region);
+    }
+
     public List<Restaurant> getRestaurantList(){
         return this.restaurantRepository.findAll();
     }
@@ -53,8 +57,8 @@ public class RestaurantService {
         restaurantRepository.delete(restaurant);
     }
 
-    public List<Restaurant> getRestaurantListByOpenTime(String openTime){
-        List<Restaurant> restaurantList = getRestaurantList();
+    public List<Restaurant> getRestaurantListByOpenTime(String openTime, String region){
+        List<Restaurant> restaurantList = getRestaurantList(region);
         List<Restaurant> restaurants = new ArrayList<>();
         for(Restaurant restaurant : restaurantList){
             if (restaurant.getOpenTime().contains(openTime)){

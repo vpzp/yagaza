@@ -101,7 +101,7 @@ public class UserController {
     @GetMapping("/useList")
     public String useList(Principal principal, Model model){
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        List<SiteOrder> siteOrderList =orderService.findBySiteUserRealIdOrderByIdDesc(siteUser.getRealId());
+        List<SiteOrder> siteOrderList = orderService.findBySiteUserRealIdOrderByIdDesc(siteUser.getRealId());
         model.addAttribute("siteOrderList", siteOrderList);
         return "UseList";
     }

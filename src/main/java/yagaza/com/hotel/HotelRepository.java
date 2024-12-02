@@ -17,6 +17,8 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
 
     List<Hotel> findTop100By();
 
+    List<Hotel> findAllByTypeContainsAndRegion(String type, String region);
+
     List<Hotel> findAllByTypeContains(String type);
 
     Page<Hotel> findAllByHotelNameContaining(String keyword, Pageable pageable);

@@ -32,6 +32,10 @@ public class TourismService {
         return this.tourismRepository.findAll();
     }
 
+    public List<Tourism> getToursimList(String region){
+        return this.tourismRepository.findAllByRegion(region);
+    }
+
 
 
     public void setAllMap(){

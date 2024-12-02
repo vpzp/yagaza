@@ -48,9 +48,9 @@ public class SurveyService {
         int money = (int) (cash * 0.16);
         return money;
     }
-    public List<Tourism> getTourism(Survey survey){
+    public List<Tourism> getTourism(Survey survey, String region){
         List<Tourism> tourisms = new ArrayList<>();
-        List<Tourism> tourismList = tourismService.getToursimList();
+        List<Tourism> tourismList = tourismService.getToursimList(region);
         List<Tourism> removed = new ArrayList<>();
         Collections.shuffle(tourismList);
 
@@ -74,16 +74,15 @@ public class SurveyService {
         return tourisms;
     }
     //List 2차원 배열 인덱스 0 : 점심 , 1 : 저녁 , 2 : 야식
-    public List<Restaurant>[] getRestaurant(Survey survey){
+    public List<Restaurant>[] getRestaurant(Survey survey, String region){
         List<Restaurant>[] restaurantList = new ArrayList[3];
         int cash = getRestaurantCash(survey.getSiteOrder().getCash(), survey);
-        List<Restaurant> list = restaurantService.getRestaurantList();
         int date = survey.getSiteOrder().getDate();
         //하루에 쓸수 있는 돈
         int oneDayCash = cash/ (date - 1) / survey.getSiteOrder().getProd();
 
         //금액에 맞는 식당 {점심, 저녁}리스트로 10개 반환
-        restaurantList = getRestaurantTop15ByPrice(oneDayCash , false);
+        restaurantList = getRestaurantTop15ByPrice(oneDayCash , false, region);
 
         //반환 된 15개의 데이터 순서 섞기
         List<Pair<Restaurant, Restaurant>> pairs = new ArrayList<>();
@@ -105,12 +104,10 @@ public class SurveyService {
 
         return restaurantList;
     }
-    public List<Hotel> getHotel(Survey survey){
+    public List<Hotel> getHotel(Survey survey, String region){
         List<Hotel> hotelList = new ArrayList<>();
         int cash = getHotelCash(survey.getSiteOrder().getCash(), survey);
-//        기존 코드변경 테스트 필요
-//        키워드, type 일치에서 type일치로 조건문 수정
-        hotelList = hotelService.getHotelType(survey.getHotelType());
+        hotelList = hotelService.getHotelType(survey.getHotelType(), region);
         cash = cash / (survey.getSiteOrder().getDate() - 1);
 
         //cash == null인 호텔 제거
@@ -173,13 +170,13 @@ public class SurveyService {
 //        }
 //        return restaurants;
 //    }
-public List<Restaurant>[] getRestaurantTop15ByPrice(int oneDayCash, boolean isMidnight){
+public List<Restaurant>[] getRestaurantTop15ByPrice(int oneDayCash, boolean isMidnight, String region){
     List<Restaurant>[] restaurants = new ArrayList[3];
     for(int i = 0; i < restaurants.length; i++) {
         restaurants[i] = new ArrayList<>();
     }
-    List<Restaurant> launchRestaurantList = restaurantService.getRestaurantListByOpenTime("점심");
-    List<Restaurant> dinnerRestaurantList = restaurantService.getRestaurantListByOpenTime("저녁");
+    List<Restaurant> launchRestaurantList = restaurantService.getRestaurantListByOpenTime("점심", region);
+    List<Restaurant> dinnerRestaurantList = restaurantService.getRestaurantListByOpenTime("저녁", region);
 
     for(int j = 0; j < 15; j++) {
         int launchIndex = -1;

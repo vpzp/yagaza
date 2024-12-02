@@ -63,8 +63,8 @@ public class RequestRestaurantController {
     @PostMapping("/requestRestaurantList/update")
     public String updateRestaurantStatus(Long id, String status){
         RequestRestaurant requestRestaurant = requestRestaurantService.updateStatus(id, status);
-        if (status.equals("대기중")){
-            return "redirect:/admin/myRequestRestaurant";
+        if (status.equals("거절완료")){
+            return "redirect:/admin/requestRestaurantList";
         }
 
         int[] arrPrice = new int[requestRestaurant.getPrice().size()];

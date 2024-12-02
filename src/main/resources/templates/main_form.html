@@ -23,17 +23,25 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
+                            <li class="nav-item" style="margin-right: 10px; "sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a class="btn btn-warning fw-bold px-3 py-2"
+                                   th:href="@{/admin/userList}" style="color: black; border: 2px solid black; border-radius: 10px;">관리자</a>
+                            </li>
+                            <li class="nav-item" style="margin-right: 10px; " sec:authorize="hasRole('ROLE_PARTNER')">
+                                <a class="btn btn-warning fw-bold px-3 py-2"
+                                   th:href="@{/admin/myRequestHotel}" style="color: black; border: 2px solid black; border-radius: 10px;">관리자</a>
+                            </li>
                             <li class="nav-item" style="margin-right: 10px;">
                                 <a class="btn btn-warning fw-bold px-3 py-2"
                                    th:href="@{/post/list}" style="color: black; border: 2px solid black; border-radius: 10px;">커뮤니티</a>
                             </li>
-                            <li class="nav-item" style="margin-right: 10px;">
+                            <li class="nav-item" style="margin-right: 10px;"sec:authorize="isAnonymous()">
                                 <a class="btn btn-warning fw-bold px-3 py-2"
-                                   th:href="@{/user/login}" sec:authorize="isAnonymous()" style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
+                                   th:href="@{/user/login}"  style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
                             </li>
-                            <li class="nav-item" style="margin-right: 10px;">
+                            <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAnonymous()">
                                 <a class="btn btn-warning fw-bold px-3 py-2"
-                                   th:href="@{/user/signup}" sec:authorize="isAnonymous()" style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
+                                   th:href="@{/user/signup}"  style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
                             </li>
                             <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAuthenticated()">
                                 <a class="btn btn-warning fw-bold px-3 py-2"
@@ -98,7 +106,12 @@
               <label for="travel" class="me-2 fw-bold">지역</label>
               <select id="travel" name="travel" class="form-select text-center"
                       style="max-width: 140px; border-radius: 10px;">
+                  <option value="서울">서울</option>
                   <option value="부산">부산</option>
+                  <option value="제주도">제주도</option>
+                  <option value="대전">대전</option>
+                  <option value="전주">전주</option>
+                  <option value="강릉">강릉</option>
               </select>
           </div>
           <div class="vr mx-4" style="width: 3px; background-color: black !important;;"></div>

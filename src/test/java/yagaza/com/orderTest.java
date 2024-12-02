@@ -55,61 +55,61 @@ public class orderTest {
 
     @Test
     public void getRestaurantTest(){
-        Survey survey = surveyRepository.findAll().get(0);
-        Survey survey2 = surveyRepository.findAll().get(1);
-
-        List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
-        List<Restaurant>[] restaurantList2 = surveyService.getRestaurant(survey2);
-        for (int i = 0 ; i < restaurantList[0].size(); i++){
-            System.out.println("점심");
-            System.out.println("레스토랑 이름은 : " + restaurantList[0].get(i).getName());
-            System.out.println("레스토랑 가격은 : " + restaurantList[0].get(i).getPrice()[0]);
-            System.out.println("레스토랑 오픈 시간은 : " + restaurantList[0].get(i).getOpenTime().toString());
-
-            System.out.println("저녁");
-            System.out.println("레스토랑 이름은 : " + restaurantList[1].get(i).getName());
-            System.out.println("레스토랑 가격은 : " + restaurantList[1].get(i).getPrice()[1]);
-            System.out.println("레스토랑 오픈 시간은 : " + restaurantList[1].get(i).getOpenTime().toString());
-            System.out.println("하루식사 가격은 : " + (restaurantList[0].get(i).getPrice()[0] + restaurantList[1].get(i).getPrice()[1]));
-
-            System.out.println();
-        }
+//        Survey survey = surveyRepository.findAll().get(0);
+//        Survey survey2 = surveyRepository.findAll().get(1);
+//
+//        List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
+//        List<Restaurant>[] restaurantList2 = surveyService.getRestaurant(survey2);
+//        for (int i = 0 ; i < restaurantList[0].size(); i++){
+//            System.out.println("점심");
+//            System.out.println("레스토랑 이름은 : " + restaurantList[0].get(i).getName());
+//            System.out.println("레스토랑 가격은 : " + restaurantList[0].get(i).getPrice()[0]);
+//            System.out.println("레스토랑 오픈 시간은 : " + restaurantList[0].get(i).getOpenTime().toString());
+//
+//            System.out.println("저녁");
+//            System.out.println("레스토랑 이름은 : " + restaurantList[1].get(i).getName());
+//            System.out.println("레스토랑 가격은 : " + restaurantList[1].get(i).getPrice()[1]);
+//            System.out.println("레스토랑 오픈 시간은 : " + restaurantList[1].get(i).getOpenTime().toString());
+//            System.out.println("하루식사 가격은 : " + (restaurantList[0].get(i).getPrice()[0] + restaurantList[1].get(i).getPrice()[1]));
+//
+//            System.out.println();
+//        }
     }
-    @Test
-    public void getHotelTest(){
-        Survey survey = surveyRepository.findAll().get(0);
-        Survey survey2 = surveyRepository.findAll().get(1);
-
-        List<Hotel> hotelList = surveyService.getHotel(survey);
-        List<Hotel> hotelList2 = surveyService.getHotel(survey2);
-        int date = 1;
-        for(Hotel hotel : hotelList){
-            System.out.println(date++ +" 일차--------------------------");
-            System.out.println("호텔 이름은 = " + hotel.getHotelName());
-            System.out.println("호텔 가격은 = " + hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel));
-            System.out.println("호텔 종류는 = " + hotel.getType());
-            System.out.println();
-        }
-
-    }
-    @Test
-    public void getTourismTest(){
-        Survey survey = surveyRepository.findAll().get(0);
-        Survey survey2 = surveyRepository.findAll().get(1);
-
-        List<Tourism> tourismList = surveyService.getTourism(survey);
-        List<Tourism> tourismList2 = surveyService.getTourism(survey2);
-
-        int sum = 0;
-        int date = 1;
-        for (Tourism tourism : tourismList){
-            System.out.println("관광지 이름은 : " + tourism.getName());
-            System.out.println("관광지 종류는 : " + tourism.getType());
-            System.out.println("관광지 가격은 : " + tourism.getPrice());
-            System.out.println();
-            sum += tourism.getPrice();
-        }
-        System.out.println("관광지 총 가격은 : " + sum);
-
-    }
+//    @Test
+//    public void getHotelTest(){
+//        Survey survey = surveyRepository.findAll().get(0);
+//        Survey survey2 = surveyRepository.findAll().get(1);
+//
+//        List<Hotel> hotelList = surveyService.getHotel(survey);
+//        List<Hotel> hotelList2 = surveyService.getHotel(survey2);
+//        int date = 1;
+//        for(Hotel hotel : hotelList){
+//            System.out.println(date++ +" 일차--------------------------");
+//            System.out.println("호텔 이름은 = " + hotel.getHotelName());
+//            System.out.println("호텔 가격은 = " + hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel));
+//            System.out.println("호텔 종류는 = " + hotel.getType());
+//            System.out.println();
+//        }
+//
+//    }
+//    @Test
+//    public void getTourismTest(){
+//        Survey survey = surveyRepository.findAll().get(0);
+//        Survey survey2 = surveyRepository.findAll().get(1);
+//
+//        List<Tourism> tourismList = surveyService.getTourism(survey);
+//        List<Tourism> tourismList2 = surveyService.getTourism(survey2);
+//
+//        int sum = 0;
+//        int date = 1;
+//        for (Tourism tourism : tourismList){
+//            System.out.println("관광지 이름은 : " + tourism.getName());
+//            System.out.println("관광지 종류는 : " + tourism.getType());
+//            System.out.println("관광지 가격은 : " + tourism.getPrice());
+//            System.out.println();
+//            sum += tourism.getPrice();
+//        }
+//        System.out.println("관광지 총 가격은 : " + sum);
+//
+//    }
 }

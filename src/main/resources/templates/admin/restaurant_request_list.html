@@ -84,18 +84,24 @@
                             <td>
                                 <form th:action="@{/admin/requestRestaurantList/update}" method="post" class="d-flex align-items-center">
                                     <input type="hidden" name="id" th:value="${restaurant.id}" />
+
                                     <!-- 처리완료 상태일 때 텍스트 표시 -->
-                                    <div th:if="${restaurant.status == '처리완료'}" class="d-flex align-items-center" style="flex: 1;">
-                                        <span th:text="${restaurant.status}" class="form-control form-control-sm" style="border: none; background-color: transparent;">처리완료</span>
+                                    <div th:if="${restaurant.status == '수락완료'}" class="d-flex align-items-center" style="flex: 1;">
+                                        <span class="me-3"  th:text="${restaurant.status}">처리완료</span>
                                     </div>
 
-                                    <!-- 대기중 상태일 때 select 박스와 버튼 표시 -->
-                                    <div th:if="${restaurant.status != '처리완료'}" class="d-flex align-items-center" style="flex: 1;">
-                                        <select name="status" class="form-select form-select-sm" style="max-width: 150px;">
-                                            <option th:value="'대기중'" th:text="'대기중'" th:selected="${restaurant.status == '대기중'}">대기중</option>
-                                            <option th:value="'처리완료'" th:text="'처리완료'" th:selected="${restaurant.status == '처리완료'}">처리완료</option>
-                                        </select>
-                                        <button type="submit" class="btn btn-sm btn-primary ms-2">변경</button>
+                                    <!-- 대기중 상태일 때 버튼 표시 -->
+                                    <div th:if="${restaurant.status == '대기중'}" class="d-flex align-items-center" style="flex: 1;">
+                                        <span class="me-3"  th:text="${restaurant.status}">대기중</span>
+                                        <!-- 수락 버튼 -->
+                                        <button type="submit" name="status" value="수락완료" class="btn btn-sm btn-success me-2">수락</button>
+                                        <!-- 거절 버튼 -->
+                                        <button type="submit" name="status" value="거절완료" class="btn btn-sm btn-danger">거절</button>
+                                    </div>
+
+                                    <!-- 거절 상태일 때 텍스트 표시 -->
+                                    <div th:if="${restaurant.status == '거절완료'}" class="d-flex align-items-center" style="flex: 1;">
+                                        <span class="me-3"  th:text="${restaurant.status}">거절</span>
                                     </div>
                                 </form>
                             </td>

@@ -18,4 +18,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     List<Restaurant> findByType(@Param("type") String type);
 
     Page<Restaurant> findAllByNameContaining(String keyword, Pageable pageable);
+
+    List<Restaurant> findAllByRegion(String region);
 }

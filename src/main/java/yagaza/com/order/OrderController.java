@@ -59,20 +59,18 @@ public class OrderController {
                 surveyCreateForm.getHotelType(),surveyCreateForm.isHotelChange(), siteOrder);
 
         orderService.setSurvey(siteOrder, survey);
-        //TODO 지역값 고려해야함
-        List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey);
-        List<Hotel> hotelList = surveyService.getHotel(survey);
-        List<Tourism> tourismList = surveyService.getTourism(survey);
-        List<Tourism> tourismAllList = tourismService.getToursimList();
-        List<Hotel> hotels = hotelService.getHotelType(survey.getHotelType());
+        List<Restaurant>[] restaurantList = surveyService.getRestaurant(survey, siteOrder.getTravel());
+        List<Hotel> hotelList = surveyService.getHotel(survey, siteOrder.getTravel());
+        List<Tourism> tourismList = surveyService.getTourism(survey, siteOrder.getTravel());
+        List<Tourism> tourismAllList = tourismService.getToursimList(siteOrder.getTravel());
+        List<Hotel> hotels = hotelService.getHotelType(survey.getHotelType(), siteOrder.getTravel());
         hotels.removeIf(hotel -> hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel) == null);
 
         List<Hotel> hotelListTop10ByPrice = surveyService.getHotelTop10ByPrice(hotels, (int) (siteOrder.getCash() / (siteOrder.getDate() - 1) *0.16), siteOrder.getProd());
 
         int oneDayCash = siteOrder.getCash() / (siteOrder.getDate() - 1) / siteOrder.getProd();
-        List<Restaurant>[] restaurantTop15ByPrice = surveyService.getRestaurantTop15ByPrice((int) (oneDayCash *0.42), false);
+        List<Restaurant>[] restaurantTop15ByPrice = surveyService.getRestaurantTop15ByPrice((int) (oneDayCash *0.42), false, siteOrder.getTravel());
 
-        //TODO 고정값저장
         orderService.setOrderItem(siteOrder, restaurantList, tourismList, hotelList);
 
         model.addAttribute("survey" , survey);
@@ -100,15 +98,14 @@ public class OrderController {
         List<Hotel> hotelList = siteOrder.getHotel();
         List<Tourism> tourismList = siteOrder.getTourism();
 
-
-        List<Tourism> tourismAllList = tourismService.getToursimList();
-        List<Hotel> hotels = hotelService.getHotelType(survey.getHotelType());
+        List<Tourism> tourismAllList = tourismService.getToursimList(siteOrder.getTravel());
+        List<Hotel> hotels = hotelService.getHotelType(survey.getHotelType(), siteOrder.getTravel());
         hotels.removeIf(hotel -> hotelService.getHotelPrice(survey.getSiteOrder().getProd(), hotel) == null);
 
         List<Hotel> hotelListTop10ByPrice = surveyService.getHotelTop10ByPrice(hotels, (int) (siteOrder.getCash() / (siteOrder.getDate() - 1) *0.16), siteOrder.getProd());
 
         int oneDayCash = siteOrder.getCash() / (siteOrder.getDate() - 1) / siteOrder.getProd();
-        List<Restaurant>[] restaurantTop15ByPrice = surveyService.getRestaurantTop15ByPrice((int) (oneDayCash *0.42), false);
+        List<Restaurant>[] restaurantTop15ByPrice = surveyService.getRestaurantTop15ByPrice((int) (oneDayCash *0.42), false, siteOrder.getTravel());
 
         model.addAttribute("survey" , survey);
         model.addAttribute("siteOrder", siteOrder);

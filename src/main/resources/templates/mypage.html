@@ -28,13 +28,13 @@
                         <a class="btn btn-warning fw-bold px-3 py-2"
                            th:href="@{/post/list}" style="color: black; border: 2px solid black; border-radius: 10px;">커뮤니티</a>
                     </li>
-                    <li class="nav-item" style="margin-right: 10px;">
+                    <li class="nav-item" style="margin-right: 10px;"sec:authorize="isAnonymous()">
                         <a class="btn btn-warning fw-bold px-3 py-2"
-                           th:href="@{/user/login}" sec:authorize="isAnonymous()" style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
+                           th:href="@{/user/login}"  style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
                     </li>
-                    <li class="nav-item" style="margin-right: 10px;">
+                    <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAnonymous()">
                         <a class="btn btn-warning fw-bold px-3 py-2"
-                           th:href="@{/user/signup}" sec:authorize="isAnonymous()" style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
+                           th:href="@{/user/signup}"  style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
                     </li>
                     <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAuthenticated()">
                         <a class="btn btn-warning fw-bold px-3 py-2"
@@ -61,10 +61,6 @@
         </p>
           <p>
             <input type="button" th:onclick="|location.href='@{/user/useList}'|" value="예약 내역" class="btn1">
-        </p>
-
-        <p>
-            <input type="button" th:onclick="|location.href='@{/user/delete}'|" value="회원 탈퇴" class="btn1">
         </p>
     </form>
     <hr>
@@ -144,16 +140,3 @@
         background:#eee;
     }
 </style>
-
-
-@Controller 
-public class SecurityController 
-{ 
-	@GetMapping("/username") 
-    @ResponseBody 
-    public String currentUserName(Principal principal) 
-    { 
-    	return principal.getName(); 
-    } 
-    
-}

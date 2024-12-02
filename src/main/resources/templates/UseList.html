@@ -71,6 +71,7 @@
                              th:href="@{/user/logout}" style="color: black; border: 2px solid black; border-radius: 10px;">로그아웃</a>
                       </li>
                   </ul>
+                  </ul>
               </div>
           </div>
       </nav>
@@ -83,21 +84,37 @@
 
       <div class="table-responsive">
         <table class="table table-bordered text-center">
-          <tbody>
-            <tr class="mb-5" th:each="siteOrder : ${siteOrderList}">
-                <td class="image-cell" th:style="'background-image: url(' + ${siteOrder.hotel.get(0).getImg} + ');'"></td>
-                <td class="align-middle description-cell">
-                <h5 th:text = "${siteOrder.travel}"><strong></strong></h5>
-                <p th:text="${siteOrder.travel}+ ' / ' + ${siteOrder.date} +' / '+${siteOrder.prod}+' / ' +${siteOrder.cash}">부산 / 기간(2박3일) / 인원 / 금액</p>
-                <p><strong>날짜:</strong></p><p th:text="${siteOrder.createDateTime != null ? siteOrder.createDateTime.format(T(java.time.format.DateTimeFormatter).ISO_LOCAL_DATE) : ''}"> 2024년 5월 29일</p>
-                <div class="button-container">
-                  <form th:action = "@{/order/main/{id}(id=${siteOrder.id})}" method="get">
-                    <button class="styled-button" >확인</button>
-                  </form>
-                  <button class="styled-button">링크 복사</button></div>
-                </td>
+          <tr class="mb-4" th:each="siteOrder : ${siteOrderList}">
+              <!-- 이미지 셀 -->
+              <td class="image-cell" th:style="'background-image: url(' + ${siteOrder.hotel.get(0).getImg} + ');'"
+                  style="background-size: cover; background-position: center;"></td>
+
+              <!-- 설명 셀 -->
+              <td class="align-middle description-cell">
+                  <h5 class="fw-bold text-center" th:text="${siteOrder.travel}"><strong></strong></h5>
+                  <p class="text-center text-muted">
+                      <strong>인원수:</strong>
+                      <span th:text="${siteOrder.prod} + '명'">4명</span>
+                  </p>
+                  <p class="text-center">
+                      <strong>기간:</strong>
+                      <span th:text="${siteOrder.date == 2 ? '1박2일' : siteOrder.date - 1 + '박' + siteOrder.date + '일'}">2박3일</span>
+                  </p>
+                  <p class="text-center">
+                      <strong>금액:</strong>
+                      <span th:text="${#numbers.formatInteger(siteOrder.cash, 0, 'COMMA')} + '원'">300,000원</span>
+                  </p>
+                  <p class="text-center">
+                      <strong>예약일자:</strong>
+                      <span th:text="${siteOrder.createDateTime != null ? siteOrder.createDateTime.format(T(java.time.format.DateTimeFormatter).ISO_LOCAL_DATE) : ''}"></span>
+                  </p>
+                  <div class="button-container">
+                    <form th:action = "@{/order/main/{id}(id=${siteOrder.id})}" method="get">
+                      <button class="styled-button" >확인</button>
+                    </form>
+                  </div>
+              </td>
             </tr>
-          </tbody>
         </table>
       </div>
     </div>

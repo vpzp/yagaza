@@ -163,7 +163,7 @@
                                                     <p class="text-center" th:text="점심">종류(관광, 점심, 저녁)</p><br>
                                                     <p class="border-bottom" th:text="${restaurantList[0][i-2].getName()}">이름</p>
                                                     <p class="border-bottom" th:text="${restaurantList[0][i-2].getContent()}">종류</p>
-                                                    <p class="border-bottom" th:text="'가격 : '+${restaurantList[0][i-2].getPrice()[1]}">가격</p>
+                                                    <p class="border-bottom" th:text="'가격 : '+${restaurantList[0][i-2].getPrice()[0]}">가격</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -253,39 +253,92 @@
         </div>
     </div>
 </div>
+
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e94dc602b209897863c8d8f3e6073cb7"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
+    let hotelList = /*[[${hotelList}]]*/ []; // Thymeleaf로 넘어온 호텔 리스트
+    let tourismList = /*[[${tourismList}]]*/ []; // Thymeleaf로 넘어온 호텔 리스트
+    let restaurantList = /*[[${restaurantList}]]*/ []; // Thymeleaf로 넘어온 호텔 리스트
+    const tourismDayCount = /*[[${survey.tourismDayCount}]]*/ 0;
+    let hotelImage = '/images/hotelMark.png';
+    let tourismImage = '/images/tourismMark.png';
+    let restaurantImage = '/images/restaurantMark.png';
+    let imageSize = new kakao.maps.Size(32, 32); // 이미지 크기
+    let imageOption = { offset: new kakao.maps.Point(16, 32) }; // 중심 위치
+    let hotelMarker = new kakao.maps.MarkerImage(hotelImage, imageSize, imageOption);
+    let tourismMarker = new kakao.maps.MarkerImage(tourismImage, imageSize, imageOption);
+    let restaurantMarker = new kakao.maps.MarkerImage(restaurantImage, imageSize, imageOption);
+
+    let date = /*[[${siteOrder.date}]]*/ [];
+    let containerIds = ['map1', 'map2', 'map3', 'map4', 'map5'];
+
+
 
     function createMap(containerId, center) {
         let container = document.getElementById(containerId);
         if (container) {
             let options = {
                 center: center,
-                level: 9
+                level: 10
             };
             let map = new kakao.maps.Map(container, options);
             return map;
         }
     }
 
-      function initFirstMap() {
-      let containerId = 'map1';
-      let center = new kakao.maps.LatLng(35.178314, 129.075525); // 첫 번째 맵의 중심 위치 설정
-      let map = createMap(containerId, center); // 첫 번째 맵 생성
-      let tourismName = document.getElementById('date' + 1).querySelector('.border-bottom').innerText;
-      addMarkerWithInfoWindow(map, new kakao.maps.LatLng(35.097392, 129.014288), tourismName);
+    function initFirstMap() {
+        let containerId = 'map1';
+        let hotel = hotelList[0];
+        let restaurant = restaurantList[1][0];
+        let center = new kakao.maps.LatLng(hotel.mapY, hotel.mapX); // 첫 번째 맵의 중심 위치 설정
+        let map = createMap(containerId, center); // 첫 번째 맵 생성
+
+        addMarkerWithInfoWindow(map, new kakao.maps.LatLng(hotel.mapY, hotel.mapX),
+            hotel.hotelName, hotelMarker, center, false);
+        addMarkerWithInfoWindow(map, new kakao.maps.LatLng(restaurant.mapY, restaurant.mapX),
+            restaurant.name, restaurantMarker, center, true);
+        for (let i = 0; i < tourismDayCount; i++) {
+            let tourism = tourismList[i];
+            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(tourism.mapY, tourism.mapX),
+                tourism.name, tourismMarker, center, true);
+        }
+
     }
 
+    console.log(tourismList);
+    console.log(tourismDayCount);
     function initOtherMaps() {
-        let containerIds = ['map2', 'map3', 'map4', 'map5'];
-        let centers = new kakao.maps.LatLng(35.178314, 129.075525)
-        containerIds.forEach((containerId, index) => {
-                let center = centers;
-                let map = createMap(containerId, center); // 해당 탭에 대한 맵 생성
-                // 각 탭이 가리키는 부분의 관광지 이름을 정보창으로 표시
-                let tourismName = document.getElementById('date' + (index + 2)).querySelector('.border-bottom').innerText;
-                addMarkerWithInfoWindow(map, new kakao.maps.LatLng(35.097392, 129.014288), tourismName);
-        });
+        for (let i = 1; i < date; i++) {
+            if (i == date - 1){
+                let restaurant = restaurantList[0][restaurantList[0].length - 1];
+                let center = new kakao.maps.LatLng(restaurant.mapY, restaurant.mapX); // 기본 중심 좌표
+                let map = createMap(containerIds[i], center);
+                addMarkerWithInfoWindow(map, new kakao.maps.LatLng(restaurant.mapY, restaurant.mapX),
+                    restaurant.name, restaurantMarker, center, false);
+                break;
+            }
+            let hotel = hotelList[i];
+            let launch = restaurantList[0][i - 1]; // 점심
+            let dinner = restaurantList[1][i]; // 저녁
+
+
+            let center = new kakao.maps.LatLng(hotel.mapY, hotel.mapX); // 기본 중심 좌표
+            let map = createMap(containerIds[i], center);
+
+            for (let j = i * tourismDayCount; j <  i * tourismDayCount + tourismDayCount; j++) {
+                let tourism = tourismList[j];
+                addMarkerWithInfoWindow(map, new kakao.maps.LatLng(tourism.mapY, tourism.mapX),
+                    tourism.name, tourismMarker, center, true);
+            }
+
+            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(hotel.mapY, hotel.mapX),
+                hotel.hotelName, hotelMarker, center, false);
+            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(launch.mapY, launch.mapX),
+                launch.name, restaurantMarker, center, true);
+            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(dinner.mapY, dinner.mapX),
+                dinner.name, restaurantMarker, center, true);
+        }
     }
 
     function relayout() {
@@ -299,21 +352,47 @@
     }
 
     // 마커를 생성하고 정보창을 추가하는 함수
-    function addMarkerWithInfoWindow(map, position, content) {
+    function addMarkerWithInfoWindow(map, position, content, markerImage, center, flag) {
+        let distance = calculateDistance(
+            center.getLat(), center.getLng(), // 중심 좌표
+            position.getLat(), position.getLng() // 마커 좌표
+        ).toFixed(2); // 거리 계산 (소수점 2자리)
+
         let marker = new kakao.maps.Marker({
-            position: position
+            position: position,
+            image : markerImage
         });
         marker.setMap(map);
-        let infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="padding:10px;">' + content + '</div>'
+        var infowindow = new kakao.maps.InfoWindow({
+            content: `<div style="padding:5px; white-space: nowrap;">
+                                <strong>${content}</strong><br>
+                                ${flag ? `숙소로부터 거리 ${distance}km` : ''}</div>`
         });
         kakao.maps.event.addListener(marker, 'click', function() {
             infowindow.open(map, marker);
         });
+        kakao.maps.event.addListener(marker, 'mouseout', function () {
+            infowindow.close();
+        });
+    }
+
+    function calculateDistance(lat1, lng1, lat2, lng2) {
+        const R = 6371; // 지구의 반지름 (단위: km)
+        const toRad = angle => (angle * Math.PI) / 180; // 각도를 라디안으로 변환
+
+        const dLat = toRad(lat2 - lat1);
+        const dLng = toRad(lng2 - lng1);
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // 거리 (km)
     }
 
     document.addEventListener('DOMContentLoaded', initFirstMap); // 페이지 로드 시 첫 번째 맵 초기화
-
     // 탭 표시 이벤트에 이벤트 리스너 연결
     document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tabButton => {
         tabButton.addEventListener('shown.bs.tab', function() {

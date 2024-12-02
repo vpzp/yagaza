@@ -119,6 +119,6 @@ public class OrderController {
         model.addAttribute("orderService", orderService);
         model.addAttribute("surveyService", surveyService);
 
-        return "order_form";
+        return "order_reserve_form";
     }
 }

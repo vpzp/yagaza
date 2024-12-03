@@ -1,23 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
-<body>
-<div layout:fragment="content" class="container my-3">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary mx-5">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/main}">
-                <img th:src="@{/images/logo.png}" alt="Logo" width="163" height="38" class="d-inline-block align-text-top">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </nav>
+<body layout:fragment="content">
+<div class="container my-3">
+    <div class="p-3 m-0 border-0 bd-example m-0 border-0">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary mx-5"
+             style="border: 3px solid black; border-radius: 15px; padding: 10px; background-color: white;">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/main}" style="margin-left: 10px;">
+                    <img th:src="@{/images/logo.png}" alt="Logo" width="163" height="38"
+                         style="border-radius: 5px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item" style="margin-right: 10px; "sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="btn btn-warning fw-bold px-3 py-2"
+                               th:href="@{/admin/userList}" style="color: black; border: 2px solid black; border-radius: 10px;">관리자</a>
+                        </li>
+                        <li class="nav-item" style="margin-right: 10px; " sec:authorize="hasRole('ROLE_PARTNER')">
+                            <a class="btn btn-warning fw-bold px-3 py-2"
+                               th:href="@{/admin/myRequestHotel}" style="color: black; border: 2px solid black; border-radius: 10px;">관리자</a>
+                        </li>
+                        <li class="nav-item" style="margin-right: 10px;">
+                            <a class="btn btn-warning fw-bold px-3 py-2"
+                               th:href="@{/post/list}" style="color: black; border: 2px solid black; border-radius: 10px;">커뮤니티</a>
+                        </li>
+                        <li class="nav-item" style="margin-right: 10px;"sec:authorize="isAnonymous()">
+                            <a class="btn btn-warning fw-bold px-3 py-2"
+                               th:href="@{/user/login}"  style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
+                        </li>
+                        <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAnonymous()">
+                            <a class="btn btn-warning fw-bold px-3 py-2"
+                               th:href="@{/user/signup}"  style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
+                        </li>
+                        <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAuthenticated()">
+                            <a class="btn btn-warning fw-bold px-3 py-2"
+                               th:href="@{/user/mypage}" style="color: black; border: 2px solid black; border-radius: 10px;">마이페이지</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="btn btn-warning fw-bold px-3 py-2"
+                               th:href="@{/user/logout}" style="color: black; border: 2px solid black; border-radius: 10px;">로그아웃</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
     <div class="container text-center mt-5">
-        <h1 class="display-4 text-danger">403 Forbidden</h1>
         <p class="lead">죄송합니다. 이 페이지에 접근할 권한이 없습니다.</p>
         <p>홈페이지로 돌아가거나, 권한이 필요하면 관리자에게 문의하세요.</p>
         <a href="/" class="btn btn-primary">홈으로 돌아가기</a>
+    </div>
+</div>
+<div class="footer">
+    <div style="display: inline-block; vertical-align: middle;">
+        <img src="/images/mokwon.png" alt="목원대학교 로고" style="width:50px; height:auto;">
+    </div>
+    <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
+        Addr. 목원대학교 컴퓨터공학과 <br>
+        CEO. 한지민 | 조원준 | 신동석 Tel.010-6382-2095 <br>
     </div>
 </div>
 </body>

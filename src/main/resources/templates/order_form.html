@@ -422,38 +422,37 @@
         if (container) {
             let options = {
                 center: center,
-                level: 10
+                level: 9
             };
             let map = new kakao.maps.Map(container, options);
             return map;
         }
     }
 
-      function initFirstMap() {
-          let containerId = 'map1';
-          let hotel = hotelList[0];
-          let tourism = tourismList[0];
-          let restaurant = restaurantList[1][0];
-          let center = new kakao.maps.LatLng(hotel.mapY, hotel.mapX); // 첫 번째 맵의 중심 위치 설정
-          let map = createMap(containerId, center); // 첫 번째 맵 생성
+    function initFirstMap() {
+        let containerId = 'map1';
+        let hotel = hotelList[0];
+        let restaurant = restaurantList[1][0];
+        let center = new kakao.maps.LatLng(hotel.mapY, hotel.mapX); // 첫 번째 맵의 중심 위치 설정
+        let map = createMap(containerId, center); // 첫 번째 맵 생성
 
-          addMarkerWithInfoWindow(map, new kakao.maps.LatLng(hotel.mapY, hotel.mapX),
-              hotel.hotelName, hotelMarker, center, false);
-          addMarkerWithInfoWindow(map, new kakao.maps.LatLng(tourism.mapY, tourism.mapX),
-              tourism.name, tourismMarker, center, true);
-          addMarkerWithInfoWindow(map, new kakao.maps.LatLng(restaurant.mapY, restaurant.mapX),
-              restaurant.name, restaurantMarker, center, true);
+        addMarkerWithInfoWindow(map, new kakao.maps.LatLng(hotel.mapY, hotel.mapX),
+            hotel.hotelName, hotelMarker, center, false);
+        addMarkerWithInfoWindow(map, new kakao.maps.LatLng(restaurant.mapY, restaurant.mapX),
+            restaurant.name, restaurantMarker, center, true);
+        for (let i = 0; i < tourismDayCount; i++) {
+            let tourism = tourismList[i];
+            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(tourism.mapY, tourism.mapX),
+                tourism.name, tourismMarker, center, true);
+        }
 
+    }
 
-      }
-
+    console.log(tourismList);
+    console.log(tourismDayCount);
     function initOtherMaps() {
-        const tourismDayCount = survey.getTourismDayCount(); // 관광 일수 가져오기
-        const tourismStartIndex = i * tourismDayCount - tourismDayCount();
-        const tourismEndIndex = i * tourismDayCount - 1;
-
         for (let i = 1; i < date; i++) {
-            if (i === date - 1) {
+            if (i == date - 1){
                 let restaurant = restaurantList[0][restaurantList[0].length - 1];
                 let center = new kakao.maps.LatLng(restaurant.mapY, restaurant.mapX); // 기본 중심 좌표
                 let map = createMap(containerIds[i], center);
@@ -461,39 +460,28 @@
                     restaurant.name, restaurantMarker, center, false);
                 break;
             }
-
             let hotel = hotelList[i];
             let launch = restaurantList[0][i - 1]; // 점심
             let dinner = restaurantList[1][i]; // 저녁
 
-            // 중심 좌표는 호텔 기준
-            let center = new kakao.maps.LatLng(hotel.mapY, hotel.mapX);
+
+            let center = new kakao.maps.LatLng(hotel.mapY, hotel.mapX); // 기본 중심 좌표
             let map = createMap(containerIds[i], center);
 
-            // 호텔 마커 추가
-            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(hotel.mapY, hotel.mapX),
-                hotel.hotelName, hotelMarker, center, false);
-
-            // 점심 마커 추가
-            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(launch.mapY, launch.mapX),
-                launch.name, restaurantMarker, center, true);
-
-            // 저녁 마커 추가
-            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(dinner.mapY, dinner.mapX),
-                dinner.name, restaurantMarker, center, true);
-
-            console.log("tourismEndIndex : "+ tourismEndIndex);
-            console.log("tourismStartIndex : "+ tourismStartIndex)
-
-            // 관광지 마커 추가
-            for (let j = tourismStartIndex; j <= tourismEndIndex; j++) {
+            for (let j = i * tourismDayCount; j <  i * tourismDayCount + tourismDayCount; j++) {
                 let tourism = tourismList[j];
                 addMarkerWithInfoWindow(map, new kakao.maps.LatLng(tourism.mapY, tourism.mapX),
                     tourism.name, tourismMarker, center, true);
             }
+
+            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(hotel.mapY, hotel.mapX),
+                hotel.hotelName, hotelMarker, center, false);
+            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(launch.mapY, launch.mapX),
+                launch.name, restaurantMarker, center, true);
+            addMarkerWithInfoWindow(map, new kakao.maps.LatLng(dinner.mapY, dinner.mapX),
+                dinner.name, restaurantMarker, center, true);
         }
     }
-
 
     function relayout() {
         let maps = document.querySelectorAll('div[id^="map"]');

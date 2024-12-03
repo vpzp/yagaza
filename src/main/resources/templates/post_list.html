@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
-<body>
-    <div layout:fragment="content" class="container my-3">
-        <div style="margin: 0; padding: 0; position: sticky; top: 0; z-index: 1030; background-color: white;">
-            <nav class="navbar navbar-expand-lg bg-body-tertiary"
-                 style="border: 3px solid black; border-radius: 0; padding: 10px;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" th:href="@{/main}" style="margin-left: 10px;">
-                        <img th:src="@{/images/logo.png}" alt="Logo" width="163" height="38"
-                             style="border-radius: 5px;">
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item" style="margin-right: 10px;">
-                                <a class="btn btn-warning fw-bold px-3 py-2"
-                                   th:href="@{/post/list}" style="color: black; border: 2px solid black; border-radius: 10px;">커뮤니티</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 10px;"sec:authorize="isAnonymous()">
-                                <a class="btn btn-warning fw-bold px-3 py-2"
-                                   th:href="@{/user/login}"  style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAnonymous()">
-                                <a class="btn btn-warning fw-bold px-3 py-2"
-                                   th:href="@{/user/signup}"  style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
-                            </li>
-                            <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAuthenticated()">
-                                <a class="btn btn-warning fw-bold px-3 py-2"
-                                   th:href="@{/user/mypage}" style="color: black; border: 2px solid black; border-radius: 10px;">마이페이지</a>
-                            </li>
-                            <li class="nav-item" sec:authorize="isAuthenticated()">
-                                <a class="btn btn-warning fw-bold px-3 py-2"
-                                   th:href="@{/user/logout}" style="color: black; border: 2px solid black; border-radius: 10px;">로그아웃</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+<body layout:fragment="content">
+<div style="margin: 0; padding: 0; position: sticky; top: 0; z-index: 1030; background-color: white;">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary"
+         style="border: 3px solid black; border-radius: 0; padding: 10px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/main}" style="margin-left: 10px;">
+                <img th:src="@{/images/logo.png}" alt="Logo" width="163" height="38"
+                     style="border-radius: 5px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" style="margin-right: 10px;">
+                        <a class="btn btn-warning fw-bold px-3 py-2"
+                           th:href="@{/post/list}" style="color: black; border: 2px solid black; border-radius: 10px;">커뮤니티</a>
+                    </li>
+                    <li class="nav-item" style="margin-right: 10px;"sec:authorize="isAnonymous()">
+                        <a class="btn btn-warning fw-bold px-3 py-2"
+                           th:href="@{/user/login}"  style="color: black; border: 2px solid black; border-radius: 10px;">로그인</a>
+                    </li>
+                    <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAnonymous()">
+                        <a class="btn btn-warning fw-bold px-3 py-2"
+                           th:href="@{/user/signup}"  style="color: black; border: 2px solid black; border-radius: 10px;">회원가입</a>
+                    </li>
+                    <li class="nav-item" style="margin-right: 10px;" sec:authorize="isAuthenticated()">
+                        <a class="btn btn-warning fw-bold px-3 py-2"
+                           th:href="@{/user/mypage}" style="color: black; border: 2px solid black; border-radius: 10px;">마이페이지</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="btn btn-warning fw-bold px-3 py-2"
+                           th:href="@{/user/logout}" style="color: black; border: 2px solid black; border-radius: 10px;">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+</div>
+    <div class="container my-3">
         <table class="table">
             <thead class="table-dark">
             <tr class="text-center">
@@ -91,6 +91,14 @@
         <!-- 페이징처리 끝 -->
         <a th:href="@{/post/create}" class="btn btn-primary">글쓰기</a>
     </div>
-
+    <div class="footer">
+        <div style="display: inline-block; vertical-align: middle;">
+            <img src="/images/mokwon.png" alt="목원대학교 로고" style="width:50px; height:auto;">
+        </div>
+        <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
+            Addr. 목원대학교 컴퓨터공학과 <br>
+            CEO. 한지민 | 조원준 | 신동석 Tel.010-6382-2095 <br>
+        </div>
+    </div>
 </body>
 </html>

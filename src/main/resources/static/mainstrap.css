@@ -190,23 +190,44 @@ h1 {
 
 /*more 버튼 만들기*/
 
-.footer{
+/* 전체 페이지를 Flexbox로 설정 */
+/* 전체 페이지를 Flexbox로 설정 */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* 전체 높이 설정 */
   display: flex;
+  flex-direction: column; /* 상하 정렬 */
+}
+
+.container {
+  flex: 1; /* 콘텐츠 영역의 남은 공간을 채움 */
+}
+
+.footer {
+  display: flex;
+  width: 100%; /* 화면 전체 너비 */
   background: #1f1f1f;
-  padding:30px;
+  color: #fff;
+  padding: 20px 0; /* 상하 여백 */
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+  justify-content: space-between; /* 자식 요소 간격 조정 */
+  flex-shrink: 0; /* 푸터 크기 고정 */
 }
+
+.footer > div {
+  padding: 0 10px; /* 좌우 여백 */
+}
+
 .footer > div:first-child {
-  flex:3;
+  flex: 1; /* 왼쪽 영역 크기 */
   text-align: center;
-  color: #fff;
 }
+
 .footer > div:last-child {
-  flex:9;
-  color: #fff;
+  flex: 2; /* 오른쪽 영역 크기 */
+  text-align: left;
 }
-/*푸터*/
-.scroll{
-    float:left;
-    overflow-y : auto;
-    height : 800px;
-}
+
+
+

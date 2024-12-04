@@ -63,7 +63,7 @@
       </div>
   </div>
   <!-- intro end-->
-  <form th:action="@{/survey}" method="post">
+  <form th:action="@{/survey}" th:object="${orderCreateForm}" method="post">
       <div class="amount d-flex align-items-center border border-3 rounded p-4"
            style="background: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border-color: black !important; margin-top: -50px; border-radius: 20px !important;">
           <!-- 금액 -->
@@ -72,6 +72,7 @@
               <input type="text" id="cash" name="cash" class="form-control text-center"
                      style="max-width: 120px; border-radius: 10px;">
           </div>
+          <div th:replace="~{form_errors :: formErrorsFragment}"></div>
           <div class="vr mx-4" style="width: 3px; background-color: black !important;;"></div>
 
           <!-- 인원 -->

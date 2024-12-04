@@ -1,5 +1,6 @@
 package yagaza.com;
 
+import jakarta.persistence.criteria.Order;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,8 +20,6 @@ import java.security.Principal;
 @Controller
 @RequiredArgsConstructor
 public class MainController {
-    private final UserService userService;
-    private final OrderService orderService;
 
     @GetMapping("/")
     public String root() {
@@ -28,15 +27,8 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(){
+    public String main(OrderCreateForm orderCreateForm){
         return "main_form";
     }
 
-//    @GetMapping("/order")
-//    public String survey(){
-//        return"choice_hotel_form";
-//    }
-
-
-//TODO 메인화면에 사용자 정보 값 추가하기
 }

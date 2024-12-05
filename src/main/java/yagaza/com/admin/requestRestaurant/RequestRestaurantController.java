@@ -50,7 +50,7 @@ public class RequestRestaurantController {
                                            @RequestParam(value = "keyword", defaultValue = "") String keyword){
         boolean isAdmin = userRoleService.checkAdmin();
         if (!isAdmin){
-            return "redirect:/myRequestHotel";
+            return "redirect:/admin/myRequestRestaurant";
         }
 
         Page<RequestRestaurant> requestRestaurantList = requestRestaurantService.getPagingRestaurant(page, keyword);
@@ -84,6 +84,7 @@ public class RequestRestaurantController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PARTNER')")
     @GetMapping("/requestRestaurantList/{id}")
     public String getRequestRestaurant(@PathVariable("id") Long id, Model model){
+
         RequestRestaurant restaurant = requestRestaurantService.getRestaurant(id);
         model.addAttribute("restaurant", restaurant);
 
@@ -126,7 +127,7 @@ public class RequestRestaurantController {
                 requestRestaurantForm.getContent(), requestRestaurantForm.getPrice(), requestRestaurantForm.getOpenTime(),
                 requestRestaurantForm.getType(), requestRestaurantForm.getImg(), user.getId());
 
-        return "redirect:/admin/restaurantList";
+        return "redirect:/admin/requestRestaurantList";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -134,7 +135,7 @@ public class RequestRestaurantController {
     public String deleteRestaurant(@PathVariable("id")Long id){
         restaurantService.deleteRestaurant(restaurantService.getRestaurant(id));
 
-        return "redirect:/admin/hotelList";
+        return "redirect:/admin/restaurantList";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PARTNER')")
